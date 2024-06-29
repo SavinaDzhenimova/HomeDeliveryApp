@@ -42,7 +42,7 @@ public class User extends BaseEntity {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role_id"}))
-    private Set<Role> role;
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "client")
     private List<Order> orders;
@@ -51,7 +51,7 @@ public class User extends BaseEntity {
     private List<Comment> comments;
 
     public User() {
-        this.role = new HashSet<>();
+        this.roles = new HashSet<>();
         this.orders = new ArrayList<>();
     }
 
@@ -103,12 +103,12 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public Set<Role> getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Set<Role> role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public List<Order> getOrders() {

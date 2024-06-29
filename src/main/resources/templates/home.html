@@ -11,7 +11,7 @@
 
   <section class="welcome">
 
-    <p class="mySticky bg-gray text-dark user">Welcome, {fullName}</p>
+    <p class="mySticky bg-gray text-dark user" th:text="'Welcome, ' + ${fullName}" >Welcome, {fullName}</p>
 
     <div class="row mt-1 mb-2">
       <div class="col-6 mt-1 mb-1">
