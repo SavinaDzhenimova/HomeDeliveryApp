@@ -10,8 +10,8 @@
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"></span></h1>
     <hr class="hr-3 w-25 bg-white"/>
     <form class="mx-auto w-25 bg-blur rounded"
-          action="/users/login"
-          method="POST">
+          th:action="@{/users/login}"
+          th:method="POST">
 
         <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Login</span></h1>
 
@@ -22,21 +22,21 @@
             <div class="label-holder text-white d-flex justify-content-center">
                 <label th:for="username" class="h3 mb-2">Username</label>
             </div>
-            <input type="text" class="form-control"/>
+            <input type="text" class="form-control" name="username"/>
         </div>
 
         <div class="form-group">
             <div class="label-holder text-white d-flex justify-content-center">
                 <label th:for="password" class="h3 mb-2">Password</label>
             </div>
-            <input type="password" class="form-control"/>
+            <input type="password" class="form-control" name="password"/>
         </div>
 
         <div class="button-holder d-flex justify-content-center">
             <button type="submit" class="btn btn-warning  mb-3">Login</button>
         </div>
 
-        <p>Don't have an account? <a href="register" class="link-info">Register here</a></p>
+        <p>Don't have an account? <a th:href="@{/users/register}" class="link-info">Register here</a></p>
 
     </form>
 </main>
