@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/commons::head">
+
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+
+    <section class="welcome">
+        <div class="row">
+            <div class="col-lg-4">
+                <img src="/img/korona/korona.jpg" alt="Korona" style="width: 360px; height: 360px">
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Restaurant name:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${restaurant.getName()}" class="text-muted mb-0">Restaurant name</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Short description:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${restaurant.getDescription()}" class="text-muted mb-0">Short description</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Email:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${restaurant.getEmail()}" class="text-muted mb-0">Email</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Phone number:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${restaurant.getPhoneNumber()}" class="text-muted mb-0">Phone number</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Opened:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${restaurant.getOpen()} + ' - ' + ${restaurant.getClose()}"
+                                   class="text-muted mb-0">Opened</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Address:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${restaurant.getAddress()}" class="text-muted mb-0">Address</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0"
+                        class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="10000">
+                    <img src="/img/korona/korona-1.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                    <img src="/img/korona/korona-2.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="/img/korona/korona-4.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="/img/korona/korona-3.jpg" class="d-block w-100" alt="...">
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>

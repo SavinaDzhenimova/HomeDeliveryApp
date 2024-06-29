@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/commons::head"></head>
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+
+  <section class="welcome" id="big-div">
+
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Our clients say!!!</span></h1>
+
+    <h3 class="mySticky bg-gray text-dark user">Our clients rate us on: </h3>
+
+    <div class="col-md-6 mb-3">
+        <ul class="list-group list-group-vertical text-dark">
+          <div class="home-fields" style="height: 25vh; overflow: auto">
+          <li>
+            <h5 class="my-paintings">{Full name} says:</h5>
+            <div class="my-paintings-first-row">
+              <p class="w-100">{description}</p>
+            </div>
+            <div class="second-info">
+              <p >Added on: {date}</p>
+              <p >by {username}</p>
+            </div>
+          </li>
+          </div>
+        </ul>
+    </div>
+
+  </section>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>

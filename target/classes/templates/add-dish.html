@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/commons::head"></head>
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+    <section class="mx-auto w-50 bg-blur rounded">
+
+        <form method="POST"
+              action="/dishes/add-dish">
+
+            <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add dish</span></h1>
+
+            <div class="row">
+
+                <div class="form-group col-md-6 mb-3">
+                    <div class="label-holder text-white textCol d-flex justify-content-center">
+                        <label th:for="name" class="h4 mb-2">Dish name</label>
+                    </div>
+                    <input type="text" class="form-control"/>
+                    <small class="danger">Dish name error message</small>
+                </div>
+
+                <div class="form-group col-md-6 mb-3">
+                    <div class="text-white label-holder d-flex justify-content-center">
+                        <label th:for="price" class="h4 mb-2">Price</label>
+                    </div>
+                    <input type="number" step="0.1" class="form-control"/>
+                    <small class="danger">Price error message</small>
+                </div>
+
+                <div class="form-group">
+                    <div class="label-holder text-white textCol d-flex justify-content-center">
+                        <label th:for="author" class="h4 mb-2">Description</label>
+                    </div>
+                    <textarea type="text" class="form-control"></textarea>
+                    <small class="danger">Description error message</small>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="form-group col-md-6 mb-3">
+                    <div class="text-white label-holder d-flex justify-content-center">
+                        <label th:for="style" class="h4 mb-2">Category</label>
+                    </div>
+                    <select class="browser-default custom-select">
+                        <option value="">Select category</option>
+                        <option value="SALAD">Salad</option>
+                        <option value="STARTER">Starter</option>
+                        <option value="MAIN_DISH">Main dish</option>
+                        <option value="DESSERT">Dessert</option>
+                    </select>
+                    <small class="danger">Category error message</small>
+                </div>
+
+                <div class="form-group col-md-6 mb-3">
+                    <div class="text-white label-holder d-flex justify-content-center">
+                        <label th:for="restaurant" class="h4 mb-2">Restaurant</label>
+                    </div>
+                    <select class="browser-default custom-select">
+                        <option value="">Select restaurant</option>
+                        <option value="KORONA">Korona</option>
+                        <option value="VERTU">Vertu - Bar & dinner</option>
+                        <option value="KAZABLANKA">Kazablanka</option>
+                    </select>
+                    <small class="danger">Restaurant error message</small>
+                </div>
+
+                <div class="form-group">
+                    <div class="label-holder text-white textCol d-flex justify-content-center">
+                        <label th:for="imageUrl" class="h4 mb-2">Image URL</label>
+                    </div>
+                    <textarea type="text" class="form-control"></textarea>
+                    <small class="danger">Image URL error message</small>
+                </div>
+
+            </div>
+
+            <div class="button-holder d-flex justify-content-center">
+                <button type="submit" class="btn btn-info  mb-3">Add dish</button>
+            </div>
+
+        </form>
+
+    </section>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>
