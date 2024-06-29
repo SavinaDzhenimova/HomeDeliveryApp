@@ -19,6 +19,8 @@ public class Role extends BaseEntity {
     public Role() {
     }
 
+
+
     public RoleName getName() {
         return name;
     }

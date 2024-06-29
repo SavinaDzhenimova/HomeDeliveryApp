@@ -1,18 +1,10 @@
-package com.homedelivery.model.entity;
+package com.homedelivery.model.user;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-@Entity
-@Table(name = "users")
-public class User extends BaseEntity {
+public class UserRegisterDTO {
 
     @Column(nullable = false, unique = true)
     @Size(min = 3, max = 20)
@@ -23,7 +15,7 @@ public class User extends BaseEntity {
     private String fullName;
 
     @Column(nullable = false, unique = true)
-    @Email(regexp = "(?<user>^[a-zA-Z0-9]+[-_.]?[a-zA-Z0-9]+)@(?<host>[a-zA-Z]+.+[a-zA-Z]+)$")
+    @Email
     private String email;
 
     @Column(nullable = false)
@@ -35,25 +27,14 @@ public class User extends BaseEntity {
     private String address;
 
     @Column(nullable = false)
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$")
+    @Size(min = 3, max = 20)
     private String password;
 
-    @ManyToMany
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role_id"}))
-    private Set<Role> roles;
+    @Column(nullable = false)
+    @Size(min = 3, max = 20)
+    private String confirmPassword;
 
-    @OneToMany(mappedBy = "client")
-    private List<Order> orders;
-
-    @OneToMany(mappedBy = "addedBy")
-    private List<Comment> comments;
-
-    public User() {
-        this.roles = new HashSet<>();
-        this.orders = new ArrayList<>();
+    public UserRegisterDTO() {
     }
 
     public String getUsername() {
@@ -104,27 +85,11 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public String getConfirmPassword() {
+        return confirmPassword;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }
