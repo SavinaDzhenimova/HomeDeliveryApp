@@ -8,7 +8,9 @@
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"></span></h1>
     <hr class="hr-3 w-25 bg-white"/>
     <form class="mx-auto w-50 bg-blur rounded"
-          action="/users/register" method="POST">
+            th:action="@{/users/register}"
+            th:method="POST"
+            th:object="${userRegisterDTO}">
 
         <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Register</span></h1>
 
@@ -18,7 +20,7 @@
                 <div class="label-holder textCol d-flex justify-content-center">
                     <label th:for="username" class="h4 mb-2 text-white">Username</label>
                 </div>
-                <input type="text" class="form-control"/>
+                <input th:field="*{username}" type="text" class="form-control"/>
                 <small class="text-danger">Username error message</small>
             </div>
 
@@ -26,7 +28,7 @@
                 <div class="label-holder textCol d-flex justify-content-center">
                     <label th:for="fullName" class="h4 mb-2 text-white">Full name</label>
                 </div>
-                <input type="text" class="form-control"/>
+                <input th:field="*{fullName}" type="text" class="form-control"/>
                 <small class="text-danger">Full name error message</small>
             </div>
 
@@ -38,7 +40,7 @@
                 <div class="label-holder text-white textCol d-flex justify-content-center">
                     <label th:for="email" class="h4 mb-2">Email</label>
                 </div>
-                <input type="email" class="form-control"/>
+                <input th:field="*{email}" type="email" class="form-control"/>
                 <small class="text-danger">Email error message</small>
             </div>
 
@@ -46,7 +48,7 @@
                 <div class="label-holder text-white textCol d-flex justify-content-center">
                     <label th:for="phoneNumber" class="h4 mb-2">Phone number</label>
                 </div>
-                <input type="text" class="form-control"/>
+                <input th:field="*{phoneNumber}" type="text" class="form-control"/>
                 <small class="text-danger">Phone number error message</small>
             </div>
 
@@ -58,7 +60,7 @@
                 <div class="label-holder text-white textCol d-flex justify-content-center">
                     <label th:for="address" class="h4 mb-2">Address</label>
                 </div>
-                <textarea type="text" class="form-control"></textarea>
+                <textarea th:field="*{address}" type="text" class="form-control"></textarea>
                 <small class="text-danger">Address error message</small>
             </div>
 
@@ -70,7 +72,7 @@
                 <div class="label-holder text-white textCol d-flex justify-content-center">
                     <label th:for="password" class="h4 mb-2">Password</label>
                 </div>
-                <input type="password" class="form-control"/>
+                <input th:field="*{password}" type="password" class="form-control"/>
                 <small class="text-danger">Password error message</small>
             </div>
 
@@ -78,7 +80,7 @@
                 <div class="label-holder text-white textCol d-flex justify-content-center">
                     <label th:for="confirmPassword" class="h4 mb-2">Confirm Password</label>
                 </div>
-                <input type="password" class="form-control"/>
+                <input th:field="*{confirmPassword}" type="password" class="form-control"/>
             </div>
 
         </div>

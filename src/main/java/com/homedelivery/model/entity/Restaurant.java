@@ -39,6 +39,10 @@ public class Restaurant extends BaseEntity {
     @Column(name = "close_time", nullable = false)
     private LocalTime close;
 
+    @Column(name = "image_url", nullable = false)
+    @Size(min = 3, max = 50)
+    private String imageUrl;
+
     @OneToMany(mappedBy = "restaurant")
     private List<Dish> offeredDishes;
 
@@ -100,6 +104,14 @@ public class Restaurant extends BaseEntity {
 
     public void setClose(LocalTime close) {
         this.close = close;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public List<Dish> getOfferedDishes() {

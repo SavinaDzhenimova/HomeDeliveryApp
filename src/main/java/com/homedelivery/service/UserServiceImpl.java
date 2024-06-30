@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
                 Set<Role> roles = new HashSet<>();
                 roles.add(optionalAdminRole.get());
                 roles.add(optionalUserRole.get());
-                
+
                 user.setRoles(roles);
             }
         }

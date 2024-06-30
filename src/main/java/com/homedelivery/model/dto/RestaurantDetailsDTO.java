@@ -1,13 +1,9 @@
 package com.homedelivery.model.dto;
 
 import com.homedelivery.model.enums.RestaurantName;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
 
 import java.time.LocalTime;
+import java.util.List;
 
 public class RestaurantDetailsDTO {
 
@@ -24,6 +20,8 @@ public class RestaurantDetailsDTO {
     private LocalTime open;
 
     private LocalTime close;
+
+    private String imageUrl;
 
     public RestaurantDetailsDTO() {
     }
@@ -82,5 +80,13 @@ public class RestaurantDetailsDTO {
 
     public void setClose(LocalTime close) {
         this.close = close;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

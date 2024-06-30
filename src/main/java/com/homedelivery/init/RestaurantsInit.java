@@ -36,6 +36,7 @@ public class RestaurantsInit implements CommandLineRunner {
                                 restaurant.setEmail("korona_madan@abv.bg");
                                 restaurant.setOpen(LocalTime.of(7, 0));
                                 restaurant.setClose(LocalTime.of(23, 0));
+                                restaurant.setImageUrl("/images/korona/korona.jpg");
                             }
                             case VERTU -> {
                                 restaurant.setDescription("Here you will be offered aromatic coffee, refreshing drinks and meats. The stylish interior is completely subordinated to the idea of convenience, which offers opportunity for a pleasant vacation.");
@@ -44,6 +45,8 @@ public class RestaurantsInit implements CommandLineRunner {
                                 restaurant.setEmail("vertu_madan@abv.bg");
                                 restaurant.setOpen(LocalTime.of(8, 0));
                                 restaurant.setClose(LocalTime.of(0, 0));
+                                restaurant.setImageUrl("/images/vertu/vertu.jpg");
+
                             }
                             case KAZABLANKA -> {
                                 restaurant.setDescription("With its pleasant atmosphere, young and motivated staff and modern interior, the restaurant is one of the most visited and preferred by young people in the city and the surrounding area.");
@@ -52,6 +55,7 @@ public class RestaurantsInit implements CommandLineRunner {
                                 restaurant.setEmail("bar_kazablanka@abv.bg");
                                 restaurant.setOpen(LocalTime.of(7, 0));
                                 restaurant.setClose(LocalTime.of(1, 0));
+                                restaurant.setImageUrl("/images/kazablanka/kazablanka.jpg");
                             }
                         }
 
