@@ -98,9 +98,14 @@ ul li {
     background-color: rgba(87, 86, 83, 0.92);
 }
 
-.row>* {
-    width: 48% !important;
-    margin-left: 1rem;
+.row-comments {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.row-comments > * {
+    width: 49% !important;
 }
 
 .my-paintings-first-row {

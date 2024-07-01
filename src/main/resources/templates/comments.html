@@ -10,9 +10,10 @@
 
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Our clients say!!!</span></h1>
 
-    <h3 class="mySticky bg-gray text-dark user">Our clients rate us on: </h3>
+    <h3 th:text="'Our clients rate us on: ' + ${comments.getTotalRating() + '/10'}"
+        class="mySticky bg-gray text-dark user">Our clients rate us on: </h3>
 
-      <div class="row">
+      <div class="row-comments">
         <ul th:each="comment : ${comments.getComments()}"
             class="list-group list-group-vertical text-dark">
           <div class="home-fields" style="height: 25vh; overflow: auto">
