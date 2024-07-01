@@ -9,8 +9,9 @@
   <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"></span></h1>
   <hr class="hr-3 w-25 bg-white"/>
   <form class="mx-auto w-50 bg-blur rounded"
-        method="POST"
-        action="/comments/add-comment">
+        th:method="POST"
+        th:action="@{/comments/add-comment}"
+        th:object="${addCommentDTO}">
 
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Give us your feedback!</span></h1>
 
@@ -20,7 +21,8 @@
         <div class="label-holder text-white textCol d-flex justify-content-center">
           <label th:for="description" class="h4 mb-2">Comments</label>
         </div>
-        <textarea type="text" class="form-control"></textarea>
+        <textarea th:field="*{description}"
+                type="text" class="form-control"></textarea>
         <small class="danger">Please provide any other feedback or suggestions</small>
       </div>
     </div>
@@ -29,23 +31,27 @@
 
       <div class="form-group container">
         <div class="label-holder text-white textCol d-flex justify-content-center">
-          <label th:for="rateService" class="h4 mb-2">How would you rate our service?</label>
+          <label th:for="rating" class="h4 mb-2">How would you rate our service?</label>
         </div>
         <small class="danger">1 star being the lowest, 10 stars being the highest</small>
-        <div class="rating">
-          <input type="radio" id="star1" name="rating" value="1" /><label for="star1">1 star</label>
-          <input type="radio" id="star2" name="rating" value="2" /><label for="star2">2 stars</label>
-          <input type="radio" id="star3" name="rating" value="3" /><label for="star3">3 stars</label>
-          <input type="radio" id="star4" name="rating" value="4" /><label for="star4">4 stars</label>
-          <input type="radio" id="star5" name="rating" value="5" /><label for="star5">5 stars</label>
-          <input type="radio" id="star6" name="rating" value="6" /><label for="star6">6 stars</label>
-          <input type="radio" id="star7" name="rating" value="7" /><label for="star7">7 stars</label>
-          <input type="radio" id="star8" name="rating" value="8" /><label for="star8">8 stars</label>
-          <input type="radio" id="star9" name="rating" value="9" /><label for="star9">9 stars</label>
-          <input type="radio" id="star10" name="rating" value="10" /><label for="star10">10 stars</label>
+        <div th:field="*{rating}" class="rating">
+          <input type="radio" id="star1" name="rating" value="10" /><label for="star1">1 star</label>
+          <input type="radio" id="star2" name="rating" value="9" /><label for="star2">2 stars</label>
+          <input type="radio" id="star3" name="rating" value="8" /><label for="star3">3 stars</label>
+          <input type="radio" id="star4" name="rating" value="7" /><label for="star4">4 stars</label>
+          <input type="radio" id="star5" name="rating" value="6" /><label for="star5">5 stars</label>
+          <input type="radio" id="star6" name="rating" value="5" /><label for="star6">6 stars</label>
+          <input type="radio" id="star7" name="rating" value="4" /><label for="star7">7 stars</label>
+          <input type="radio" id="star8" name="rating" value="3" /><label for="star8">8 stars</label>
+          <input type="radio" id="star9" name="rating" value="2" /><label for="star9">9 stars</label>
+          <input type="radio" id="star10" name="rating" value="1" /><label for="star10">10 stars</label>
         </div>
       </div>
 
+    </div>
+
+    <div class="button-holder d-flex justify-content-center">
+      <button type="submit" class="btn btn-info  mb-3">Add comment</button>
     </div>
 
   </form>

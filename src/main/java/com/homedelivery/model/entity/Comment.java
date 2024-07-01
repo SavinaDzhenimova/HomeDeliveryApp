@@ -26,7 +26,6 @@ public class Comment extends BaseEntity {
     private User addedBy;
 
     public Comment() {
-        this.addedOn = LocalDateTime.now();
     }
 
     public String getDescription() {

@@ -1,19 +1,72 @@
 package com.homedelivery.web;
 
+import com.homedelivery.model.dto.AddCommentDTO;
+import com.homedelivery.model.dto.CommentsViewInfo;
+import com.homedelivery.service.interfaces.CommentService;
+import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class CommentController {
 
+    private final CommentService commentService;
+
+    public CommentController(CommentService commentService) {
+        this.commentService = commentService;
+    }
+
     @GetMapping("/comments")
     public ModelAndView comments() {
-        return new ModelAndView("comments");
+        ModelAndView modelAndView = new ModelAndView("comments");
+
+        CommentsViewInfo commentsViewInfo = this.commentService.getAllComments();
+
+        modelAndView.addObject("comments", commentsViewInfo);
+
+        return modelAndView;
     }
 
     @GetMapping("/comments/add-comment")
-    public ModelAndView addComment() {
+    public ModelAndView addComment(Model model) {
+
+        if (!model.containsAttribute("addCommentDTO")) {
+            model.addAttribute("addCommentDTO", new AddCommentDTO());
+        }
+
+        return new ModelAndView("add-comment");
+    }
+
+    @PostMapping("/comments/add-comment")
+    public ModelAndView register(@Valid @ModelAttribute("addCommentDTO") AddCommentDTO addCommentDTO,
+                                 @AuthenticationPrincipal UserDetails userDetails,
+                                 BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("addCommentDTO", addCommentDTO)
+                    .addFlashAttribute("org.springframework.validation.BindingResult.addCommentDTO",
+                            bindingResult);
+
+            return new ModelAndView("add-comment");
+        }
+
+        boolean isAdded = this.commentService.addComment(addCommentDTO, userDetails);
+
+        if (isAdded) {
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Successfully registered! Please Log in!");
+
+            return new ModelAndView("redirect:/comments");
+        }
+
         return new ModelAndView("add-comment");
     }
 }
