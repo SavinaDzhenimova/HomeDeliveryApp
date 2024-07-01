@@ -1,7 +1,9 @@
 package com.homedelivery.model.user;
 
+import com.homedelivery.model.annotation.ValidPassword;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class UserRegisterDTO {
@@ -23,15 +25,15 @@ public class UserRegisterDTO {
     private String phoneNumber;
 
     @Column(nullable = false)
-    @Size(min = 3, max = 40)
+    @Size(min = 3, max = 100)
     private String address;
 
     @Column(nullable = false)
-    @Size(min = 3, max = 20)
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$")
     private String password;
 
     @Column(nullable = false)
-    @Size(min = 3, max = 20)
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$")
     private String confirmPassword;
 
     public UserRegisterDTO() {

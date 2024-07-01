@@ -31,11 +31,11 @@ public class User extends BaseEntity {
     private String phoneNumber;
 
     @Column(nullable = false)
-    @Size(min = 3, max = 40)
+    @Size(min = 3, max = 100)
     private String address;
 
     @Column(nullable = false)
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
     private String password;
 
     @ManyToMany

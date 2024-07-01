@@ -61,6 +61,9 @@
                     <label th:for="address" class="h4 mb-2">Address</label>
                 </div>
                 <textarea th:field="*{address}" type="text" class="form-control"></textarea>
+                <div>
+                    <small class="danger">Address should be in the format (Street name, number, post code, town, district)</small>
+                </div>
                 <small class="text-danger">Address error message</small>
             </div>
 

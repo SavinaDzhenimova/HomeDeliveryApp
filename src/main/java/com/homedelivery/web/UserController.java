@@ -32,7 +32,6 @@ public class UserController {
     @GetMapping("/register")
     public ModelAndView register(Model model) {
 
-
         if (!model.containsAttribute("userRegisterDTO")) {
             model.addAttribute("userRegisterDTO", new UserRegisterDTO());
         }
