@@ -29,11 +29,11 @@ public class UserRegisterDTO {
     private String address;
 
     @Column(nullable = false)
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$")
+    @Size(min = 8, max = 20)
     private String password;
 
     @Column(nullable = false)
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$")
+    @Size(min = 8, max = 20)
     private String confirmPassword;
 
     public UserRegisterDTO() {

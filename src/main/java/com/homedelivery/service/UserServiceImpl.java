@@ -3,16 +3,11 @@ package com.homedelivery.service;
 import com.homedelivery.model.entity.Role;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.model.enums.RoleName;
-import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.model.user.UserRegisterDTO;
 import com.homedelivery.repository.UserRepository;
 import com.homedelivery.service.interfaces.RoleService;
 import com.homedelivery.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,20 +50,21 @@ public class UserServiceImpl implements UserService {
         User user = this.modelMapper.map(userRegisterDTO, User.class);
         user.setPassword(this.passwordEncoder.encode(userRegisterDTO.getPassword()));
 
+        Optional<Role> optionalAdminRole = this.roleService.findByName(RoleName.ADMIN);
+        Optional<Role> optionalUserRole = this.roleService.findByName(RoleName.USER);
+        List<Role> roles = new ArrayList<>();
+
         if (this.userRepository.count() == 0) {
-            Optional<Role> optionalAdminRole = this.roleService.findByName(RoleName.ADMIN);
-            Optional<Role> optionalUserRole = this.roleService.findByName(RoleName.USER);
 
             if (optionalAdminRole.isPresent() && optionalUserRole.isPresent()) {
-                Set<Role> roles = new HashSet<>();
                 roles.add(optionalAdminRole.get());
                 roles.add(optionalUserRole.get());
 
                 user.setRoles(roles);
-            } else {
-                Set<Role> roles = new HashSet<>();
+            }
+        } else {
+            if (optionalUserRole.isPresent()) {
                 roles.add(optionalUserRole.get());
-
                 user.setRoles(roles);
             }
         }

@@ -2,14 +2,11 @@ package com.homedelivery.config;
 
 import com.homedelivery.repository.UserRepository;
 import com.homedelivery.service.UserDetailsServiceImpl;
-import com.homedelivery.service.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -19,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
+    public UserDetailsServiceImpl userDetailsService(UserRepository userRepository) {
         return new UserDetailsServiceImpl(userRepository);
     }
 
@@ -31,14 +28,15 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/users/login", "/users/register", "/about", "/comments",
                                 "/restaurants/korona", "/restaurants/vertu", "/restaurants/kazablanka").permitAll()
+                        .requestMatchers("/dishes/add-dish").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/users/login").permitAll()
                         .usernameParameter("username")
-                        .usernameParameter("password")
+                        .passwordParameter("password")
                         .defaultSuccessUrl("/home", true)
-                        .failureForwardUrl("/users/login")
+                        .failureForwardUrl("/users/login-error")
                 )
                 .logout(logout -> logout
                         .logoutUrl("/users/logout")
@@ -52,4 +50,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
+
 }

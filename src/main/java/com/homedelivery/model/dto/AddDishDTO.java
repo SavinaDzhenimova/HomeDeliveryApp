@@ -1,40 +1,38 @@
-package com.homedelivery.model.entity;
+package com.homedelivery.model.dto;
 
-import jakarta.persistence.*;
+import com.homedelivery.model.enums.CategoryName;
+import com.homedelivery.model.enums.RestaurantName;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "dishes")
-public class Dish extends BaseEntity {
+public class AddDishDTO {
 
-    @Column(nullable = false)
+    @NotNull
     @Size(min = 3, max = 20)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @NotNull
     @Size(min = 3, max = 150)
     private String description;
 
-    @Column(nullable = false)
+    @NotNull
     @Positive
     private BigDecimal price;
 
-    @Column(name = "image_url", nullable = false)
+    @NotNull
     @Size(min = 3, max = 50)
     private String imageUrl;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
-    private Category category;
+    @NotNull
+    private CategoryName category;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-    private Restaurant restaurant;
+    @NotNull
+    private RestaurantName restaurant;
 
-    public Dish() {
+    public AddDishDTO() {
     }
 
     public String getName() {
@@ -69,19 +67,19 @@ public class Dish extends BaseEntity {
         this.imageUrl = imageUrl;
     }
 
-    public Category getCategory() {
+    public CategoryName getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryName category) {
         this.category = category;
     }
 
-    public Restaurant getRestaurant() {
+    public RestaurantName getRestaurant() {
         return restaurant;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
+    public void setRestaurant(RestaurantName restaurant) {
         this.restaurant = restaurant;
     }
 }

@@ -2,13 +2,10 @@ package com.homedelivery.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -35,15 +32,14 @@ public class User extends BaseEntity {
     private String address;
 
     @Column(nullable = false)
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$")
+    @Size(min = 8)
     private String password;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role_id"}))
-    private Set<Role> roles;
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
 
     @OneToMany(mappedBy = "client")
     private List<Order> orders;
@@ -52,8 +48,9 @@ public class User extends BaseEntity {
     private List<Comment> comments;
 
     public User() {
-        this.roles = new HashSet<>();
+        this.roles = new ArrayList<>();
         this.orders = new ArrayList<>();
+        this.comments = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -104,11 +101,11 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 

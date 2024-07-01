@@ -8,7 +8,6 @@ import com.homedelivery.service.interfaces.RestaurantService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -25,12 +24,17 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public RestaurantDetailsDTO getRestaurantDetails(RestaurantName name) {
 
-        Optional<Restaurant> optionalRestaurant = this.restaurantRepository.findByName(name);
+        Optional<Restaurant> optionalRestaurant = this.findByName(name);
 
         if (optionalRestaurant.isEmpty()) {
             return null;
         }
 
         return this.modelMapper.map(optionalRestaurant.get(), RestaurantDetailsDTO.class);
+    }
+
+    @Override
+    public Optional<Restaurant> findByName(RestaurantName name) {
+        return this.restaurantRepository.findByName(name);
     }
 }

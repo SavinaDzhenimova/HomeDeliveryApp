@@ -52,6 +52,10 @@ p {
     margin-bottom: 1rem;
 }
 
+.success {
+    margin-bottom: 0;
+}
+
 .about-ul {
     padding-left: 1rem !important;
 }

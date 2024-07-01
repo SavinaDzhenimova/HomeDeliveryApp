@@ -2,7 +2,6 @@ package com.homedelivery.service;
 
 import com.homedelivery.model.entity.Role;
 import com.homedelivery.model.entity.User;
-import com.homedelivery.model.enums.RoleName;
 import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +9,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -33,14 +37,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new UserDetailsDTO(
                 user.getUsername(),
                 user.getPassword(),
-                user.getRoles().stream().map(Role::getName).map(UserDetailsServiceImpl::map).toList(),
+                mapAuthorities(user.getRoles()),
+                user.getId(),
                 user.getFullName()
         );
     }
 
-    private static GrantedAuthority map(RoleName role) {
-        return new SimpleGrantedAuthority(
-                "ROLE_" + role);
+    private static Collection<? extends GrantedAuthority> mapAuthorities(List<Role> roles) {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .collect(Collectors.toList());
     }
 
 }

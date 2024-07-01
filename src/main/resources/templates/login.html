@@ -16,8 +16,13 @@
 
         <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Login</span></h1>
 
-        <div class="text-danger">Error messages</div>
-        <div class="text-danger">Incorrect username or password!</div>
+        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+            <p class="success" th:text="${successMessage}"></p>
+        </div>
+
+        <div th:if="${badRequest}" class="alert alert-danger" role="alert">
+            <p class="success" th:text="${badRequest}"></p>
+        </div>
 
         <div class="form-group">
             <div class="label-holder text-white d-flex justify-content-center">
