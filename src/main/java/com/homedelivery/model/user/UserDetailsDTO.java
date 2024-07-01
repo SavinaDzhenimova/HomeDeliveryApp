@@ -9,8 +9,10 @@ public class UserDetailsDTO extends User {
 
     private String fullName;
 
-    public UserDetailsDTO(String username, String password,
-                          Collection<? extends GrantedAuthority> authorities, String fullName) {
+    public UserDetailsDTO(String username,
+                          String password,
+                          Collection<? extends GrantedAuthority> authorities,
+                          String fullName) {
         super(username, password, authorities);
         this.fullName = fullName;
     }

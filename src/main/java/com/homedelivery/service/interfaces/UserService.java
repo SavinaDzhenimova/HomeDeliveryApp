@@ -2,6 +2,7 @@ package com.homedelivery.service.interfaces;
 
 import com.homedelivery.model.entity.User;
 import com.homedelivery.model.user.UserRegisterDTO;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Optional;
 
@@ -12,4 +13,5 @@ public interface UserService {
     void saveAndFlushUser(User user);
 
     Optional<User> findUserByUsername(String username);
+
 }

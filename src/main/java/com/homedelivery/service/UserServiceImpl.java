@@ -3,11 +3,16 @@ package com.homedelivery.service;
 import com.homedelivery.model.entity.Role;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.model.enums.RoleName;
+import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.model.user.UserRegisterDTO;
 import com.homedelivery.repository.UserRepository;
 import com.homedelivery.service.interfaces.RoleService;
 import com.homedelivery.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -85,5 +90,4 @@ public class UserServiceImpl implements UserService {
     public void saveAndFlushUser(User user) {
         this.userRepository.saveAndFlush(user);
     }
-
 }
