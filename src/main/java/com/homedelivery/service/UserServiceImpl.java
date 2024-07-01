@@ -60,6 +60,11 @@ public class UserServiceImpl implements UserService {
                 roles.add(optionalUserRole.get());
 
                 user.setRoles(roles);
+            } else {
+                Set<Role> roles = new HashSet<>();
+                roles.add(optionalUserRole.get());
+
+                user.setRoles(roles);
             }
         }
 
