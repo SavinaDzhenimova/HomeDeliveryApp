@@ -1,5 +1,6 @@
 package com.homedelivery.service.interfaces;
 
+import com.homedelivery.model.dto.UserInfoDTO;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.model.user.UserRegisterDTO;
 
@@ -12,5 +13,7 @@ public interface UserService {
     void saveAndFlushUser(User user);
 
     Optional<User> findUserByUsername(String username);
+
+    UserInfoDTO getUserDetailsInfo(String username);
 
 }

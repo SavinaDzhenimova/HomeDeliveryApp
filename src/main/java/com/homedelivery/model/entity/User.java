@@ -44,7 +44,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "client")
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "addedBy")
+    @OneToMany(mappedBy = "addedBy", fetch = FetchType.EAGER)
     private List<Comment> comments;
 
     public User() {

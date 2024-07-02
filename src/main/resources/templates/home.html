@@ -1,74 +1,139 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
 
-<head th:replace="fragments/commons::head"></head>
+<head th:replace="fragments/commons::head">
 
 <body>
 <header th:replace="fragments/commons::nav"></header>
-
 <main>
 
-  <section class="welcome">
-
-    <p class="mySticky bg-gray text-dark user" th:text="'Welcome, ' + ${fullName}" >Welcome, {fullName}</p>
-
-    <div class="row mt-1 mb-2">
-      <div class="col-6 mt-1 mb-1">
-        <div class="home-fields" style="height: 65vh; overflow: auto">
-          <h3 class="my-paintings">My orders</h3>
-          <table class="table">
-            <tr class="my-paintings">
-              <td style="width: 20%">Order Id</td>
-              <td style="width: 30%">Ordered on</td>
-              <td style="width: 25%">Status</td>
-              <td style="width: 25%">Remove</td>
-            </tr>
-          </table>
-          <table class="table table-striped table-dark">
-            <tr class="my-paintings">
-              <td style="width: 20%">{orderId}</td>
-              <td style="width: 30%">{date}</td>
-              <td style="width: 25%">{status}</td>
-              <td style="width: 25%">
-                <form>
-                  <div class="button-delete-comment w-100" style="width: 15%">
-                    <button type="submit" class="btn btn-danger mb-3">Delete order</button>
-                  </div>
-                </form>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <div class="col-md-6 mb-3">
-        <div class="home-fields" style="height: 65vh; overflow: auto">
-          <h3 class="my-paintings">My comments</h3>
-          <ul th:each="comment : ${comments.getComments()}"
-                  class="list-group list-group-vertical text-dark">
-            <li>
-              <h5 th:text="'Comment #' + ${comment.getId()}" class="my-paintings">{Comment Id}</h5>
-              <div class="my-paintings-first-row">
-                <p th:text="${comment.getDescription()}" class="w-100">{description}</p>
-              </div>
-              <div class="second-info">
-                <p th:text="'Added on: ' + ${comment.getAddedOn()}">Added on: {date}</p>
-                <p th:text="'Rating: ' + ${comment.getRating()}">Rating: {rating}</p>
-              </div>
-              <form th:method="DELETE" th:action="@{/comments/delete-comment/{id}(id=${comment.getId()})}">
-                <div class="button-delete-comment w-100" style="width: 15%">
-                  <button type="submit" class="btn btn-danger mb-3">Delete comment</button>
+    <section class="welcome">
+        <div class="row">
+            <div class="col-lg-4" sec:authorize="hasRole('ADMIN')">
+                <img th:src="@{/images/admin-icon.jpg}" th:alt="ADMIN" style="width: 340px; height: 340px">
+            </div>
+            <div class="col-lg-4" sec:authorize="!hasRole('ADMIN')">
+                <img th:src="@{/images/user-icon.png}" th:alt="USER" style="width: 340px; height: 340px">
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Full name:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${user.getFullName()}" class="text-muted mb-0">Full name</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Username:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${user.getUsername()}" class="text-muted mb-0">Username</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Email:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${user.getEmail()}" class="text-muted mb-0">Email</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Phone number:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${user.getPhoneNumber()}" class="text-muted mb-0">Phone number</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Address:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${user.getAddress()}" class="text-muted mb-0">Address</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Roles:</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p th:text="${roles}" class="text-muted mb-0">Roles</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </form>
-
-            </li>
-          </ul>
+            </div>
         </div>
-      </div>
-    </div>
 
-  </section>
+        <div class="row mt-1 mb-2">
+            <div class="col-6 mt-1 mb-1">
+                <div class="home-fields" style="height: 65vh; overflow: auto">
+                    <h3 class="my-paintings">My orders</h3>
+                    <table class="table">
+                        <tr class="my-paintings">
+                            <td style="width: 20%">Order Id</td>
+                            <td style="width: 30%">Ordered on</td>
+                            <td style="width: 25%">Status</td>
+                            <td style="width: 25%">Remove</td>
+                        </tr>
+                    </table>
+                    <table class="table table-striped table-dark">
+                        <tr class="my-paintings">
+                            <td style="width: 20%">{orderId}</td>
+                            <td style="width: 30%">{date}</td>
+                            <td style="width: 25%">{status}</td>
+                            <td style="width: 25%">
+                                <form>
+                                    <div class="button-delete-comment w-100" style="width: 15%">
+                                        <button type="submit" class="btn btn-danger mb-3">Delete order</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="home-fields" style="height: 65vh; overflow: auto">
+                    <h3 class="my-paintings">My comments</h3>
+                    <ul th:each="comment : ${comments}"
+                        class="list-group list-group-vertical text-dark">
+                        <li>
+                            <h5 th:text="'Comment #' + ${comment.getId()}" class="my-paintings">{Comment Id}</h5>
+                            <div class="my-paintings-first-row">
+                                <p th:text="${comment.getDescription()}" class="w-100">{description}</p>
+                            </div>
+                            <div class="second-info">
+                                <p th:text="'Added on: ' + ${comment.getAddedOn()}">Added on: {date}</p>
+                                <p th:text="'Rating: ' + ${comment.getRating()}">Rating: {rating}</p>
+                            </div>
+                            <form th:method="DELETE" th:action="@{/comments/delete-comment/{id}(id=${comment.getId()})}">
+                                <div class="button-delete-comment w-100" style="width: 15%">
+                                    <button type="submit" class="btn btn-danger mb-3">Delete comment</button>
+                                </div>
+                            </form>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </main>
 <footer th:replace="fragments/commons::footer"></footer>
 </body>

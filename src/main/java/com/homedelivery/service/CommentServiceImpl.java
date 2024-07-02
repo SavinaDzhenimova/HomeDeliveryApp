@@ -42,11 +42,16 @@ public class CommentServiceImpl implements CommentService {
             return false;
         }
 
+        User user = optionalUser.get();
+
         Comment comment = this.modelMapper.map(addCommentDTO, Comment.class);
         comment.setAddedOn(LocalDateTime.now());
-        comment.setUser(optionalUser.get());
+        comment.setUser(user);
+        user.getComments().add(comment);
 
         this.commentRepository.saveAndFlush(comment);
+        this.userService.saveAndFlushUser(user);
+
         return true;
     }
 
@@ -76,22 +81,6 @@ public class CommentServiceImpl implements CommentService {
                 .map(comment -> {
                     CommentDetailsDTO dto = this.modelMapper.map(comment, CommentDetailsDTO.class);
                     dto.setFullName(comment.getUser().getFullName());
-                    dto.setAddedOn(comment.parseDateToString(comment.getAddedOn()));
-
-                    return dto;
-                }).toList();
-
-        return new CommentsViewInfo(commentDetailsDTO);
-    }
-
-    @Override
-    public CommentsViewInfo getAllCommentsByUser(String username) {
-        List<Comment> comments = this.commentRepository.findAll();
-
-        List<CommentDetailsDTO> commentDetailsDTO = comments.stream()
-                .filter(comment -> comment.getUser().getUsername().equals(username))
-                .map(comment -> {
-                    CommentDetailsDTO dto = this.modelMapper.map(comment, CommentDetailsDTO.class);
                     dto.setAddedOn(comment.parseDateToString(comment.getAddedOn()));
 
                     return dto;

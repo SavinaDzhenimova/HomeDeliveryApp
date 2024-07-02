@@ -26,8 +26,9 @@ public class SecurityConfig {
         return httpSecurity
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/", "/users/login", "/users/register", "/about", "/comments",
+                        .requestMatchers("/users/login", "/users/register", "/about", "/comments",
                                 "/restaurants/korona", "/restaurants/vertu", "/restaurants/kazablanka").permitAll()
+                        .requestMatchers("/").anonymous()
                         .requestMatchers("/dishes/add-dish").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

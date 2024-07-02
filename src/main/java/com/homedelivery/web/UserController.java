@@ -1,11 +1,12 @@
 package com.homedelivery.web;
 
+import com.homedelivery.model.dto.CommentsViewInfo;
+import com.homedelivery.model.dto.UserInfoDTO;
 import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.model.user.UserRegisterDTO;
+import com.homedelivery.service.interfaces.CommentService;
 import com.homedelivery.service.interfaces.UserService;
 import jakarta.validation.Valid;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,9 +19,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserController {
 
     private final UserService userService;
+    private final CommentService commentService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, CommentService commentService) {
         this.userService = userService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/login")
@@ -70,5 +73,4 @@ public class UserController {
 
         return new ModelAndView("register");
     }
-
 }

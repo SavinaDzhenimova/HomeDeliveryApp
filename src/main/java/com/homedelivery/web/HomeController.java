@@ -1,22 +1,21 @@
 package com.homedelivery.web;
 
-import com.homedelivery.model.dto.CommentsViewInfo;
+import com.homedelivery.model.dto.UserInfoDTO;
 import com.homedelivery.model.user.UserDetailsDTO;
-import com.homedelivery.service.interfaces.CommentService;
+import com.homedelivery.service.interfaces.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
 
-    private final CommentService commentService;
+    private final UserService userService;
 
-    public HomeController(CommentService commentService) {
-        this.commentService = commentService;
+    public HomeController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -26,16 +25,16 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public ModelAndView home(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public ModelAndView home(@AuthenticationPrincipal UserDetails userDetails) {
 
         ModelAndView modelAndView = new ModelAndView("home");
 
         if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
-            model.addAttribute("fullName", userDetailsDTO.getFullName());
+            UserInfoDTO userInfoDTO = this.userService.getUserDetailsInfo(userDetailsDTO.getUsername());
 
-            CommentsViewInfo commentsViewInfo = this.commentService.getAllCommentsByUser(userDetailsDTO.getUsername());
-
-            modelAndView.addObject("comments", commentsViewInfo);
+            modelAndView.addObject("user", userInfoDTO);
+            modelAndView.addObject("roles", String.join(", ", userInfoDTO.getRoles()));
+            modelAndView.addObject("comments", userInfoDTO.getComments());
         }
 
         return modelAndView;
@@ -43,6 +42,7 @@ public class HomeController {
 
     @GetMapping("/about")
     public ModelAndView about() {
+
         return new ModelAndView("about");
     }
 }

@@ -1,5 +1,7 @@
 package com.homedelivery.service;
 
+import com.homedelivery.model.dto.CommentDetailsDTO;
+import com.homedelivery.model.dto.UserInfoDTO;
 import com.homedelivery.model.entity.Role;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.model.enums.RoleName;
@@ -71,6 +73,34 @@ public class UserServiceImpl implements UserService {
 
         this.saveAndFlushUser(user);
         return true;
+    }
+
+    @Override
+    public UserInfoDTO getUserDetailsInfo(String username) {
+
+        Optional<User> optionalUser = this.findUserByUsername(username);
+
+        if (optionalUser.isEmpty()) {
+            return null;
+        }
+
+        User user = optionalUser.get();
+
+        List<String> stringRoles = user.getRoles().stream()
+                .map(role -> role.getName().toString()).toList();
+        List<CommentDetailsDTO> comments = user.getComments().stream()
+                .map(comment -> {
+                    CommentDetailsDTO dto = this.modelMapper.map(comment, CommentDetailsDTO.class);
+                    dto.setAddedOn(comment.parseDateToString(comment.getAddedOn()));
+
+                    return dto;
+                }).toList();
+
+        UserInfoDTO userInfoDTO = this.modelMapper.map(user, UserInfoDTO.class);
+        userInfoDTO.setRoles(stringRoles);
+        userInfoDTO.setComments(comments);
+
+        return userInfoDTO;
     }
 
     @Override
