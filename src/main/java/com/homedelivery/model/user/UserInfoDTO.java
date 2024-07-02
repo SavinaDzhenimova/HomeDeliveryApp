@@ -1,4 +1,6 @@
-package com.homedelivery.model.exportDTO;
+package com.homedelivery.model.user;
+
+import com.homedelivery.model.exportDTO.CommentDetailsDTO;
 
 import java.util.ArrayList;
 import java.util.List;

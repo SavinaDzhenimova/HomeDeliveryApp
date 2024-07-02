@@ -1,6 +1,6 @@
 package com.homedelivery.web;
 
-import com.homedelivery.model.exportDTO.UserInfoDTO;
+import com.homedelivery.model.user.UserInfoDTO;
 import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.service.interfaces.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,7 +30,7 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("home");
 
         if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
-            UserInfoDTO userInfoDTO = this.userService.getUserDetailsInfo(userDetailsDTO.getUsername());
+            UserInfoDTO userInfoDTO = this.userService.getUserDetailsInfo(userDetailsDTO.getId());
 
             modelAndView.addObject("user", userInfoDTO);
             modelAndView.addObject("roles", String.join(", ", userInfoDTO.getRoles()));

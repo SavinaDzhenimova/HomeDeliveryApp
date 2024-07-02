@@ -45,7 +45,7 @@ public class CommentController {
     }
 
     @PostMapping("/comments/add-comment")
-    public ModelAndView register(@Valid @ModelAttribute("addCommentDTO") AddCommentDTO addCommentDTO,
+    public ModelAndView addComment(@Valid @ModelAttribute("addCommentDTO") AddCommentDTO addCommentDTO,
                                  @AuthenticationPrincipal UserDetails userDetails,
                                  BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
@@ -58,7 +58,7 @@ public class CommentController {
         }
 
         if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
-            boolean isAdded = this.commentService.addComment(addCommentDTO, userDetailsDTO.getUsername());
+            boolean isAdded = this.commentService.addComment(addCommentDTO, userDetailsDTO.getId());
 
             if (isAdded) {
                 redirectAttributes.addFlashAttribute("successMessage",

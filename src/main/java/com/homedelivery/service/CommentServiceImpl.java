@@ -30,13 +30,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean addComment(AddCommentDTO addCommentDTO, String username) {
+    public boolean addComment(AddCommentDTO addCommentDTO, Long id) {
 
         if (addCommentDTO == null) {
             return false;
         }
 
-        Optional<User> optionalUser = this.userService.findUserByUsername(username);
+        Optional<User> optionalUser = this.userService.findUserById(id);
 
         if (optionalUser.isEmpty()) {
             return false;

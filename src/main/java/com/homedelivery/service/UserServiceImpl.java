@@ -1,11 +1,13 @@
 package com.homedelivery.service;
 
+import com.homedelivery.model.enums.UpdateInfo;
 import com.homedelivery.model.exportDTO.CommentDetailsDTO;
-import com.homedelivery.model.exportDTO.UserInfoDTO;
+import com.homedelivery.model.user.UserInfoDTO;
 import com.homedelivery.model.entity.Role;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.model.enums.RoleName;
 import com.homedelivery.model.user.UserRegisterDTO;
+import com.homedelivery.model.user.UserUpdateInfoDTO;
 import com.homedelivery.repository.UserRepository;
 import com.homedelivery.service.interfaces.RoleService;
 import com.homedelivery.service.interfaces.UserService;
@@ -14,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -76,9 +80,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoDTO getUserDetailsInfo(String username) {
+    public UserInfoDTO getUserDetailsInfo(Long id) {
 
-        Optional<User> optionalUser = this.findUserByUsername(username);
+        Optional<User> optionalUser = this.findUserById(id);
 
         if (optionalUser.isEmpty()) {
             return null;
@@ -104,8 +108,91 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean updateUserProperty(Long id, UserUpdateInfoDTO userUpdateInfoDTO) {
+
+        Optional<User> optionalUser = this.findUserById(id);
+        UpdateInfo updateInfo = userUpdateInfoDTO.getUpdateInfo();
+
+        if (optionalUser.isEmpty() || updateInfo == null) {
+            return false;
+        }
+
+        User user = optionalUser.get();
+
+        switch (updateInfo) {
+            case USERNAME -> {
+                String newUsername = userUpdateInfoDTO.getData();
+
+                Optional<User> optionalByUsername = this.findUserByUsername(newUsername);
+
+                if (newUsername.length() >= 3 && newUsername.length() <= 20
+                        && optionalByUsername.isEmpty()) {
+                    user.setUsername(newUsername);
+                    this.saveAndFlushUser(user);
+
+                    return true;
+                }
+            }
+            case FULL_NAME -> {
+                String newFullName = userUpdateInfoDTO.getData();
+
+                if (newFullName.length() >= 3 && newFullName.length() <= 40) {
+                    user.setFullName(newFullName);
+                    this.saveAndFlushUser(user);
+
+                    return true;
+                }
+            }
+            case EMAIL -> {
+                String newEmail = userUpdateInfoDTO.getData();
+
+                Optional<User> optionalByEmail = this.findUserByEmail(newEmail);
+
+                String regex = "(?<user>^[a-zA-Z0-9]+[-_.]?[a-zA-Z0-9]+)@(?<host>[a-zA-Z]+.+[a-zA-Z]+)$";
+
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(newEmail);
+
+                if (matcher.matches() && optionalByEmail.isEmpty()) {
+                    user.setEmail(newEmail);
+                    this.saveAndFlushUser(user);
+
+                    return true;
+                }
+            }
+            case ADDRESS -> {
+                String newAddress = userUpdateInfoDTO.getData();
+
+                if (newAddress.length() >= 3 && newAddress.length() <= 100) {
+                    user.setAddress(newAddress);
+                    this.saveAndFlushUser(user);
+
+                    return true;
+                }
+            }
+            case PHONE_NUMBER -> {
+                String newPhoneNumber = userUpdateInfoDTO.getData();
+
+                if (newPhoneNumber.length() >= 7 && newPhoneNumber.length() <= 15) {
+                    user.setPhoneNumber(newPhoneNumber);
+                    this.saveAndFlushUser(user);
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public Optional<User> findUserByUsername(String username) {
         return this.userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<User> findUserById(Long id) {
+        return this.userRepository.findById(id);
     }
 
     private Optional<User> findUserByEmail(String email) {

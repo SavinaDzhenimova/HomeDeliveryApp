@@ -1,7 +1,6 @@
 package com.homedelivery.web;
 
 import com.homedelivery.model.user.UserRegisterDTO;
-import com.homedelivery.service.interfaces.CommentService;
 import com.homedelivery.service.interfaces.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -16,11 +15,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserController {
 
     private final UserService userService;
-    private final CommentService commentService;
 
-    public UserController(UserService userService, CommentService commentService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.commentService = commentService;
     }
 
     @GetMapping("/login")

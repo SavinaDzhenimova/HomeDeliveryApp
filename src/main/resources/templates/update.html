@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/commons::head">
+
+<body>
+<header th:replace="fragments/commons::nav"></header>
+
+<main>
+  <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"></span></h1>
+  <hr class="hr-3 w-25 bg-white"/>
+  <form class="mx-auto w-25 bg-blur rounded"
+        th:action="@{/users/update}"
+        th:method="PUT"
+        th:object="${userUpdateInfoDTO}">
+
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Update profile</span></h1>
+
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+      <p class="success" th:text="${errorMessage}"></p>
+    </div>
+
+    <div class="form-group">
+      <div class="text-white label-holder d-flex justify-content-center">
+        <label th:for="updateInfo" class="h4 mb-2">Choose property to update</label>
+      </div>
+      <select th:field="*{updateInfo}"
+              class="browser-default custom-select">
+        <option value="">Select property to update</option>
+        <option value="USERNAME">Username</option>
+        <option value="FULL_NAME">Full name</option>
+        <option value="EMAIL">Email</option>
+        <option value="ADDRESS">Address</option>
+        <option value="PHONE_NUMBER">Phone number</option>
+      </select>
+      <small class="danger">Field error message</small>
+    </div>
+
+    <div class="form-group">
+      <div class="label-holder text-white d-flex justify-content-center">
+        <label th:for="data" class="h3 mb-2">New data</label>
+      </div>
+      <input th:field="*{data}"
+             type="text" class="form-control" name="data" id="data"/>
+    </div>
+
+    <div class="button-holder d-flex justify-content-center">
+      <button type="submit" class="btn btn-warning  mb-3">Update</button>
+    </div>
+
+  </form>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>

@@ -5,7 +5,7 @@ import com.homedelivery.model.exportDTO.CommentsViewInfo;
 
 public interface CommentService {
 
-    boolean addComment(AddCommentDTO addCommentDTO, String username);
+    boolean addComment(AddCommentDTO addCommentDTO, Long id);
 
     CommentsViewInfo getAllComments();
 

@@ -47,14 +47,9 @@ public class DishController {
 
         boolean isAdded = this.dishService.addDish(addDishDTO);
 
-        if (isAdded) {
-            redirectAttributes.addFlashAttribute("successMessage",
-                    "Successfully registered! Please Log in!");
+        String modelAndView = (isAdded) ? "redirect:/dishes/menu" : "add-dish";
 
-            return new ModelAndView("redirect:/dishes/menu");
-        }
-
-        return new ModelAndView("add-dish");
+        return new ModelAndView(modelAndView);
     }
 
     @GetMapping("/make-order")
