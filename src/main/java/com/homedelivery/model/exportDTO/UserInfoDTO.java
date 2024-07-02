@@ -1,4 +1,4 @@
-package com.homedelivery.model.dto;
+package com.homedelivery.model.exportDTO;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.homedelivery.model.dto;
+package com.homedelivery.model.exportDTO;
 
 public class CommentDetailsDTO {
 

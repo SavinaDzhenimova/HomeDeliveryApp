@@ -1,6 +1,6 @@
 package com.homedelivery.web;
 
-import com.homedelivery.model.dto.RestaurantDetailsDTO;
+import com.homedelivery.model.exportDTO.RestaurantDetailsDTO;
 import com.homedelivery.model.enums.RestaurantName;
 import com.homedelivery.service.interfaces.RestaurantService;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
 package com.homedelivery.service;
 
-import com.homedelivery.model.dto.RestaurantDetailsDTO;
+import com.homedelivery.model.exportDTO.RestaurantDetailsDTO;
 import com.homedelivery.model.entity.Restaurant;
 import com.homedelivery.model.enums.RestaurantName;
 import com.homedelivery.repository.RestaurantRepository;

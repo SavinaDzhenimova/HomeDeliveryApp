@@ -1,6 +1,6 @@
 package com.homedelivery.web;
 
-import com.homedelivery.model.dto.UserInfoDTO;
+import com.homedelivery.model.exportDTO.UserInfoDTO;
 import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.service.interfaces.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

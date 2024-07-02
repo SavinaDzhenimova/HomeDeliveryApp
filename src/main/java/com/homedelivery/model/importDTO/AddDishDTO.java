@@ -1,4 +1,4 @@
-package com.homedelivery.model.dto;
+package com.homedelivery.model.importDTO;
 
 import com.homedelivery.model.enums.CategoryName;
 import com.homedelivery.model.enums.RestaurantName;

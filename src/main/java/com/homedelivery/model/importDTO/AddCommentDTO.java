@@ -1,4 +1,4 @@
-package com.homedelivery.model.dto;
+package com.homedelivery.model.importDTO;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;

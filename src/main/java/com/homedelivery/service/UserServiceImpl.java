@@ -1,7 +1,7 @@
 package com.homedelivery.service;
 
-import com.homedelivery.model.dto.CommentDetailsDTO;
-import com.homedelivery.model.dto.UserInfoDTO;
+import com.homedelivery.model.exportDTO.CommentDetailsDTO;
+import com.homedelivery.model.exportDTO.UserInfoDTO;
 import com.homedelivery.model.entity.Role;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.model.enums.RoleName;

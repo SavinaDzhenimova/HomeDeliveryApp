@@ -1,7 +1,7 @@
 package com.homedelivery.service.interfaces;
 
-import com.homedelivery.model.dto.AddCommentDTO;
-import com.homedelivery.model.dto.CommentsViewInfo;
+import com.homedelivery.model.importDTO.AddCommentDTO;
+import com.homedelivery.model.exportDTO.CommentsViewInfo;
 
 public interface CommentService {
 

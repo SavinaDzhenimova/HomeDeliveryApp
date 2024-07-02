@@ -1,6 +1,6 @@
 package com.homedelivery.web;
 
-import com.homedelivery.model.dto.AddDishDTO;
+import com.homedelivery.model.importDTO.AddDishDTO;
 import com.homedelivery.service.interfaces.DishService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
 package com.homedelivery.service;
 
-import com.homedelivery.model.dto.AddDishDTO;
+import com.homedelivery.model.importDTO.AddDishDTO;
 import com.homedelivery.model.entity.Category;
 import com.homedelivery.model.entity.Dish;
 import com.homedelivery.model.entity.Restaurant;

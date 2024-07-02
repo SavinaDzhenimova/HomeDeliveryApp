@@ -1,6 +1,6 @@
 package com.homedelivery.service.interfaces;
 
-import com.homedelivery.model.dto.AddDishDTO;
+import com.homedelivery.model.importDTO.AddDishDTO;
 
 public interface DishService {
 

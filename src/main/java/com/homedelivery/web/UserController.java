@@ -1,8 +1,5 @@
 package com.homedelivery.web;
 
-import com.homedelivery.model.dto.CommentsViewInfo;
-import com.homedelivery.model.dto.UserInfoDTO;
-import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.model.user.UserRegisterDTO;
 import com.homedelivery.service.interfaces.CommentService;
 import com.homedelivery.service.interfaces.UserService;

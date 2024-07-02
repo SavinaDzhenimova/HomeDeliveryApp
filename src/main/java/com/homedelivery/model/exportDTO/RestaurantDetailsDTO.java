@@ -1,9 +1,8 @@
-package com.homedelivery.model.dto;
+package com.homedelivery.model.exportDTO;
 
 import com.homedelivery.model.enums.RestaurantName;
 
 import java.time.LocalTime;
-import java.util.List;
 
 public class RestaurantDetailsDTO {
 

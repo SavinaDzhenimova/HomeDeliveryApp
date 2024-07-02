@@ -1,7 +1,7 @@
 package com.homedelivery.web;
 
-import com.homedelivery.model.dto.AddCommentDTO;
-import com.homedelivery.model.dto.CommentsViewInfo;
+import com.homedelivery.model.importDTO.AddCommentDTO;
+import com.homedelivery.model.exportDTO.CommentsViewInfo;
 import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.service.interfaces.CommentService;
 import jakarta.validation.Valid;

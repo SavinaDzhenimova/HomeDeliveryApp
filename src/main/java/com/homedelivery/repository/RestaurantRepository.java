@@ -1,6 +1,5 @@
 package com.homedelivery.repository;
 
-import com.homedelivery.model.dto.RestaurantDetailsDTO;
 import com.homedelivery.model.entity.Restaurant;
 import com.homedelivery.model.enums.RestaurantName;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,8 +1,8 @@
 package com.homedelivery.service;
 
-import com.homedelivery.model.dto.AddCommentDTO;
-import com.homedelivery.model.dto.CommentDetailsDTO;
-import com.homedelivery.model.dto.CommentsViewInfo;
+import com.homedelivery.model.importDTO.AddCommentDTO;
+import com.homedelivery.model.exportDTO.CommentDetailsDTO;
+import com.homedelivery.model.exportDTO.CommentsViewInfo;
 import com.homedelivery.model.entity.Comment;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.repository.CommentRepository;
