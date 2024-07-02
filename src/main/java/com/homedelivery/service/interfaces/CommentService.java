@@ -2,12 +2,14 @@ package com.homedelivery.service.interfaces;
 
 import com.homedelivery.model.dto.AddCommentDTO;
 import com.homedelivery.model.dto.CommentsViewInfo;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public interface CommentService {
 
-    boolean addComment(AddCommentDTO addCommentDTO, UserDetails userDetails);
+    boolean addComment(AddCommentDTO addCommentDTO, String username);
 
     CommentsViewInfo getAllComments();
 
+    CommentsViewInfo getAllCommentsByUser(String username);
+
+    void deleteComment(Long id, String username);
 }

@@ -1,8 +1,11 @@
 package com.homedelivery.web;
 
+import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.model.user.UserRegisterDTO;
 import com.homedelivery.service.interfaces.UserService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,12 +29,12 @@ public class UserController {
         return new ModelAndView("login");
     }
 
-    @PostMapping("/login-error")
-    public ModelAndView onFailure(Model model) {
+    @GetMapping("/login-error")
+    public ModelAndView loginError(Model model) {
 
-        model.addAttribute("badRequest", "Invalid username or password!");
+        model.addAttribute("errorMessage", "Invalid username or password!");
 
-        return new ModelAndView("redirect:/users/login");
+        return new ModelAndView("login");
     }
 
     @GetMapping("/register")
@@ -61,6 +64,7 @@ public class UserController {
         if (isRegistered) {
             redirectAttributes.addFlashAttribute("successMessage",
                     "Successfully registered! Please Log in!");
+
             return new ModelAndView("redirect:/users/login");
         }
 

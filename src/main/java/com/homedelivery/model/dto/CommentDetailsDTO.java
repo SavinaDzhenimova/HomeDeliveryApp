@@ -2,6 +2,8 @@ package com.homedelivery.model.dto;
 
 public class CommentDetailsDTO {
 
+    private Long id;
+
     private String description;
 
     private int rating;
@@ -11,6 +13,14 @@ public class CommentDetailsDTO {
     private String fullName;
 
     public CommentDetailsDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDescription() {

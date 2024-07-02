@@ -1,39 +1,37 @@
 package com.homedelivery.model.user;
 
-import com.homedelivery.model.annotation.ValidPassword;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class UserRegisterDTO {
 
-    @Column(nullable = false, unique = true)
-    @Size(min = 3, max = 20)
+    @NotNull
+    @Size(min = 3, max = 20, message = "Username length must be between 3 and 20 characters!")
     private String username;
 
-    @Column(nullable = false)
-    @Size(min = 3, max = 40)
+    @NotNull
+    @Size(min = 3, max = 40, message = "Username length must be between 3 and 40 characters!")
     private String fullName;
 
-    @Column(nullable = false, unique = true)
-    @Email
+    @NotBlank
+    @Email(regexp = "(?<user>^[a-zA-Z0-9]+[-_.]?[a-zA-Z0-9]+)@(?<host>[a-zA-Z]+.+[a-zA-Z]+)$",
+            message = "Email cannot be empty!")
     private String email;
 
-    @Column(nullable = false)
-    @Size(min = 7, max = 15)
+    @NotNull
+    @Size(min = 7, max = 15, message = "Phone number length must be between 7 and 15 characters!")
     private String phoneNumber;
 
-    @Column(nullable = false)
-    @Size(min = 3, max = 100)
+    @NotNull
+    @Size(min = 3, max = 100, message = "Address length must be between 3 and 100 characters!")
     private String address;
 
-    @Column(nullable = false)
-    @Size(min = 8, max = 20)
+    @NotNull
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$",
+            message = "Password must contains at least 1 uppercase letter, 1 lowercase letter, 1 digit " +
+                    "and must be between 8 and 20 characters long!")
     private String password;
 
-    @Column(nullable = false)
-    @Size(min = 8, max = 20)
+    @NotNull
     private String confirmPassword;
 
     public UserRegisterDTO() {

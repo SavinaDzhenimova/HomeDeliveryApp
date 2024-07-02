@@ -9,7 +9,7 @@ public class CommentsViewInfo {
 
     List<CommentDetailsDTO> comments;
 
-    private double totalRating;
+    private String totalRating;
 
     public CommentsViewInfo() {
         this.comments = new ArrayList<>();
@@ -27,19 +27,18 @@ public class CommentsViewInfo {
         this.comments = comments;
     }
 
-    public double getTotalRating() throws ParseException {
+    public String getTotalRating() throws ParseException {
         Integer totalRating = this.comments.stream()
                 .map(CommentDetailsDTO::getRating)
                 .reduce(0, Integer::sum);
 
         DecimalFormat df = new DecimalFormat("##.00");
-        String format = df.format((double) totalRating / this.comments.size());
-        double result = (double) df.parse(format);
+        String result = df.format((double) totalRating / this.comments.size());
 
-        return (this.comments.size() == 0) ? 0 : result;
+        return (this.comments.size() == 0) ? "0" : result;
     }
 
-    public void setTotalRating(double totalRating) {
+    public void setTotalRating(String totalRating) {
         this.totalRating = totalRating;
     }
 }

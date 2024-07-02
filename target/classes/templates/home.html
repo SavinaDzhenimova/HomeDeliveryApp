@@ -31,7 +31,11 @@
               <td style="width: 30%">{date}</td>
               <td style="width: 25%">{status}</td>
               <td style="width: 25%">
-                <a class="btn-danger btn">Remove</a>
+                <form>
+                  <div class="button-delete-comment w-100" style="width: 15%">
+                    <button type="submit" class="btn btn-danger mb-3">Delete order</button>
+                  </div>
+                </form>
               </td>
             </tr>
           </table>
@@ -41,18 +45,23 @@
       <div class="col-md-6 mb-3">
         <div class="home-fields" style="height: 65vh; overflow: auto">
           <h3 class="my-paintings">My comments</h3>
-          <ul class="list-group list-group-vertical text-dark">
+          <ul th:each="comment : ${comments.getComments()}"
+                  class="list-group list-group-vertical text-dark">
             <li>
-              <h5 class="my-paintings">{Comment Id}</h5>
+              <h5 th:text="'Comment #' + ${comment.getId()}" class="my-paintings">{Comment Id}</h5>
               <div class="my-paintings-first-row">
-                <p class="w-100">{description}</p>
+                <p th:text="${comment.getDescription()}" class="w-100">{description}</p>
               </div>
               <div class="second-info">
-                <p >Added on: {date}</p>
+                <p th:text="'Added on: ' + ${comment.getAddedOn()}">Added on: {date}</p>
+                <p th:text="'Rating: ' + ${comment.getRating()}">Rating: {rating}</p>
               </div>
-              <div class="button-delete-comment w-100" style="width: 15%">
-                <a class="btn-danger btn">Delete comment</a>
-              </div>
+              <form th:method="DELETE" th:action="@{/comments/delete-comment/{id}(id=${comment.getId()})}">
+                <div class="button-delete-comment w-100" style="width: 15%">
+                  <button type="submit" class="btn btn-danger mb-3">Delete comment</button>
+                </div>
+              </form>
+
             </li>
           </ul>
         </div>

@@ -2,6 +2,7 @@ package com.homedelivery.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ public class User extends BaseEntity {
     private String address;
 
     @Column(nullable = false)
-    @Size(min = 8)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -9,16 +9,11 @@ import com.homedelivery.repository.CommentRepository;
 import com.homedelivery.service.interfaces.CommentService;
 import com.homedelivery.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -35,13 +30,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean addComment(AddCommentDTO addCommentDTO, UserDetails userDetails) {
+    public boolean addComment(AddCommentDTO addCommentDTO, String username) {
 
         if (addCommentDTO == null) {
             return false;
         }
 
-        Optional<User> optionalUser = this.userService.findUserByUsername(userDetails.getUsername());
+        Optional<User> optionalUser = this.userService.findUserByUsername(username);
 
         if (optionalUser.isEmpty()) {
             return false;
@@ -56,6 +51,23 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public void deleteComment(Long id, String username) {
+
+        Optional<Comment> optionalComment = this.commentRepository.findById(id);
+        Optional<User> optionalUser = this.userService.findUserByUsername(username);
+
+        if (optionalComment.isPresent() && optionalUser.isPresent()) {
+
+            Comment comment = optionalComment.get();
+            User user = optionalUser.get();
+
+            if (comment.getUser().getUsername().equals(username)) {
+                this.commentRepository.deleteById(id);
+            }
+        }
+    }
+
+    @Override
     public CommentsViewInfo getAllComments() {
 
         List<Comment> comments = this.commentRepository.findAll();
@@ -64,7 +76,7 @@ public class CommentServiceImpl implements CommentService {
                 .map(comment -> {
                     CommentDetailsDTO dto = this.modelMapper.map(comment, CommentDetailsDTO.class);
                     dto.setFullName(comment.getUser().getFullName());
-                    dto.setAddedOn(this.parseDate(comment.getAddedOn()));
+                    dto.setAddedOn(comment.parseDateToString(comment.getAddedOn()));
 
                     return dto;
                 }).toList();
@@ -72,9 +84,19 @@ public class CommentServiceImpl implements CommentService {
         return new CommentsViewInfo(commentDetailsDTO);
     }
 
-    private String parseDate(LocalDateTime date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    @Override
+    public CommentsViewInfo getAllCommentsByUser(String username) {
+        List<Comment> comments = this.commentRepository.findAll();
 
-        return date.format(formatter);
+        List<CommentDetailsDTO> commentDetailsDTO = comments.stream()
+                .filter(comment -> comment.getUser().getUsername().equals(username))
+                .map(comment -> {
+                    CommentDetailsDTO dto = this.modelMapper.map(comment, CommentDetailsDTO.class);
+                    dto.setAddedOn(comment.parseDateToString(comment.getAddedOn()));
+
+                    return dto;
+                }).toList();
+
+        return new CommentsViewInfo(commentDetailsDTO);
     }
 }
