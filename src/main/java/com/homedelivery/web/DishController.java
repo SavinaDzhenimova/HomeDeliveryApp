@@ -1,15 +1,17 @@
 package com.homedelivery.web;
 
+import com.homedelivery.model.exportDTO.DishesViewInfo;
 import com.homedelivery.model.importDTO.AddDishDTO;
+import com.homedelivery.model.user.UserDetailsDTO;
+import com.homedelivery.model.user.UserInfoDTO;
 import com.homedelivery.service.interfaces.DishService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -47,9 +49,14 @@ public class DishController {
 
         boolean isAdded = this.dishService.addDish(addDishDTO);
 
-        String modelAndView = (isAdded) ? "redirect:/dishes/menu" : "add-dish";
+        if (isAdded) {
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Successfully added new dish to menu!");
 
-        return new ModelAndView(modelAndView);
+            return new ModelAndView("redirect:/dishes/menu");
+        }
+
+        return new ModelAndView("add-dish");
     }
 
     @GetMapping("/make-order")
@@ -58,7 +65,27 @@ public class DishController {
     }
 
     @GetMapping("/menu")
-    public ModelAndView viewMenu() {
-        return new ModelAndView("menu");
+    public ModelAndView viewMenu(@AuthenticationPrincipal UserDetails userDetails) {
+
+        ModelAndView modelAndView = new ModelAndView("menu");
+
+        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
+            DishesViewInfo dishesViewInfo = this.dishService.getAllDishes();
+
+            modelAndView.addObject("dishes", dishesViewInfo);
+        }
+
+        return modelAndView;
+    }
+
+    @DeleteMapping("/menu/delete-dish/{id}")
+    public ModelAndView deleteDish(@PathVariable("id") Long dishId,
+                                      @AuthenticationPrincipal UserDetails userDetails) {
+
+        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
+            this.dishService.deleteDish(dishId, userDetailsDTO.getId());
+        }
+
+        return new ModelAndView("redirect:/dishes/menu");
     }
 }

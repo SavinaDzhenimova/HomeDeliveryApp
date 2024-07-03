@@ -9,5 +9,5 @@ public interface CommentService {
 
     CommentsViewInfo getAllComments();
 
-    void deleteComment(Long id, String username);
+    void deleteComment(Long commentId, Long userId);
 }

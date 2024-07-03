@@ -168,6 +168,16 @@ button:hover {
     color: white;
 }
 
+.button-delete-dish {
+    background-color: #fff3cd;
+    padding: 0;
+    border: none;
+}
+
+.button-delete-dish:hover {
+    background-color: #fff3cd;
+}
+
 .bg-blur {
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.8);

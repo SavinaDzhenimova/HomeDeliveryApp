@@ -76,7 +76,7 @@ public class CommentController {
                                       @AuthenticationPrincipal UserDetails userDetails) {
 
         if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
-            this.commentService.deleteComment(id, userDetailsDTO.getUsername());
+            this.commentService.deleteComment(id, userDetailsDTO.getId());
         }
 
         return new ModelAndView("redirect:/home");

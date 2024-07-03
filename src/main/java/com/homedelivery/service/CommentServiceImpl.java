@@ -56,18 +56,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(Long id, String username) {
+    public void deleteComment(Long commentId, Long userId) {
 
-        Optional<Comment> optionalComment = this.commentRepository.findById(id);
-        Optional<User> optionalUser = this.userService.findUserByUsername(username);
+        Optional<Comment> optionalComment = this.commentRepository.findById(commentId);
+        Optional<User> optionalUser = this.userService.findUserById(userId);
 
         if (optionalComment.isPresent() && optionalUser.isPresent()) {
 
             Comment comment = optionalComment.get();
-            User user = optionalUser.get();
 
-            if (comment.getUser().getUsername().equals(username)) {
-                this.commentRepository.deleteById(id);
+            if (comment.getUser().getId().equals(userId)) {
+                this.commentRepository.deleteById(commentId);
             }
         }
     }
