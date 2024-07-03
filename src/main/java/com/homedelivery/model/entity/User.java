@@ -41,7 +41,7 @@ public class User extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<Order> orders;
 
     @OneToMany(mappedBy = "addedBy", fetch = FetchType.EAGER)

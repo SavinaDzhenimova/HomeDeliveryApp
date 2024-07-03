@@ -1,6 +1,7 @@
 package com.homedelivery.model.user;
 
 import com.homedelivery.model.exportDTO.CommentDetailsDTO;
+import com.homedelivery.model.exportDTO.OrderDetailsDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +24,12 @@ public class UserInfoDTO {
 
     private List<CommentDetailsDTO> comments;
 
+    private List<OrderDetailsDTO> orders;
+
     public UserInfoDTO() {
         this.roles = new ArrayList<>();
         this.comments = new ArrayList<>();
+        this.orders = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -90,5 +94,13 @@ public class UserInfoDTO {
 
     public void setComments(List<CommentDetailsDTO> comments) {
         this.comments = comments;
+    }
+
+    public List<OrderDetailsDTO> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderDetailsDTO> orders) {
+        this.orders = orders;
     }
 }

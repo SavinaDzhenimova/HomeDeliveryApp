@@ -1,5 +1,6 @@
 package com.homedelivery.model.entity;
 
+import com.homedelivery.model.enums.OrderStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -26,10 +27,10 @@ public class Order extends BaseEntity {
     private BigDecimal totalPrice;
 
     @Column(nullable = false)
-    private LocalDateTime date;
+    private LocalDateTime orderedOn;
 
     @Column(name = "is_delivered")
-    private boolean isDelivered;
+    private OrderStatus status;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_id", referencedColumnName = "id")
@@ -42,8 +43,6 @@ public class Order extends BaseEntity {
     private List<Dish> dishes;
 
     public Order() {
-        this.date = LocalDateTime.now();
-        this.isDelivered = false;
         this.dishes = new ArrayList<>();
     }
 
@@ -71,20 +70,20 @@ public class Order extends BaseEntity {
         this.totalPrice = totalPrice;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getOrderedOn() {
+        return orderedOn;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setOrderedOn(LocalDateTime orderedOn) {
+        this.orderedOn = orderedOn;
     }
 
-    public boolean isDelivered() {
-        return isDelivered;
+    public OrderStatus getStatus() {
+        return status;
     }
 
-    public void setDelivered(boolean delivered) {
-        isDelivered = delivered;
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     public User getClient() {

@@ -2,6 +2,7 @@ package com.homedelivery.service;
 
 import com.homedelivery.model.enums.UpdateInfo;
 import com.homedelivery.model.exportDTO.CommentDetailsDTO;
+import com.homedelivery.model.exportDTO.OrderDetailsDTO;
 import com.homedelivery.model.user.UserInfoDTO;
 import com.homedelivery.model.entity.Role;
 import com.homedelivery.model.entity.User;
@@ -15,6 +16,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -92,10 +95,19 @@ public class UserServiceImpl implements UserService {
 
         List<String> stringRoles = user.getRoles().stream()
                 .map(role -> role.getName().toString()).toList();
+
         List<CommentDetailsDTO> comments = user.getComments().stream()
                 .map(comment -> {
                     CommentDetailsDTO dto = this.modelMapper.map(comment, CommentDetailsDTO.class);
-                    dto.setAddedOn(comment.parseDateToString(comment.getAddedOn()));
+                    dto.setAddedOn(this.parseDateToString(comment.getAddedOn()));
+
+                    return dto;
+                }).toList();
+
+        List<OrderDetailsDTO> orders = user.getOrders().stream()
+                .map(order -> {
+                    OrderDetailsDTO dto = this.modelMapper.map(order, OrderDetailsDTO.class);
+                    dto.setOrderedOn(this.parseDateToString(order.getOrderedOn()));
 
                     return dto;
                 }).toList();
@@ -103,8 +115,15 @@ public class UserServiceImpl implements UserService {
         UserInfoDTO userInfoDTO = this.modelMapper.map(user, UserInfoDTO.class);
         userInfoDTO.setRoles(stringRoles);
         userInfoDTO.setComments(comments);
+        userInfoDTO.setOrders(orders);
 
         return userInfoDTO;
+    }
+
+    private String parseDateToString(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        return date.format(formatter);
     }
 
     @Override

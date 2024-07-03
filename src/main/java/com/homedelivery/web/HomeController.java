@@ -35,6 +35,7 @@ public class HomeController {
             modelAndView.addObject("user", userInfoDTO);
             modelAndView.addObject("roles", String.join(", ", userInfoDTO.getRoles()));
             modelAndView.addObject("comments", userInfoDTO.getComments());
+            modelAndView.addObject("orders", userInfoDTO.getOrders());
         }
 
         return modelAndView;
