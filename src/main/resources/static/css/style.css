@@ -14,6 +14,14 @@ body {
     margin-bottom: 5rem;
 }
 
+.nav-item {
+    margin: 0.25em;
+}
+
+.nav-link-button:hover {
+    background-color: #212529;
+}
+
 .welcome, .about {
     position: relative;
     border-radius: 12px;
