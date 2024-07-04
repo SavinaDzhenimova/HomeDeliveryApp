@@ -1,7 +1,6 @@
 package com.homedelivery.model.importDTO;
 
 import com.homedelivery.model.entity.Dish;
-import com.homedelivery.model.entity.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -26,18 +25,18 @@ public class AddOrderDTO {
     private BigDecimal totalPrice;
 
     @NotNull
-    private LocalDateTime date;
+    private LocalDateTime orderedOn;
 
     @NotNull
     private boolean isDelivered;
 
     @NotNull
-    private User client;
+    private Long clientId;
 
     private List<Dish> dishes;
 
     public AddOrderDTO() {
-        this.date = LocalDateTime.now();
+        this.orderedOn = LocalDateTime.now();
         this.dishes = new ArrayList<>();
     }
 
@@ -67,12 +66,12 @@ public class AddOrderDTO {
         this.totalPrice = totalPrice;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getOrderedOn() {
+        return orderedOn;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setOrderedOn(LocalDateTime orderedOn) {
+        this.orderedOn = orderedOn;
     }
 
     public boolean isDelivered() {
@@ -83,12 +82,12 @@ public class AddOrderDTO {
         isDelivered = delivered;
     }
 
-    public User getClient() {
-        return client;
+    public Long getClientId() {
+        return clientId;
     }
 
-    public void setClient(User client) {
-        this.client = client;
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 
     public List<Dish> getDishes() {

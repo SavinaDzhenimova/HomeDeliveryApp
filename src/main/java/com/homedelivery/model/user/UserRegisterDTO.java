@@ -1,5 +1,7 @@
 package com.homedelivery.model.user;
 
+import com.homedelivery.model.annotation.ValidEmail;
+import com.homedelivery.model.annotation.ValidPassword;
 import jakarta.validation.constraints.*;
 
 public class UserRegisterDTO {
@@ -12,9 +14,8 @@ public class UserRegisterDTO {
     @Size(min = 3, max = 40, message = "Username length must be between 3 and 40 characters!")
     private String fullName;
 
-    @NotBlank
-    @Email(regexp = "(?<user>^[a-zA-Z0-9]+[-_.]?[a-zA-Z0-9]+)@(?<host>[a-zA-Z]+.+[a-zA-Z]+)$",
-            message = "Email cannot be empty!")
+    @NotBlank(message = "Email cannot be empty!")
+    @ValidEmail(message = "Invalid email!")
     private String email;
 
     @NotNull
@@ -26,8 +27,7 @@ public class UserRegisterDTO {
     private String address;
 
     @NotNull
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$",
-            message = "Password must contains at least 1 uppercase letter, 1 lowercase letter, 1 digit " +
+    @ValidPassword(message = "Password must contains at least 1 uppercase letter, 1 lowercase letter, 1 digit " +
                     "and must be between 8 and 20 characters long!")
     private String password;
 

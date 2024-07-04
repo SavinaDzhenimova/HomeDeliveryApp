@@ -1,8 +1,8 @@
 package com.homedelivery.model.entity;
 
+import com.homedelivery.model.annotation.ValidEmail;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class User extends BaseEntity {
     private String fullName;
 
     @Column(nullable = false, unique = true)
-    @Email(regexp = "(?<user>^[a-zA-Z0-9]+[-_.]?[a-zA-Z0-9]+)@(?<host>[a-zA-Z]+.+[a-zA-Z]+)$")
+    @ValidEmail
     private String email;
 
     @Column(nullable = false)
@@ -33,6 +33,7 @@ public class User extends BaseEntity {
     private String address;
 
     @Column(nullable = false)
+    @Size(min = 8)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
