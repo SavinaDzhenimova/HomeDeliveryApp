@@ -10,7 +10,11 @@
 
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Our clients say!!!</span></h1>
 
-    <h3 th:text="'Our clients rate us on: ' + ${comments.getTotalRating() + '/10'}"
+    <div th:if="${successMessage}" class="alert alert-success" role="alert">
+      <p class="success" th:text="${successMessage}"></p>
+    </div>
+
+    <h3 th:text="'Our clients rate us on: ' + ${comments.getTotalRating()} + '/10'"
         class="mySticky bg-gray text-dark user">Our clients rate us on: </h3>
 
       <div class="row-comments">

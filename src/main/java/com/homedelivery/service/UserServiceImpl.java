@@ -1,6 +1,7 @@
 package com.homedelivery.service;
 
 import com.homedelivery.model.enums.UpdateInfo;
+import com.homedelivery.model.events.UserRegistrationEvent;
 import com.homedelivery.model.exportDTO.CommentDetailsDTO;
 import com.homedelivery.model.exportDTO.OrderDetailsDTO;
 import com.homedelivery.model.user.UserInfoDTO;
@@ -13,6 +14,7 @@ import com.homedelivery.repository.UserRepository;
 import com.homedelivery.service.interfaces.RoleService;
 import com.homedelivery.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +27,15 @@ import java.util.regex.Pattern;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService,
-                           PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+    public UserServiceImpl(ApplicationEventPublisher applicationEventPublisher, UserRepository userRepository,
+                           RoleService roleService, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+        this.applicationEventPublisher = applicationEventPublisher;
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
@@ -59,26 +63,19 @@ public class UserServiceImpl implements UserService {
         User user = this.modelMapper.map(userRegisterDTO, User.class);
         user.setPassword(this.passwordEncoder.encode(userRegisterDTO.getPassword()));
 
-        Optional<Role> optionalAdminRole = this.roleService.findByName(RoleName.ADMIN);
         Optional<Role> optionalUserRole = this.roleService.findByName(RoleName.USER);
         List<Role> roles = new ArrayList<>();
 
-        if (this.userRepository.count() == 0) {
-
-            if (optionalAdminRole.isPresent() && optionalUserRole.isPresent()) {
-                roles.add(optionalAdminRole.get());
-                roles.add(optionalUserRole.get());
-
-                user.setRoles(roles);
-            }
-        } else {
-            if (optionalUserRole.isPresent()) {
-                roles.add(optionalUserRole.get());
-                user.setRoles(roles);
-            }
+        if (optionalUserRole.isPresent()) {
+            roles.add(optionalUserRole.get());
+            user.setRoles(roles);
         }
 
+        this.applicationEventPublisher.publishEvent(
+                new UserRegistrationEvent(this, user.getEmail(), user.getFullName()));
+
         this.saveAndFlushUser(user);
+
         return true;
     }
 

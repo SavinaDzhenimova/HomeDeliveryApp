@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/comments")
 public class CommentController {
 
     private final CommentService commentService;
@@ -23,8 +24,8 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @GetMapping("/comments")
-    public ModelAndView getComments() {
+    @GetMapping
+    public ModelAndView viewComments() {
         ModelAndView modelAndView = new ModelAndView("comments");
 
         CommentsViewInfo commentsViewInfo = this.commentService.getAllComments();
@@ -34,7 +35,7 @@ public class CommentController {
         return modelAndView;
     }
 
-    @GetMapping("/comments/add-comment")
+    @GetMapping("/add-comment")
     public ModelAndView addComment(Model model) {
 
         if (!model.containsAttribute("addCommentDTO")) {
@@ -44,10 +45,10 @@ public class CommentController {
         return new ModelAndView("add-comment");
     }
 
-    @PostMapping("/comments/add-comment")
+    @PostMapping("/add-comment")
     public ModelAndView addComment(@Valid @ModelAttribute("addCommentDTO") AddCommentDTO addCommentDTO,
-                                 @AuthenticationPrincipal UserDetails userDetails,
-                                 BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+                                   @AuthenticationPrincipal UserDetails userDetails,
+                                   BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addCommentDTO", addCommentDTO)
@@ -62,7 +63,7 @@ public class CommentController {
 
             if (isAdded) {
                 redirectAttributes.addFlashAttribute("successMessage",
-                        "Successfully registered! Please Log in!");
+                        "Successfully added comment!");
 
                 return new ModelAndView("redirect:/comments");
             }
@@ -71,7 +72,7 @@ public class CommentController {
         return new ModelAndView("add-comment");
     }
 
-    @DeleteMapping("/comments/delete-comment/{id}")
+    @DeleteMapping("/delete-comment/{id}")
     public ModelAndView deleteComment(@PathVariable("id") Long id,
                                       @AuthenticationPrincipal UserDetails userDetails) {
 
@@ -81,4 +82,5 @@ public class CommentController {
 
         return new ModelAndView("redirect:/home");
     }
+
 }

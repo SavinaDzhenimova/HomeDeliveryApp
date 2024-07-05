@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Delivery App Registration</title>
+  <link rel="stylesheet" href="/css/email-style.css"/>
+</head>
+
+<body>
+<div class="email-container">
+  <div class="header">
+    <h1>Welcome to Home Delivery - Your Ultimate Food Delivery App!</h1>
+  </div>
+  <div class="content">
+    <p>Hello, <th:block th:text="${fullName}">User fullName</th:block>,</p>
+    <p>Welcome to Home Delivery App, your go-to app for enjoying restaurant-quality meals delivered right to your doorstep!
+      We're thrilled to have you join our community of food enthusiasts who appreciate convenience without compromising on taste.
+    </p>
+    <p>At Home Delivery, we're committed to making your dining experience effortless and delightful.
+      Whether you're craving your favorite local dishes, exploring new flavors, or looking for a quick bite,
+      our app offers a wide selection of restaurants to choose from, all at your fingertips.</p>
+
+    <p>We're excited to serve you and enhance your dining experiences with FoodieGo.
+    Register to the app now to start enjoying the convenience of restaurant-quality meals delivered to your door.</p>
+
+    <p>Thank you for choosing Home Delivery App. Bon appétit!</p>
+
+    <p>Best regards,<br>The Home Delivery App Team</p>
+
+  </div>
+</div>
+</body>
+</html>

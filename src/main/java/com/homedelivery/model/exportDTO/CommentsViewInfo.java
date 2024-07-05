@@ -1,7 +1,6 @@
 package com.homedelivery.model.exportDTO;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class CommentsViewInfo {
         this.comments = comments;
     }
 
-    public String getTotalRating() throws ParseException {
+    public String getTotalRating() {
         Integer totalRating = this.comments.stream()
                 .map(CommentDetailsDTO::getRating)
                 .reduce(0, Integer::sum);

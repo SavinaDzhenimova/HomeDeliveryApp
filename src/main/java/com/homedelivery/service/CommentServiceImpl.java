@@ -51,7 +51,6 @@ public class CommentServiceImpl implements CommentService {
 
         this.commentRepository.saveAndFlush(comment);
         this.userService.saveAndFlushUser(user);
-
         return true;
     }
 

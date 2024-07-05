@@ -27,3 +27,9 @@ logging:
     blog: WARN
 server:
   port: 8090
+mail:
+  homedelivery: "homedeliveryteambulgaria@gmail.com"
+  host: smtp.gmail.com
+  port: 25
+  username: ${mail_user}
+  password: ${mail_password}

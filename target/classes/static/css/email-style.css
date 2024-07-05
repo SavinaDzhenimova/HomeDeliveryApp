@@ -1,0 +1,36 @@
+body {
+     font-family: 'Lato', Helvetica, Arial, sans-serif;
+     background-color: #f4f4f4;
+     margin-top: 2rem;
+     padding: 0;
+}
+
+.email-container {
+     background-color: #ffffff;
+     max-width: 800px;
+     border-radius: 4px;
+     box-shadow: 0 0 10px rgba(0,0,0,0.5);
+     margin: 0 auto;
+     padding: 20px;
+}
+
+.header {
+     background-color: #ffb266;
+     text-align: center;
+     padding: 40px 0;
+     border-radius: 16px 16px 0 0;
+}
+
+.header h1 {
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.content {
+    padding: 30px;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #666666;
+}
