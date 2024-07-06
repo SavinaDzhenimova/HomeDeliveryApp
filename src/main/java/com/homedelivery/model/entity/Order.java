@@ -15,7 +15,7 @@ import java.util.List;
 public class Order extends BaseEntity {
 
     @Column(nullable = false)
-    @Size(min = 3, max = 40)
+    @Size(min = 3, max = 100)
     private String deliveryAddress;
 
     @Column(nullable = false)

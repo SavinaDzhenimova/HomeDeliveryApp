@@ -10,6 +10,10 @@
 <main>
     <section class="mx-auto w-75 bg-blur rounded" id="big-div">
 
+        <form th:action="@{/dishes/make-order}"
+              th:method="POST"
+                th:object="${addOrderDTO}">
+
         <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Make order</span></h1>
 
         <div class="row">
@@ -18,18 +22,19 @@
                 <h3 class=" bg-gray text-dark  mb-0 mt-2">Dishes to order</h3>
                 <h6 class=" bg-gray text-dark  mb-0 mt-0">{totalDishesInCart}</h6>
                 <div class="bg-dark rounded m-auto" style="height: 55vh; overflow: auto">
-                    <ul class="list-group list-group-horizontal text-dark">
+                    <ul th:each="dish : ${dishes.getDishesToOrder()}"
+                            class="list-group list-group-horizontal text-dark">
                         <li>
-                            <img class="mr-2 " src="/images/pin.png" alt="Pin" width="75px" height="75px">
+                            <img class="mr-2 " th:src="${dish.getImageUrl()}" alt="Pin" width="75px" height="75px">
                         </li>
                         <table class="list-group-item list-group-item-warning text-dark">
                             <tr>
-                                <td style="width: 40%">{Dish name}</td>
+                                <td th:text="${dish.getName()}" style="width: 40%">{Dish name}</td>
                                 <td style="width: 15%">
                                     <label th:for="price">Quantity</label>
                                     <input type="number" step="1" class="form-control" placeholder="1"/>
                                 </td>
-                                <td style="width: 30%">{price}</td>
+                                <td th:text="${dish.getPrice()}" style="width: 30%">{price}</td>
                                 <td><a href="#"><img src="/images/remove.png" height="30px"></a></td>
                             </tr>
                         </table>
@@ -41,32 +46,39 @@
                 <h3 class=" bg-gray text-dark  mb-0 mt-2">Delivery details</h3>
                 <h6 class=" bg-gray text-dark  mb-0 mt-0">{loggedUsername}</h6>
 
-                <form action="make-order"
-                      method="POST">
-
                     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"></span></h1>
 
                     <div class="form-group">
                         <div class="label-holder text-white d-flex justify-content-center">
                             <label th:for="deliveryAddress" class="h4 mb-2">Delivery address</label>
                         </div>
-                        <input type="text" class="form-control"/>
+                        <input th:field="*{deliveryAddress}"
+                               th:errorclass="is-invalid"
+                               type="text" class="form-control"/>
+                        <small th:if="${#fields.hasErrors('deliveryAddress')}"
+                               th:errors="*{deliveryAddress}"
+                               class="text-danger">Delivery address error message</small>
                     </div>
 
                     <div class="form-group">
                         <div class="label-holder text-white d-flex justify-content-center">
                             <label th:for="phoneNumber" class="h4 mb-2">Phone number</label>
                         </div>
-                        <input type="password" class="form-control"/>
+                        <input th:field="*{phoneNumber}"
+                               th:errorclass="is-invalid"
+                               type="text" class="form-control"/>
+                        <small th:if="${#fields.hasErrors('phoneNumber')}"
+                               th:errors="*{phoneNumber}"
+                               class="text-danger">Phone number error message</small>
                     </div>
 
                     <div class="button-holder d-flex justify-content-center">
-                        <button type="submit" class="btn btn-warning  mb-3">Order</button>
+                        <button type="submit" class="btn btn-warning  mb-3">Make order</button>
                     </div>
-                </form>
             </div>
-
         </div>
+
+        </form>
     </section>
 </main>
 <footer th:replace="fragments/commons::footer"></footer>

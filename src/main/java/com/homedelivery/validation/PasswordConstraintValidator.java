@@ -8,7 +8,6 @@ import org.passay.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
@@ -51,9 +50,8 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
             return true;
         }
 
-        List<String> messages = validator.getMessages(result);
-
-        String messageTemplate = String.join(",", messages);
+        String messageTemplate = "Password must contains at least 1 uppercase letter, 1 lowercase letter, 1 digit " +
+                "and must be between 8 and 20 characters long!";
         context.buildConstraintViolationWithTemplate(messageTemplate)
                 .addConstraintViolation()
                 .disableDefaultConstraintViolation();

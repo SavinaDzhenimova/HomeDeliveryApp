@@ -15,7 +15,7 @@ public class UserRegisterDTO {
     private String fullName;
 
     @NotBlank(message = "Email cannot be empty!")
-    @ValidEmail(message = "Invalid email!")
+    @ValidEmail
     private String email;
 
     @NotNull
@@ -27,8 +27,7 @@ public class UserRegisterDTO {
     private String address;
 
     @NotNull
-    @ValidPassword(message = "Password must contains at least 1 uppercase letter, 1 lowercase letter, 1 digit " +
-                    "and must be between 8 and 20 characters long!")
+    @ValidPassword
     private String password;
 
     @NotNull

@@ -27,6 +27,11 @@ public class EmailConstraintValidator implements ConstraintValidator<ValidEmail,
             return matcher.matches();
         }
 
+        String messageTemplate = "Email must be in format example@domain.com";
+        context.buildConstraintViolationWithTemplate(messageTemplate)
+                .addConstraintViolation()
+                .disableDefaultConstraintViolation();
+
         return false;
     }
 }

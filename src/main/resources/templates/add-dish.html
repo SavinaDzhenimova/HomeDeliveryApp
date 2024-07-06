@@ -21,8 +21,11 @@
                         <label th:for="name" class="h4 mb-2">Dish name</label>
                     </div>
                     <input th:field="*{name}"
+                           th:errorclass="is-invalid"
                             type="text" class="form-control"/>
-                    <small class="danger">Dish name error message</small>
+                    <small th:if="${#fields.hasErrors('name')}"
+                           th:errors="*{name}"
+                            class="text-danger">Dish name error message</small>
                 </div>
 
                 <div class="form-group col-md-6 mb-3">
@@ -30,8 +33,11 @@
                         <label th:for="price" class="h4 mb-2">Price</label>
                     </div>
                     <input th:field="*{price}"
+                           th:errorclass="is-invalid"
                             type="number" step="0.1" class="form-control"/>
-                    <small class="danger">Price error message</small>
+                    <small th:if="${#fields.hasErrors('price')}"
+                           th:errors="*{price}"
+                            class="text-danger">Price error message</small>
                 </div>
 
                 <div class="form-group">
@@ -39,8 +45,11 @@
                         <label th:for="description" class="h4 mb-2">Description</label>
                     </div>
                     <textarea th:field="*{description}"
+                              th:errorclass="is-invalid"
                             type="text" class="form-control"></textarea>
-                    <small class="danger">Description error message</small>
+                    <small th:if="${#fields.hasErrors('description')}"
+                           th:errors="*{description}"
+                            class="text-danger">Description error message</small>
                 </div>
 
             </div>
@@ -52,6 +61,7 @@
                         <label th:for="category" class="h4 mb-2">Category</label>
                     </div>
                     <select th:field="*{category}"
+                            th:errorclass="is-invalid"
                             class="browser-default custom-select">
                         <option value="">Select category</option>
                         <option value="SALAD">Salad</option>
@@ -59,7 +69,9 @@
                         <option value="MAIN_DISH">Main dish</option>
                         <option value="DESSERT">Dessert</option>
                     </select>
-                    <small class="danger">Category error message</small>
+                    <small th:if="${#fields.hasErrors('category')}"
+                           th:errors="*{category}"
+                            class="text-danger">Category error message</small>
                 </div>
 
                 <div class="form-group col-md-6 mb-3">
@@ -67,13 +79,16 @@
                         <label th:for="restaurant" class="h4 mb-2">Restaurant</label>
                     </div>
                     <select th:field="*{restaurant}"
+                            th:errorclass="is-invalid"
                             class="browser-default custom-select">
                         <option value="">Select restaurant</option>
                         <option value="KORONA">Korona</option>
                         <option value="VERTU">Vertu - Bar & dinner</option>
                         <option value="KAZABLANKA">Kazablanka</option>
                     </select>
-                    <small class="danger">Restaurant error message</small>
+                    <small th:if="${#fields.hasErrors('restaurant')}"
+                           th:errors="*{restaurant}"
+                            class="text-danger">Restaurant error message</small>
                 </div>
 
                 <div class="form-group">
@@ -81,8 +96,11 @@
                         <label th:for="imageUrl" class="h4 mb-2">Image URL</label>
                     </div>
                     <textarea th:field="*{imageUrl}"
+                              th:errorclass="is-invalid"
                             type="text" class="form-control"></textarea>
-                    <small class="danger">Image URL error message</small>
+                    <small th:if="${#fields.hasErrors('imageUrl')}"
+                            th:errors="*{imageUrl}"
+                            class="text-danger">Image URL error message</small>
                 </div>
 
             </div>

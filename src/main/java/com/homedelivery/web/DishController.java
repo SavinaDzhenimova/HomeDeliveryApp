@@ -1,7 +1,9 @@
 package com.homedelivery.web;
 
 import com.homedelivery.model.exportDTO.DishesViewInfo;
+import com.homedelivery.model.exportDTO.OrderDishesInfoDTO;
 import com.homedelivery.model.importDTO.AddDishDTO;
+import com.homedelivery.model.importDTO.AddOrderDTO;
 import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.model.user.UserInfoDTO;
 import com.homedelivery.service.interfaces.DishService;
@@ -60,20 +62,29 @@ public class DishController {
     }
 
     @GetMapping("/make-order")
-    public ModelAndView makeOrder() {
-        return new ModelAndView("make-order");
+    public ModelAndView makeOrder(Model model) {
+
+        if (!model.containsAttribute("addOrderDTO")) {
+            model.addAttribute("addOrderDTO", new AddOrderDTO());
+        }
+
+        ModelAndView modelAndView = new ModelAndView("make-order");
+//
+//        OrderDishesInfoDTO orderDishesInfoDTO = this.dishService.getAllDishes();
+//
+//        modelAndView.addObject("dishes", orderDishesInfoDTO);
+
+        return modelAndView;
     }
 
     @GetMapping("/menu")
-    public ModelAndView viewMenu(@AuthenticationPrincipal UserDetails userDetails) {
+    public ModelAndView viewMenu() {
 
         ModelAndView modelAndView = new ModelAndView("menu");
 
-        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
-            DishesViewInfo dishesViewInfo = this.dishService.getAllDishes();
+        DishesViewInfo dishesViewInfo = this.dishService.getAllDishes();
 
-            modelAndView.addObject("dishes", dishesViewInfo);
-        }
+        modelAndView.addObject("dishes", dishesViewInfo);
 
         return modelAndView;
     }

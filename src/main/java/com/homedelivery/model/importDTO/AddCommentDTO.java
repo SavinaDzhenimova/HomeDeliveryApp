@@ -1,17 +1,17 @@
 package com.homedelivery.model.importDTO;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class AddCommentDTO {
 
     @NotNull
-    @Size(min = 5, max = 150)
+    @Size(min = 5, max = 150, message = "Comment length must be between 5 and 150 characters!")
     private String description;
 
     @NotNull
-    @PositiveOrZero
+    @Positive(message = "Rating cannot be empty!")
     private int rating;
 
     public AddCommentDTO() {

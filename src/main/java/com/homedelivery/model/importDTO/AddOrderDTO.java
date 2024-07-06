@@ -13,11 +13,11 @@ import java.util.List;
 public class AddOrderDTO {
 
     @NotNull
-    @Size(min = 3, max = 40)
+    @Size(min = 3, max = 100, message = "Delivery address length must be between 3 and 100 characters!")
     private String deliveryAddress;
 
     @NotNull
-    @Size(min = 7, max = 15)
+    @Size(min = 7, max = 15, message = "Phone number length must be between 7 and 15 characters!")
     private String phoneNumber;
 
     @NotNull

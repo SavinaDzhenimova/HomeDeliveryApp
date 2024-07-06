@@ -22,8 +22,12 @@
           <label th:for="description" class="h4 mb-2">Comments</label>
         </div>
         <textarea th:field="*{description}"
+                  th:errorclass="is-invalid"
                 type="text" class="form-control"></textarea>
-        <small class="danger">Please provide any other feedback or suggestions</small>
+        <div><small class="danger">Please provide any other feedback or suggestions</small></div>
+        <small th:if="${#fields.hasErrors('description')}"
+               th:errors="*{description}"
+                class="text-danger">Comments error message</small>
       </div>
     </div>
 
@@ -33,8 +37,10 @@
         <div class="label-holder text-white textCol d-flex justify-content-center">
           <label th:for="rating" class="h4 mb-2">How would you rate our service?</label>
         </div>
-        <small class="danger">1 star being the lowest, 10 stars being the highest</small>
-        <div th:field="*{rating}" class="rating">
+        <div><small class="danger">1 star being the lowest, 10 stars being the highest</small></div>
+        <div th:field="*{rating}"
+             th:errorclass="is-invalid" name="rating"
+             class="rating">
           <input type="radio" id="star1" name="rating" value="10" /><label for="star1">1 star</label>
           <input type="radio" id="star2" name="rating" value="9" /><label for="star2">2 stars</label>
           <input type="radio" id="star3" name="rating" value="8" /><label for="star3">3 stars</label>
@@ -46,6 +52,10 @@
           <input type="radio" id="star9" name="rating" value="2" /><label for="star9">9 stars</label>
           <input type="radio" id="star10" name="rating" value="1" /><label for="star10">10 stars</label>
         </div>
+      </div>
+
+      <div class="row form-group">
+        <small class="text-danger">Rating error message</small>
       </div>
 
     </div>

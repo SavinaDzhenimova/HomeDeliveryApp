@@ -10,17 +10,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public class AdminInit implements CommandLineRunner {
+public class AdminRolesInit implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AdminInit(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AdminRolesInit(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -28,6 +29,23 @@ public class AdminInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+
+        if (this.roleRepository.count() == 0) {
+
+            Arrays.stream(RoleName.values())
+                    .forEach(roleName -> {
+                        Role role = new Role();
+                        role.setName(roleName);
+
+                        String description = switch (roleName) {
+                            case ADMIN -> "Admin can register, login, add dishes to menu, remove dishes from menu, make orders, delete orders, add comments and delete comments.";
+                            case USER -> "User can register, login, make orders, delete orders, add comments and delete comments.";
+                        };
+
+                        role.setDescription(description);
+                        this.roleRepository.saveAndFlush(role);
+                    });
+        }
 
         if (this.userRepository.count() == 0) {
 
