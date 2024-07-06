@@ -33,9 +33,9 @@
               <td th:text="'Offered by: ' + ${dish.getRestaurant()}" style="width: 15%">Restaurant: {name}</td>
               <td th:text="'Price: ' + ${dish.getPrice() + ' lv.'}" style="width: 15%">{Price}</td>
               <td style="width: 10%">
-                <a href="#">
-                  <img th:src="@{/images/add-to-cart.png}" height="50px">
-                </a>
+                <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
+                  <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
+                </form>
               </td>
               <td sec:authorize="hasRole('ADMIN')" style="width: 10%">
                 <form th:method="DELETE" th:action="@{/dishes/menu/delete-dish/{id}(id=${dish.getId()})}">
@@ -64,9 +64,9 @@
               <td th:text="'Offered by: ' + ${dish.getRestaurant()}" style="width: 15%">Restaurant: {name}</td>
               <td th:text="'Price: ' + ${dish.getPrice() + ' lv.'}" style="width: 15%">{Price}</td>
               <td style="width: 10%">
-                <a href="#">
-                  <img th:src="@{/images/add-to-cart.png}" height="50px">
-                </a>
+                <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
+                  <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
+                </form>
               </td>
               <td sec:authorize="hasRole('ADMIN')" style="width: 10%">
                 <form th:method="DELETE" th:action="@{/dishes/menu/delete-dish/{id}(id=${dish.getId()})}">
@@ -95,9 +95,9 @@
               <td th:text="'Offered by: ' + ${dish.getRestaurant()}" style="width: 15%">Restaurant: {name}</td>
               <td th:text="'Price: ' + ${dish.getPrice() + ' lv.'}" style="width: 15%">{Price}</td>
               <td style="width: 10%">
-                <a href="#">
-                  <img th:src="@{/images/add-to-cart.png}" height="50px">
-                </a>
+                <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
+                  <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
+                </form>
               </td>
               <td sec:authorize="hasRole('ADMIN')" style="width: 10%">
                 <form th:method="DELETE" th:action="@{/dishes/menu/delete-dish/{id}(id=${dish.getId()})}">
@@ -126,9 +126,9 @@
               <td th:text="'Offered by: ' + ${dish.getRestaurant()}" style="width: 15%">Restaurant: {name}</td>
               <td th:text="'Price: ' + ${dish.getPrice() + ' lv.'}" style="width: 15%">{Price}</td>
               <td style="width: 10%">
-                <a href="#">
-                  <img th:src="@{/images/add-to-cart.png}" height="50px">
-                </a>
+                <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
+                  <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
+                </form>
               </td>
               <td sec:authorize="hasRole('ADMIN')" style="width: 10%">
                 <form th:method="DELETE" th:action="@{/dishes/menu/delete-dish/{id}(id=${dish.getId()})}">

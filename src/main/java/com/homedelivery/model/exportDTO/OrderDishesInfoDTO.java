@@ -7,7 +7,7 @@ public class OrderDishesInfoDTO {
 
     private List<OrderDishDetailsDTO> dishesToOrder;
 
-    private int totalDishes;
+    private int totalDishesCount;
 
     public OrderDishesInfoDTO() {
         this.dishesToOrder = new ArrayList<>();
@@ -25,11 +25,11 @@ public class OrderDishesInfoDTO {
         this.dishesToOrder = dishesToOrder;
     }
 
-    public int getTotalDishes() {
+    public int getTotalDishesCount() {
         return this.dishesToOrder.size();
     }
 
-    public void setTotalDishes(int totalDishes) {
-        this.totalDishes = totalDishes;
+    public void setTotalDishesCount(int totalDishesCount) {
+        this.totalDishesCount = totalDishesCount;
     }
 }

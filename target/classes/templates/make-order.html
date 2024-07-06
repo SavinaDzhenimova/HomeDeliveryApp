@@ -10,31 +10,32 @@
 <main>
     <section class="mx-auto w-75 bg-blur rounded" id="big-div">
 
-        <form th:action="@{/dishes/make-order}"
-              th:method="POST"
-                th:object="${addOrderDTO}">
-
         <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Make order</span></h1>
 
         <div class="row">
 
             <div class="col-md-6 mb-3">
                 <h3 class=" bg-gray text-dark  mb-0 mt-2">Dishes to order</h3>
-                <h6 class=" bg-gray text-dark  mb-0 mt-0">{totalDishesInCart}</h6>
+                <h6 th:text="${cartDishes.getTotalDishesCount()}" class=" bg-gray text-dark  mb-0 mt-0">{totalDishesInCart}</h6>
                 <div class="bg-dark rounded m-auto" style="height: 55vh; overflow: auto">
-                    <ul class="list-group list-group-horizontal text-dark">
+                    <ul th:each="dish : ${cartDishes.getDishesToOrder()}"
+                            class="list-group list-group-horizontal text-dark">
                         <li>
-                            <img class="mr-2 " src="/images/pin.png" alt="Pin" width="75px" height="75px">
+                            <img class="mr-2 " th:src="${dish.getImageUrl()}" alt="Pin" width="75px" height="75px">
                         </li>
                         <table class="list-group-item list-group-item-warning text-dark">
                             <tr>
-                                <td style="width: 40%">{Dish name}</td>
+                                <td th:text="${dish.getName()}" style="width: 40%">{Dish name}</td>
                                 <td style="width: 15%">
                                     <label th:for="price">Quantity</label>
                                     <input type="number" step="1" class="form-control" placeholder="1"/>
                                 </td>
-                                <td style="width: 30%">{price}</td>
-                                <td><a href="#"><img src="/images/remove.png" height="30px"></a></td>
+                                <td th:text="${dish.getPrice()}" style="width: 30%">{price}</td>
+                                <td style="width: 15%">
+                                    <a th:href="@{/orders/remove-from-cart/{id}(id=${dish.getId()})}">
+                                        <button class="button-delete-dish"><img th:src="@{/images/remove.png}" height="30px"></button>
+                                    </a>
+                                </td>
                             </tr>
                         </table>
                     </ul>
@@ -42,8 +43,13 @@
             </div>
 
             <div class="col-md-6 mb-3">
+
+                <form th:action="@{/orders/make-order}"
+                      th:method="POST"
+                      th:object="${addOrderDTO}">
+
                 <h3 class=" bg-gray text-dark  mb-0 mt-2">Delivery details</h3>
-                <h6 class=" bg-gray text-dark  mb-0 mt-0">{loggedUsername}</h6>
+                <h6 th:text="${username}" class=" bg-gray text-dark  mb-0 mt-0">{loggedUsername}</h6>
 
                     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"></span></h1>
 
@@ -51,7 +57,7 @@
                         <div class="label-holder text-white d-flex justify-content-center">
                             <label th:for="deliveryAddress" class="h4 mb-2">Delivery address</label>
                         </div>
-                        <input th="*{deliveryAddress}"
+                        <input th:field="*{deliveryAddress}"
                                th:errorclass="is-invalid"
                                type="text" class="form-control"/>
                         <small th:if="${#fields.hasErrors('deliveryAddress')}"
@@ -74,10 +80,11 @@
                     <div class="button-holder d-flex justify-content-center">
                         <button type="submit" class="btn btn-warning  mb-3">Make order</button>
                     </div>
-            </div>
-        </div>
 
-        </form>
+                </form>
+            </div>
+
+        </div>
     </section>
 </main>
 <footer th:replace="fragments/commons::footer"></footer>

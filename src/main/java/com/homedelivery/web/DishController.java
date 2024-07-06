@@ -61,22 +61,6 @@ public class DishController {
         return new ModelAndView("add-dish");
     }
 
-    @GetMapping("/make-order")
-    public ModelAndView makeOrder(Model model) {
-
-        if (!model.containsAttribute("addOrderDTO")) {
-            model.addAttribute("addOrderDTO", new AddOrderDTO());
-        }
-
-        ModelAndView modelAndView = new ModelAndView("make-order");
-//
-//        OrderDishesInfoDTO orderDishesInfoDTO = this.dishService.getAllDishes();
-//
-//        modelAndView.addObject("dishes", orderDishesInfoDTO);
-
-        return modelAndView;
-    }
-
     @GetMapping("/menu")
     public ModelAndView viewMenu() {
 

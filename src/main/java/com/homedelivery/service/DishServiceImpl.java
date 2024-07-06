@@ -106,4 +106,9 @@ public class DishServiceImpl implements DishService {
             }
         }
     }
+
+    @Override
+    public Optional<Dish> findDishById(Long id) {
+        return this.dishRepository.findById(id);
+    }
 }
