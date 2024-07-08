@@ -10,7 +10,9 @@ public class OrderDishDetailsDTO {
 
     private String name;
 
-    private BigDecimal price;
+    private BigDecimal totalPrice;
+
+    private int quantity;
 
     public OrderDishDetailsDTO() {
     }
@@ -39,11 +41,19 @@ public class OrderDishDetailsDTO {
         this.name = name;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

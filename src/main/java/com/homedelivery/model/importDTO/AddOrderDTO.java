@@ -1,15 +1,10 @@
 package com.homedelivery.model.importDTO;
 
-import com.homedelivery.model.entity.Dish;
-import com.homedelivery.model.exportDTO.OrderDishDetailsDTO;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AddOrderDTO {
 
@@ -21,24 +16,7 @@ public class AddOrderDTO {
     @Size(min = 7, max = 15, message = "Phone number length must be between 7 and 15 characters!")
     private String phoneNumber;
 
-    @NotNull
-    @Positive
-    private BigDecimal totalPrice;
-
-    @NotNull
-    private LocalDateTime orderedOn;
-
-    @NotNull
-    private boolean isDelivered;
-
-    @NotNull
-    private Long clientId;
-
-    private List<OrderDishDetailsDTO> dishes;
-
     public AddOrderDTO() {
-        this.orderedOn = LocalDateTime.now();
-        this.dishes = new ArrayList<>();
     }
 
     public String getDeliveryAddress() {
@@ -55,47 +33,5 @@ public class AddOrderDTO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return (this.dishes.size() == 0)
-                ? BigDecimal.ZERO
-                : this.dishes.stream().map(OrderDishDetailsDTO::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public LocalDateTime getOrderedOn() {
-        return orderedOn;
-    }
-
-    public void setOrderedOn(LocalDateTime orderedOn) {
-        this.orderedOn = orderedOn;
-    }
-
-    public boolean isDelivered() {
-        return isDelivered;
-    }
-
-    public void setDelivered(boolean delivered) {
-        isDelivered = delivered;
-    }
-
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
-    }
-
-    public List<OrderDishDetailsDTO> getDishes() {
-        return dishes;
-    }
-
-    public void setDishes(List<OrderDishDetailsDTO> dishes) {
-        this.dishes = dishes;
     }
 }

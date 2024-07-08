@@ -30,6 +30,7 @@ public class Order extends BaseEntity {
     private LocalDateTime orderedOn;
 
     @Column(name = "is_delivered")
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @ManyToOne(optional = false)

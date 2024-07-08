@@ -3,30 +3,31 @@ package com.homedelivery.web;
 import com.homedelivery.model.exportDTO.OrderDishesInfoDTO;
 import com.homedelivery.model.importDTO.AddOrderDTO;
 import com.homedelivery.model.user.UserDetailsDTO;
-import com.homedelivery.model.user.UserInfoDTO;
 import com.homedelivery.service.interfaces.OrderService;
-import com.homedelivery.service.interfaces.UserService;
+import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.math.BigDecimal;
 
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
 
     private final OrderService orderService;
-    private final UserService userService;
 
-    public OrderController(OrderService orderService, UserService userService) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
-        this.userService = userService;
     }
 
     @GetMapping("/make-order")
-    public ModelAndView makeOrder(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public ModelAndView viewMakeOrder(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 
         if (!model.containsAttribute("addOrderDTO")) {
             model.addAttribute("addOrderDTO", new AddOrderDTO());
@@ -48,10 +49,50 @@ public class OrderController {
         return modelAndView;
     }
 
-    @PostMapping("/add-to-cart/{id}")
-    public ModelAndView addToCart(@PathVariable("id") Long id) {
+    @PostMapping("/make-order/{totalPrice}")
+    public ModelAndView makeOrder(@Valid @ModelAttribute("addOrderDTO") AddOrderDTO addOrderDTO,
+                                  @PathVariable("totalPrice") BigDecimal totalPrice,
+                                  @AuthenticationPrincipal UserDetails userDetails,
+                                  BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        boolean isAdded = this.orderService.addToCart(id);
+        if (totalPrice.compareTo(BigDecimal.ZERO) <= 0) {
+            redirectAttributes.addFlashAttribute("errorMessage",
+                        "Please, add some dishes to your shopping cart!");
+
+            return new ModelAndView("redirect:/orders/make-order");
+        }
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("addOrderDTO", addOrderDTO)
+                    .addFlashAttribute("org.springframework.validation.BindingResult.addOrderDTO",
+                            bindingResult);
+
+            return new ModelAndView("make-order");
+        }
+
+        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
+
+            boolean isMadeOrder = this.orderService.makeOrder(addOrderDTO, userDetailsDTO, totalPrice);
+        }
+
+        return new ModelAndView("redirect:/home");
+    }
+
+    @DeleteMapping("/delete-order/{id}")
+    public ModelAndView deleteOrder(@PathVariable("id") Long id) {
+
+        this.orderService.deleteOrder(id);
+
+        return new ModelAndView("redirect:/home");
+    }
+
+    @PostMapping("/add-to-cart/{id}")
+    public ModelAndView addToCart(@PathVariable("id") Long id,
+                                  @RequestParam(value = "quantity", defaultValue = "1") int quantity) {
+
+        if (quantity >= 1) {
+            this.orderService.addToCart(id, quantity);
+        }
 
         return new ModelAndView("redirect:/dishes/menu");
     }
@@ -59,7 +100,7 @@ public class OrderController {
     @GetMapping("/remove-from-cart/{id}")
     public String removeFromCart(@PathVariable("id") Long id) {
 
-        this.orderService.removeDishFromCart(id);
+        this.orderService.removeFromCart(id);
 
         return "redirect:/orders/make-order";
     }

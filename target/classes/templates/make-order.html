@@ -25,15 +25,14 @@
                         </li>
                         <table class="list-group-item list-group-item-warning text-dark">
                             <tr>
-                                <td th:text="${dish.getName()}" style="width: 40%">{Dish name}</td>
-                                <td style="width: 15%">
-                                    <label th:for="price">Quantity</label>
-                                    <input type="number" step="1" class="form-control" placeholder="1"/>
-                                </td>
-                                <td th:text="${dish.getPrice()}" style="width: 30%">{price}</td>
+                                <td th:text="${dish.getName()}" style="width: 30%">{Dish name}</td>
+                                <td th:text="'Quantity: ' + ${dish.getQuantity()}" style="width: 15%">Quantity:</td>
+                                <td th:text="'Total price: ' + ${dish.getTotalPrice()}" style="width: 20%">{price}</td>
                                 <td style="width: 15%">
                                     <a th:href="@{/orders/remove-from-cart/{id}(id=${dish.getId()})}">
-                                        <button class="button-delete-dish"><img th:src="@{/images/remove.png}" height="30px"></button>
+                                        <button class="button-delete-dish">
+                                            <img th:src="@{/images/remove.png}" height="30px">
+                                        </button>
                                     </a>
                                 </td>
                             </tr>
@@ -44,7 +43,7 @@
 
             <div class="col-md-6 mb-3">
 
-                <form th:action="@{/orders/make-order}"
+                <form th:action="@{/orders/make-order/{totalPrice}(totalPrice=${cartDishes.getTotalPrice()})}"
                       th:method="POST"
                       th:object="${addOrderDTO}">
 
@@ -77,6 +76,20 @@
                                class="text-danger">Phone number error message</small>
                     </div>
 
+                    <hr>
+
+                    <div class="form-group">
+                        <div class="label-holder text-white d-flex justify-content-center">
+                            <h3 name="totalPrice"
+                                th:text="'Total price: ' + ${cartDishes.getTotalPrice()} + ' lv.'"
+                                class="h4 mb-2">Total price: </h3>
+                        </div>
+                        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                            <p class="success" th:text="${errorMessage}"></p>
+                        </div>
+                    </div>
+
+
                     <div class="button-holder d-flex justify-content-center">
                         <button type="submit" class="btn btn-warning  mb-3">Make order</button>
                     </div>
@@ -87,6 +100,7 @@
         </div>
     </section>
 </main>
+
 <footer th:replace="fragments/commons::footer"></footer>
 </body>
 </html>

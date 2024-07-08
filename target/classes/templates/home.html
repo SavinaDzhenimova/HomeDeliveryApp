@@ -97,7 +97,7 @@
                             <td th:text="${order.getOrderedOn()}" style="width: 30%">{date}</td>
                             <td th:text="${order.getStatus()}" style="width: 25%">{status}</td>
                             <td style="width: 25%">
-                                <form th:method="DELETE" th:action="@{/orders/delete-order/{id}(id=${order.getId()})">
+                                <form th:method="DELETE" th:action="@{/orders/delete-order/{id}(id=${order.getId()})}">
                                     <div class="button-delete-comment w-100" style="width: 15%">
                                         <button type="submit" class="btn btn-danger mb-3">Delete order</button>
                                     </div>

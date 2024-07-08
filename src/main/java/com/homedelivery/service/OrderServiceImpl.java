@@ -1,64 +1,146 @@
 package com.homedelivery.service;
 
 import com.homedelivery.model.entity.Dish;
+import com.homedelivery.model.entity.Order;
+import com.homedelivery.model.entity.User;
+import com.homedelivery.model.enums.OrderStatus;
 import com.homedelivery.model.exportDTO.OrderDishDetailsDTO;
 import com.homedelivery.model.exportDTO.OrderDishesInfoDTO;
+import com.homedelivery.model.importDTO.AddOrderDTO;
+import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.repository.OrderRepository;
 import com.homedelivery.service.interfaces.DishService;
 import com.homedelivery.service.interfaces.OrderService;
+import com.homedelivery.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final DishService dishService;
+    private final UserService userService;
     private final ModelMapper modelMapper;
-    private List<OrderDishDetailsDTO> dishesToOrder;
+    private Map<Long, Integer> dishesToOrderMap;
 
-    public OrderServiceImpl(OrderRepository orderRepository, DishService dishService, ModelMapper modelMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, DishService dishService,
+                            UserService userService, ModelMapper modelMapper) {
         this.orderRepository = orderRepository;
         this.dishService = dishService;
+        this.userService = userService;
         this.modelMapper = modelMapper;
-        this.dishesToOrder = new ArrayList<>();
+        this.dishesToOrderMap = new HashMap<>();
     }
 
     @Override
-    public boolean addToCart(Long id) {
+    public void addToCart(Long id, int quantity) {
 
+        this.dishesToOrderMap.put(id, quantity);
+    }
+
+    @Override
+    public void removeFromCart(Long id) {
         Optional<Dish> optionalDish = this.dishService.findDishById(id);
 
-        if (optionalDish.isEmpty()) {
+        if (optionalDish.isPresent()) {
+
+            this.dishesToOrderMap.remove(id);
+        }
+    }
+
+    @Override
+    public boolean makeOrder(AddOrderDTO addOrderDTO, UserDetailsDTO userDetailsDTO, BigDecimal totalPrice) {
+
+        if (addOrderDTO == null) {
             return false;
         }
 
-        Dish dish = optionalDish.get();
+        Optional<User> optionalUser = this.userService.findUserById(userDetailsDTO.getId());
 
-        OrderDishDetailsDTO orderDishDetailsDTO = this.modelMapper.map(dish, OrderDishDetailsDTO.class);
+        if (optionalUser.isEmpty()) {
+            return false;
+        }
 
-        this.dishesToOrder.add(orderDishDetailsDTO);
+        User user = optionalUser.get();
 
+        Order order = this.mapToOrder(user, totalPrice, addOrderDTO);
+
+        this.orderRepository.saveAndFlush(order);
         return true;
     }
 
     @Override
-    public OrderDishesInfoDTO getAllDishesInCart() {
-        return new OrderDishesInfoDTO(this.dishesToOrder);
+    public void deleteOrder(Long id) {
+
+        Optional<Order> optionalOrder = this.orderRepository.findById(id);
+
+        if (optionalOrder.isPresent()) {
+
+            Order order = optionalOrder.get();
+
+            if (order.getStatus().equals(OrderStatus.DELIVERED)) {
+                this.orderRepository.deleteById(id);
+            }
+        }
     }
 
     @Override
-    public void removeDishFromCart(Long id) {
-        Optional<Dish> optionalDish = this.dishService.findDishById(id);
+    public OrderDishesInfoDTO getAllDishesInCart() {
+        List<OrderDishDetailsDTO> dishesToOrderList = new ArrayList<>();
 
-        if (optionalDish.isPresent()) {
-            Dish dish = optionalDish.get();
+        for (Map.Entry<Long, Integer> entry : this.dishesToOrderMap.entrySet()) {
 
-            this.dishesToOrder.removeIf(dto -> dto.getId().equals(id));
+            Long id = entry.getKey();
+            int quantity = entry.getValue();
+
+            Optional<Dish> optionalDish = this.dishService.findDishById(id);
+
+            if (optionalDish.isPresent()) {
+
+                Dish dish = optionalDish.get();
+
+                OrderDishDetailsDTO dishDetailsDTO = this.modelMapper.map(dish, OrderDishDetailsDTO.class);
+                dishDetailsDTO.setQuantity(quantity);
+                dishDetailsDTO.setTotalPrice(dish.getPrice().multiply(BigDecimal.valueOf(quantity)));
+
+                dishesToOrderList.add(dishDetailsDTO);
+            }
         }
+
+        return new OrderDishesInfoDTO(dishesToOrderList);
     }
+
+    private Order mapToOrder(User user, BigDecimal totalPrice, AddOrderDTO addOrderDTO) {
+        Order order = this.modelMapper.map(addOrderDTO, Order.class);
+
+        List<OrderDishDetailsDTO> dishesToOrder = new ArrayList<>();
+
+        this.getAllDishesInCart().getDishesToOrder()
+                .forEach(orderDishDetailsDTO -> {
+                    int quantity = orderDishDetailsDTO.getQuantity();
+
+                    for (int i = 1; i <= quantity; i++) {
+                        dishesToOrder.add(orderDishDetailsDTO);
+                    }
+                });
+
+        List<Dish> dishes = dishesToOrder.stream()
+                .map(orderDishDetailsDTO ->
+                        this.modelMapper.map(orderDishDetailsDTO, Dish.class)).toList();
+
+        order.setTotalPrice(totalPrice);
+        order.setOrderedOn(LocalDateTime.now());
+        order.setClient(user);
+        order.setStatus(OrderStatus.IN_PROGRESS);
+        order.setDishes(dishes);
+
+        return order;
+    }
+
 }
