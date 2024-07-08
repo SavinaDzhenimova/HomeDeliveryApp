@@ -1,6 +1,8 @@
 package com.homedelivery.web;
 
+import com.homedelivery.model.exportDTO.CommentsViewInfo;
 import com.homedelivery.model.exportDTO.OrderDishesInfoDTO;
+import com.homedelivery.model.exportDTO.OrdersViewInfo;
 import com.homedelivery.model.importDTO.AddOrderDTO;
 import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.service.interfaces.OrderService;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/orders")
@@ -104,4 +107,32 @@ public class OrderController {
 
         return "redirect:/orders/make-order";
     }
+
+    @GetMapping
+    public ModelAndView getAllOrders() {
+
+        ModelAndView modelAndView = new ModelAndView("orders");
+
+        List<OrdersViewInfo> ordersViewInfo = this.orderService.getAllOrders();
+
+        modelAndView.addObject("orders", ordersViewInfo);
+        modelAndView.addObject("ordersCount", ordersViewInfo.size());
+
+        return modelAndView;
+    }
+
+    @PostMapping("/progress-order/{id}")
+    public ModelAndView progressOrder(@PathVariable("id") Long id,
+                                      RedirectAttributes redirectAttributes) {
+
+        boolean isProgressed = this.orderService.progressOrder(id);
+
+        if (!isProgressed) {
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "You cannot progress already delivered order!");
+        }
+
+        return new ModelAndView("redirect:/orders");
+    }
+
 }

@@ -93,9 +93,10 @@
                     <table class="table table-striped table-dark">
                         <tr th:each="order : ${orders}"
                                 class="my-paintings">
-                            <td th:text="'#' + ${order.getId()}" style="width: 20%">{orderId}</td>
+                            <td th:text="'#' + ${order.getId()}" style="width: 10%">{orderId}</td>
                             <td th:text="${order.getOrderedOn()}" style="width: 30%">{date}</td>
                             <td th:text="${order.getStatus()}" style="width: 25%">{status}</td>
+                            <td th:text="${order.getTotalPrice() + ' lv.'}" style="width: 10%">{totalPrice}</td>
                             <td style="width: 25%">
                                 <form th:method="DELETE" th:action="@{/orders/delete-order/{id}(id=${order.getId()})}">
                                     <div class="button-delete-comment w-100" style="width: 15%">

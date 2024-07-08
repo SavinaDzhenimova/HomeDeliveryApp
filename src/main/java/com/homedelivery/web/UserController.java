@@ -27,9 +27,9 @@ public class UserController {
     }
 
     @GetMapping("/login-error")
-    public ModelAndView loginError(Model model) {
+    public ModelAndView loginError(RedirectAttributes redirectAttributes) {
 
-        model.addAttribute("errorMessage", "Invalid username or password!");
+        redirectAttributes.addFlashAttribute("errorMessage", "Invalid username or password!");
 
         return new ModelAndView("login");
     }
@@ -60,7 +60,7 @@ public class UserController {
 
         if (isRegistered) {
             redirectAttributes.addFlashAttribute("successMessage",
-                    "Successfully registered! Please Log in!");
+                    "Successfully registered! Please log in!");
 
             return new ModelAndView("redirect:/users/login");
         }

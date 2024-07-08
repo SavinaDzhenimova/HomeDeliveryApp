@@ -23,6 +23,7 @@ public class SecurityConfig {
                                 "/restaurants/korona", "/restaurants/vertu", "/restaurants/kazablanka").permitAll()
                         .requestMatchers("/").anonymous()
                         .requestMatchers("/dishes/add-dish").hasRole("ADMIN")
+                        .requestMatchers("/orders").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin

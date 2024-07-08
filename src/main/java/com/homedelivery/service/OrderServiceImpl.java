@@ -8,6 +8,7 @@ import com.homedelivery.model.events.MakeOrderEvent;
 import com.homedelivery.model.events.UserRegistrationEvent;
 import com.homedelivery.model.exportDTO.OrderDishDetailsDTO;
 import com.homedelivery.model.exportDTO.OrderDishesInfoDTO;
+import com.homedelivery.model.exportDTO.OrdersViewInfo;
 import com.homedelivery.model.importDTO.AddOrderDTO;
 import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.repository.OrderRepository;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -97,6 +99,40 @@ public class OrderServiceImpl implements OrderService {
                 this.orderRepository.deleteById(id);
             }
         }
+    }
+
+    @Override
+    public List<OrdersViewInfo> getAllOrders() {
+
+        return this.orderRepository.findAll().stream()
+                .map(order -> {
+                    OrdersViewInfo dto = this.modelMapper.map(order, OrdersViewInfo.class);
+                    dto.setOrderedBy(order.getClient().getUsername());
+                    dto.setOrderedOn(order.parseDateToString(order.getOrderedOn()));
+                    dto.setStatus(order.getStatus().name());
+
+                    return dto;
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean progressOrder(Long id) {
+
+        Optional<Order> optionalOrder = this.orderRepository.findById(id);
+
+        if (optionalOrder.isPresent()) {
+
+            Order order = optionalOrder.get();
+
+            if (order.getStatus().equals(OrderStatus.IN_PROGRESS)) {
+                order.setStatus(OrderStatus.DELIVERED);
+                this.orderRepository.save(order);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

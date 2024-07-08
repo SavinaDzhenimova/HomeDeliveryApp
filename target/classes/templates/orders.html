@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+
+<head th:replace="fragments/commons::head"></head>
+
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+
+  <section class="welcome" id="big-div">
+
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Orders</span></h1>
+
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+      <p class="success" th:text="${errorMessage}"></p>
+    </div>
+
+    <div class="row mt-1 mb-2">
+        <div class="home-fields" style="height: 65vh; overflow: auto">
+          <h3 th:text="'Total orders count: ' + ${ordersCount}" class="my-paintings">Orders count</h3>
+          <table class="table">
+            <tr class="my-paintings">
+              <td style="width: 10%">Order Id</td>
+              <td style="width: 30%">Ordered by</td>
+              <td style="width: 30%">Ordered on</td>
+              <td style="width: 10%">Status</td>
+              <td style="width: 10%">Total price</td>
+              <td style="width: 10%">Progress</td>
+            </tr>
+          </table>
+          <table class="table table-striped table-dark">
+            <tr th:each="order : ${orders}"
+                class="my-paintings">
+              <td th:text="'#' + ${order.getId()}" style="width: 10%">{orderId}</td>
+              <td th:text="${order.getOrderedBy()}" style="width: 30%">{orderedBy}</td>
+              <td th:text="${order.getOrderedOn()}" style="width: 30%">{orderedOn}</td>
+              <td th:text="${order.getStatus()}" style="width: 10%">{status}</td>
+              <td th:text="${order.getTotalPrice() + ' lv.'}" style="width: 10%">{totalPrice}</td>
+              <td style="width: 10%">
+                <form th:method="POST" th:action="@{/orders/progress-order/{id}(id=${order.getId()})}">
+                  <button class="button-delete-comment w-100">Progress</button>
+                </form>
+              </td>
+            </tr>
+          </table>
+        </div>
+    </div>
+
+  </section>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>
