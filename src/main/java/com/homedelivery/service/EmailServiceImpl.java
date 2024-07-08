@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -25,13 +28,13 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendRegistrationEmail(String userEmail, String fullName) {
+    public void sendRegistrationEmail(String email, String fullName) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
 
         try {
-            mimeMessageHelper.setTo(userEmail);
+            mimeMessageHelper.setTo(email);
             mimeMessageHelper.setFrom(this.email);
             mimeMessageHelper.setReplyTo(this.email);
             mimeMessageHelper.setSubject("Welcome to Home Delivery App!");
@@ -42,6 +45,45 @@ public class EmailServiceImpl implements EmailService {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+    @Override
+    public void sendMakeOrderEmail(String email, String fullName, Long orderId, BigDecimal totalPrice,
+                                   String deliveryAddress, String phoneNumber) {
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+
+        try {
+            mimeMessageHelper.setTo(email);
+            mimeMessageHelper.setFrom(this.email);
+            mimeMessageHelper.setReplyTo(this.email);
+            mimeMessageHelper.setSubject("Your order is confirmed");
+            mimeMessageHelper.setText(
+                    generateMakeOrderEmailBody(fullName, orderId, totalPrice, deliveryAddress, phoneNumber), true);
+
+            javaMailSender.send(mimeMessageHelper.getMimeMessage());
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private String generateMakeOrderEmailBody(String fullName, Long orderId, BigDecimal totalPrice,
+                                              String deliveryAddress, String phoneNumber) {
+
+        Context context = new Context();
+
+        context.setVariable("fullName", fullName);
+        context.setVariable("orderId", orderId);
+        context.setVariable("totalPrice", totalPrice);
+        context.setVariable("deliveryAddress", deliveryAddress);
+        context.setVariable("phoneNumber", phoneNumber);
+
+        return templateEngine.process("/email/make-order-email", context);
     }
 
     private String generateRegistrationEmailBody(String fullName) {
@@ -50,7 +92,7 @@ public class EmailServiceImpl implements EmailService {
 
         context.setVariable("fullName", fullName);
 
-        return templateEngine.process("registration-email", context);
+        return templateEngine.process("/email/registration-email", context);
 
     }
 }

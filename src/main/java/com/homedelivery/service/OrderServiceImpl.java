@@ -4,6 +4,8 @@ import com.homedelivery.model.entity.Dish;
 import com.homedelivery.model.entity.Order;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.model.enums.OrderStatus;
+import com.homedelivery.model.events.MakeOrderEvent;
+import com.homedelivery.model.events.UserRegistrationEvent;
 import com.homedelivery.model.exportDTO.OrderDishDetailsDTO;
 import com.homedelivery.model.exportDTO.OrderDishesInfoDTO;
 import com.homedelivery.model.importDTO.AddOrderDTO;
@@ -13,24 +15,26 @@ import com.homedelivery.service.interfaces.DishService;
 import com.homedelivery.service.interfaces.OrderService;
 import com.homedelivery.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final OrderRepository orderRepository;
     private final DishService dishService;
     private final UserService userService;
     private final ModelMapper modelMapper;
     private Map<Long, Integer> dishesToOrderMap;
 
-    public OrderServiceImpl(OrderRepository orderRepository, DishService dishService,
-                            UserService userService, ModelMapper modelMapper) {
+    public OrderServiceImpl(ApplicationEventPublisher applicationEventPublisher, OrderRepository orderRepository,
+                            DishService dishService, UserService userService, ModelMapper modelMapper) {
+        this.applicationEventPublisher = applicationEventPublisher;
         this.orderRepository = orderRepository;
         this.dishService = dishService;
         this.userService = userService;
@@ -72,6 +76,11 @@ public class OrderServiceImpl implements OrderService {
         Order order = this.mapToOrder(user, totalPrice, addOrderDTO);
 
         this.orderRepository.saveAndFlush(order);
+
+        this.applicationEventPublisher.publishEvent(
+                new MakeOrderEvent(this, user.getEmail(), user.getFullName(), order.getId(),
+                        order.getTotalPrice(), order.getDeliveryAddress(), order.getPhoneNumber()));
+
         return true;
     }
 

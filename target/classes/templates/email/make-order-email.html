@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your order is confirmed</title>
+  <link rel="stylesheet" href="/css/email-style.css"/>
+</head>
+
+<body>
+<div class="email-container">
+  <div class="header">
+    <h1>Your order is confirmed and is travelling to you!</h1>
+  </div>
+
+  <div class="content">
+    <p>Hello, <th:block th:text="${fullName}">fullName</th:block>,</p>
+
+    <p>Thank you for choosing Home Delivery App! We are delighted to confirm that your order has been received and
+      is being prepared with care.</p>
+
+    <h3>Here are the details of your order:</h3>
+
+    <ul>
+      <p>Order Number: <th:block th:text="${orderId}">orderId</th:block></p>
+      <p>Total Amount: <th:block th:text="${totalPrice}">totalPrice</th:block></p>
+      <p>Delivery Address: <th:block th:text="${deliveryAddress}">delivery address</th:block></p>
+      <p>Estimated Delivery Time: 20 minutes</p>
+    </ul>
+
+    <p>You can track the status of your order in real-time through the Home Delivery App.
+      Simply open the app and navigate to the "Home" section.</p>
+
+    <p>Our courier will call you on <th:block th:text="${phoneNumber}">phone number</th:block> when is on the address</p>
+
+    <p>If you have any questions or need assistance, our customer support team is here to help you.
+      Feel free to reach out to us through the app or by replying to this email.</p>
+
+    <p>Thank you for choosing Home Delivery App. We hope you enjoy your meal! Bon appétit!</p>
+
+    <p>Best regards,<br>The Home Delivery App Team</p>
+
+  </div>
+</div>
+</body>
+</html>
