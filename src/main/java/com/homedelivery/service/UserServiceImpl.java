@@ -1,7 +1,7 @@
 package com.homedelivery.service;
 
 import com.homedelivery.model.enums.UpdateInfo;
-import com.homedelivery.model.events.UserRegistrationEvent;
+import com.homedelivery.service.events.UserRegistrationEvent;
 import com.homedelivery.model.exportDTO.CommentDetailsDTO;
 import com.homedelivery.model.exportDTO.OrderDetailsDTO;
 import com.homedelivery.model.user.UserInfoDTO;
@@ -23,7 +23,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -106,6 +105,12 @@ public class UserServiceImpl implements UserService {
                 .map(order -> {
                     OrderDetailsDTO dto = this.modelMapper.map(order, OrderDetailsDTO.class);
                     dto.setOrderedOn(this.parseDateToString(order.getOrderedOn()));
+
+                    String deliveredOn = (order.getDeliveredOn() == null)
+                            ? "-"
+                            : order.parseDateToString(order.getDeliveredOn());
+
+                    dto.setDeliveredOn(deliveredOn);
 
                     return dto;
                 }).toList();

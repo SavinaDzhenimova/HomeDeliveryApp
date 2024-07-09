@@ -4,6 +4,7 @@ import com.homedelivery.model.exportDTO.RestaurantDetailsDTO;
 import com.homedelivery.model.entity.Restaurant;
 import com.homedelivery.model.enums.RestaurantName;
 import com.homedelivery.repository.RestaurantRepository;
+import com.homedelivery.service.exception.ObjectNotFoundException;
 import com.homedelivery.service.interfaces.RestaurantService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

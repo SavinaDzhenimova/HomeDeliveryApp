@@ -1,4 +1,4 @@
-package com.homedelivery.model.events;
+package com.homedelivery.service.events;
 
 import org.springframework.context.ApplicationEvent;
 

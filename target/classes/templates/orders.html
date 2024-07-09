@@ -23,8 +23,9 @@
           <table class="table">
             <tr class="my-paintings">
               <td style="width: 10%">Order Id</td>
-              <td style="width: 30%">Ordered by</td>
-              <td style="width: 30%">Ordered on</td>
+              <td style="width: 20%">Ordered by</td>
+              <td style="width: 20%">Ordered on</td>
+              <td style="width: 20%">Delivered on</td>
               <td style="width: 10%">Status</td>
               <td style="width: 10%">Total price</td>
               <td style="width: 10%">Progress</td>
@@ -34,8 +35,9 @@
             <tr th:each="order : ${orders}"
                 class="my-paintings">
               <td th:text="'#' + ${order.getId()}" style="width: 10%">{orderId}</td>
-              <td th:text="${order.getOrderedBy()}" style="width: 30%">{orderedBy}</td>
-              <td th:text="${order.getOrderedOn()}" style="width: 30%">{orderedOn}</td>
+              <td th:text="${order.getOrderedBy()}" style="width: 20%">{orderedBy}</td>
+              <td th:text="${order.getOrderedOn()}" style="width: 20%">{orderedOn}</td>
+              <td th:text="${order.getDeliveredOn()}" style="width: 20%">{deliveredOn}</td>
               <td th:text="${order.getStatus()}" style="width: 10%">{status}</td>
               <td th:text="${order.getTotalPrice() + ' lv.'}" style="width: 10%">{totalPrice}</td>
               <td style="width: 10%">

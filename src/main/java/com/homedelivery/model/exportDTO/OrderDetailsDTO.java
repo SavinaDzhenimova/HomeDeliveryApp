@@ -10,6 +10,8 @@ public class OrderDetailsDTO {
 
     private String orderedOn;
 
+    private String deliveredOn;
+
     private OrderStatus status;
 
     private BigDecimal totalPrice;
@@ -31,6 +33,14 @@ public class OrderDetailsDTO {
 
     public void setOrderedOn(String orderedOn) {
         this.orderedOn = orderedOn;
+    }
+
+    public String getDeliveredOn() {
+        return deliveredOn;
+    }
+
+    public void setDeliveredOn(String deliveredOn) {
+        this.deliveredOn = deliveredOn;
     }
 
     public OrderStatus getStatus() {

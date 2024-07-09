@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/commons::head"></head>
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+    <div class="welcome index">
+        <h2>Opps! Something went wrong!</h2>
+        <hr class="my-3 bg-white w-100" style="align: center"/>
+
+        <h3 class="text-center text-white mt-5">We are sorry! Please navigate to <a th:href="@{/home}">home page</a>...</h3>
+    </div>
+</main>
+
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>

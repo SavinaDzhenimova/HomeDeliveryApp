@@ -1,4 +1,4 @@
-package com.homedelivery.model.events;
+package com.homedelivery.service.events;
 
 import com.homedelivery.service.interfaces.EmailService;
 import org.springframework.context.event.EventListener;

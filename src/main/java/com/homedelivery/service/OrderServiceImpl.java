@@ -4,8 +4,7 @@ import com.homedelivery.model.entity.Dish;
 import com.homedelivery.model.entity.Order;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.model.enums.OrderStatus;
-import com.homedelivery.model.events.MakeOrderEvent;
-import com.homedelivery.model.events.UserRegistrationEvent;
+import com.homedelivery.service.events.MakeOrderEvent;
 import com.homedelivery.model.exportDTO.OrderDishDetailsDTO;
 import com.homedelivery.model.exportDTO.OrderDishesInfoDTO;
 import com.homedelivery.model.exportDTO.OrdersViewInfo;
@@ -109,6 +108,12 @@ public class OrderServiceImpl implements OrderService {
                     OrdersViewInfo dto = this.modelMapper.map(order, OrdersViewInfo.class);
                     dto.setOrderedBy(order.getClient().getUsername());
                     dto.setOrderedOn(order.parseDateToString(order.getOrderedOn()));
+
+                    String deliveredOn = (order.getDeliveredOn() == null)
+                            ? "-"
+                            : order.parseDateToString(order.getDeliveredOn());
+
+                    dto.setDeliveredOn(deliveredOn);
                     dto.setStatus(order.getStatus().name());
 
                     return dto;
@@ -126,6 +131,7 @@ public class OrderServiceImpl implements OrderService {
 
             if (order.getStatus().equals(OrderStatus.IN_PROGRESS)) {
                 order.setStatus(OrderStatus.DELIVERED);
+                order.setDeliveredOn(LocalDateTime.now());
                 this.orderRepository.save(order);
 
                 return true;

@@ -12,6 +12,8 @@ public class OrdersViewInfo {
 
     private String orderedOn;
 
+    private String deliveredOn;
+
     private BigDecimal totalPrice;
 
     private String orderedBy;
@@ -41,6 +43,14 @@ public class OrdersViewInfo {
 
     public void setOrderedOn(String orderedOn) {
         this.orderedOn = orderedOn;
+    }
+
+    public String getDeliveredOn() {
+        return deliveredOn;
+    }
+
+    public void setDeliveredOn(String deliveredOn) {
+        this.deliveredOn = deliveredOn;
     }
 
     public BigDecimal getTotalPrice() {

@@ -6,5 +6,6 @@ import com.homedelivery.model.enums.CategoryName;
 import java.util.Optional;
 
 public interface CategoryService {
+
     Optional<Category> findByName(CategoryName name);
 }

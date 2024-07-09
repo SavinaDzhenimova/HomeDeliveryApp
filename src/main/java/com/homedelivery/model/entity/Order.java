@@ -15,22 +15,25 @@ import java.util.List;
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column(name = "delivery_address", nullable = false)
     @Size(min = 3, max = 100)
     private String deliveryAddress;
 
-    @Column(nullable = false)
+    @Column(name = "phone_number", nullable = false)
     @Size(min = 7, max = 15)
     private String phoneNumber;
 
-    @Column(nullable = false)
+    @Column(name = "total_price", nullable = false)
     @Positive
     private BigDecimal totalPrice;
 
-    @Column(nullable = false)
+    @Column(name = "ordered_on", nullable = false)
     private LocalDateTime orderedOn;
 
-    @Column(name = "is_delivered")
+    @Column(name = "delivered_on")
+    private LocalDateTime deliveredOn;
+
+    @Column(name = "is_delivered", nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
@@ -78,6 +81,14 @@ public class Order extends BaseEntity {
 
     public void setOrderedOn(LocalDateTime orderedOn) {
         this.orderedOn = orderedOn;
+    }
+
+    public LocalDateTime getDeliveredOn() {
+        return deliveredOn;
+    }
+
+    public void setDeliveredOn(LocalDateTime deliveredOn) {
+        this.deliveredOn = deliveredOn;
     }
 
     public OrderStatus getStatus() {
