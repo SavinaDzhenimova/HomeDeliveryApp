@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -126,6 +127,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateUserProperty(Long id, UserUpdateInfoDTO userUpdateInfoDTO) {
 
+        if (userUpdateInfoDTO == null) {
+            return false;
+        }
+
         Optional<User> optionalUser = this.findUserById(id);
         UpdateInfo updateInfo = userUpdateInfoDTO.getUpdateInfo();
 
@@ -164,12 +169,7 @@ public class UserServiceImpl implements UserService {
 
                 Optional<User> optionalByEmail = this.findUserByEmail(newEmail);
 
-                String regex = "(?<user>^[a-zA-Z0-9]+[-_.]?[a-zA-Z0-9]+)@(?<host>[a-zA-Z]+.+[a-zA-Z]+)$";
-
-                Pattern pattern = Pattern.compile(regex);
-                Matcher matcher = pattern.matcher(newEmail);
-
-                if (matcher.matches() && optionalByEmail.isEmpty()) {
+                if (isValidEmail(newEmail) && optionalByEmail.isEmpty()) {
                     user.setEmail(newEmail);
                     this.saveAndFlushUser(user);
 
@@ -199,6 +199,16 @@ public class UserServiceImpl implements UserService {
         }
 
         return false;
+    }
+
+    private boolean isValidEmail(String newEmail) {
+
+        String regex = "(?<user>^[a-zA-Z0-9]+[-_.]?[a-zA-Z0-9]+)@(?<host>[a-zA-Z]+.+[a-zA-Z]+)$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(newEmail);
+
+        return matcher.matches();
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.homedelivery.model.exportDTO;
 
 import com.homedelivery.model.enums.OrderStatus;
 
+import java.math.BigDecimal;
+
 public class OrderDetailsDTO {
 
     private Long id;
@@ -9,6 +11,8 @@ public class OrderDetailsDTO {
     private String orderedOn;
 
     private OrderStatus status;
+
+    private BigDecimal totalPrice;
 
     public OrderDetailsDTO() {
     }
@@ -35,5 +39,13 @@ public class OrderDetailsDTO {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
