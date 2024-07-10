@@ -21,7 +21,7 @@
                     <ul th:each="dish : ${cartDishes.getDishesToOrder()}"
                             class="list-group list-group-horizontal text-dark">
                         <li>
-                            <img class="mr-2 " th:src="${dish.getImageUrl()}" alt="Pin" width="75px" height="75px">
+                            <img th:src="${dish.getImageUrl()}" alt="Pin" width="80px" height="80px">
                         </li>
                         <table class="list-group-item list-group-item-warning text-dark">
                             <tr>
@@ -81,14 +81,14 @@
                     <div class="form-group">
                         <div class="label-holder text-white d-flex justify-content-center">
                             <h3 name="totalPrice"
-                                th:text="'Total price: ' + ${cartDishes.getTotalPrice()} + ' lv.'"
-                                class="h4 mb-2">Total price: </h3>
+                                th:text="'Total amount: ' + ${cartDishes.getTotalPrice()} + ' lv.'"
+                                class="h4 mb-2">Total amount:</h3>
                         </div>
+
                         <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
                             <p class="success" th:text="${errorMessage}"></p>
                         </div>
                     </div>
-
 
                     <div class="button-holder d-flex justify-content-center">
                         <button type="submit" class="btn btn-warning  mb-3">Make order</button>

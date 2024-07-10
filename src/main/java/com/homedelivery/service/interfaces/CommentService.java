@@ -5,12 +5,12 @@ import com.homedelivery.model.exportDTO.CommentsViewInfo;
 
 public interface CommentService {
 
-    boolean addComment(AddCommentDTO addCommentDTO, Long id);
+    boolean addComment(AddCommentDTO addCommentDTO);
 
     CommentsViewInfo getAllComments();
 
-    void deleteComment(Long commentId, Long userId);
+    void deleteComment(Long commentId);
 
-    void editComment(Long commentId, Long userId);
+    void editComment(Long commentId);
 
 }

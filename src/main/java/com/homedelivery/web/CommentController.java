@@ -2,11 +2,8 @@ package com.homedelivery.web;
 
 import com.homedelivery.model.importDTO.AddCommentDTO;
 import com.homedelivery.model.exportDTO.CommentsViewInfo;
-import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.service.interfaces.CommentService;
 import jakarta.validation.Valid;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,7 +44,6 @@ public class CommentController {
 
     @PostMapping("/add-comment")
     public ModelAndView addComment(@Valid @ModelAttribute("addCommentDTO") AddCommentDTO addCommentDTO,
-                                   @AuthenticationPrincipal UserDetails userDetails,
                                    BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
@@ -58,38 +54,30 @@ public class CommentController {
             return new ModelAndView("add-comment");
         }
 
-        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
-            boolean isAdded = this.commentService.addComment(addCommentDTO, userDetailsDTO.getId());
+        boolean isAdded = this.commentService.addComment(addCommentDTO);
 
-            if (isAdded) {
-                redirectAttributes.addFlashAttribute("successMessage",
-                        "Successfully added comment!");
+        if (isAdded) {
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Successfully added comment!");
 
-                return new ModelAndView("redirect:/comments");
-            }
+            return new ModelAndView("redirect:/comments");
         }
 
         return new ModelAndView("add-comment");
     }
 
     @DeleteMapping("/delete-comment/{id}")
-    public ModelAndView deleteComment(@PathVariable("id") Long id,
-                                      @AuthenticationPrincipal UserDetails userDetails) {
+    public ModelAndView deleteComment(@PathVariable("id") Long id) {
 
-        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
-            this.commentService.deleteComment(id, userDetailsDTO.getId());
-        }
+        this.commentService.deleteComment(id);
 
         return new ModelAndView("redirect:/home");
     }
 
     @PutMapping("/edit-comment/{id}")
-    public ModelAndView editComment(@PathVariable("id") Long id,
-                                      @AuthenticationPrincipal UserDetails userDetails) {
+    public ModelAndView editComment(@PathVariable("id") Long id) {
 
-        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
-            this.commentService.editComment(id, userDetailsDTO.getId());
-        }
+        this.commentService.editComment(id);
 
         return new ModelAndView("redirect:/home");
     }

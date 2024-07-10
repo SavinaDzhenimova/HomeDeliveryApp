@@ -36,10 +36,8 @@
                 <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
                   <label th:for="quantity">Quantity:</label>
                   <input th:name="quantity" value="" type="number" step="1" class="form-control" placeholder="1"/>
+                  <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
                 </form>
-              </td>
-              <td>
-                <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
               </td>
               <td sec:authorize="hasRole('ADMIN')" style="width: 10%">
                 <form th:method="DELETE" th:action="@{/dishes/menu/delete-dish/{id}(id=${dish.getId()})}">
@@ -71,10 +69,8 @@
                 <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
                   <label th:for="quantity">Quantity:</label>
                   <input th:name="quantity" value="" type="number" step="1" class="form-control" placeholder="1"/>
+                  <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
                 </form>
-              </td>
-              <td>
-                <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
               </td>
               <td sec:authorize="hasRole('ADMIN')" style="width: 10%">
                 <form th:method="DELETE" th:action="@{/dishes/menu/delete-dish/{id}(id=${dish.getId()})}">
@@ -106,10 +102,8 @@
                 <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
                   <label th:for="quantity">Quantity:</label>
                   <input th:name="quantity" value="" type="number" step="1" class="form-control" placeholder="1"/>
+                  <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
                 </form>
-              </td>
-              <td style="width: 10%">
-                <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
               </td>
               <td sec:authorize="hasRole('ADMIN')" style="width: 10%">
                 <form th:method="DELETE" th:action="@{/dishes/menu/delete-dish/{id}(id=${dish.getId()})}">
@@ -141,10 +135,8 @@
                 <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
                   <label th:for="quantity">Quantity:</label>
                   <input th:name="quantity" value="" type="number" step="1" class="form-control" placeholder="1"/>
+                  <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
                 </form>
-              </td>
-              <td>
-                <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
               </td>
               <td sec:authorize="hasRole('ADMIN')" style="width: 10%">
                 <form th:method="DELETE" th:action="@{/dishes/menu/delete-dish/{id}(id=${dish.getId()})}">

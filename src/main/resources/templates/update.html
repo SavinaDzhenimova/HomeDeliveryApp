@@ -46,14 +46,14 @@
       </div>
       <input th:field="*{data}"
              th:errorclass="is-invalid"
-             type="text" class="form-control" name="data" id="data"/>
+             type="text" class="form-control"/>
       <small th:if="${#fields.hasErrors('data')}"
              th:errors="*{data}"
              class="text-danger">Data error message</small>
     </div>
 
     <div class="button-holder d-flex justify-content-center">
-      <button type="submit" class="btn btn-warning  mb-3">Update</button>
+      <button type="submit" class="btn btn-info mb-3">Update</button>
     </div>
 
   </form>

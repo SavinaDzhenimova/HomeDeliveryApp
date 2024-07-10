@@ -19,11 +19,10 @@ public class SecurityConfig {
         return httpSecurity
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/users/login", "/users/register", "/about", "/comments",
+                        .requestMatchers("/about", "/comments",
                                 "/restaurants/korona", "/restaurants/vertu", "/restaurants/kazablanka").permitAll()
-                        .requestMatchers("/").anonymous()
-                        .requestMatchers("/dishes/add-dish").hasRole("ADMIN")
-                        .requestMatchers("/orders").hasRole("ADMIN")
+                        .requestMatchers("/", "/users/login", "/users/register").anonymous()
+                        .requestMatchers("/dishes/add-dish", "/orders").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin

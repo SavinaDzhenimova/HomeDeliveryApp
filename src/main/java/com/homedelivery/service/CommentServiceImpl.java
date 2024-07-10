@@ -9,6 +9,8 @@ import com.homedelivery.repository.CommentRepository;
 import com.homedelivery.service.interfaces.CommentService;
 import com.homedelivery.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,13 +32,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean addComment(AddCommentDTO addCommentDTO, Long id) {
+    public boolean addComment(AddCommentDTO addCommentDTO) {
 
         if (addCommentDTO == null) {
             return false;
         }
 
-        Optional<User> optionalUser = this.userService.findUserById(id);
+        String username = this.userService.getLoggedUsername();
+
+        Optional<User> optionalUser = this.userService.findUserByUsername(username);
 
         if (optionalUser.isEmpty()) {
             return false;
@@ -55,23 +59,25 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(Long commentId, Long userId) {
+    public void deleteComment(Long commentId) {
+
+        String username = this.userService.getLoggedUsername();
 
         Optional<Comment> optionalComment = this.commentRepository.findById(commentId);
-        Optional<User> optionalUser = this.userService.findUserById(userId);
+        Optional<User> optionalUser = this.userService.findUserByUsername(username);
 
         if (optionalComment.isPresent() && optionalUser.isPresent()) {
 
             Comment comment = optionalComment.get();
 
-            if (comment.getUser().getId().equals(userId)) {
+            if (comment.getUser().getUsername().equals(username)) {
                 this.commentRepository.deleteById(commentId);
             }
         }
     }
 
     @Override
-    public void editComment(Long commentId, Long userId) {
+    public void editComment(Long commentId) {
 
         Optional<Comment> optionalComment = this.commentRepository.findById(commentId);
 

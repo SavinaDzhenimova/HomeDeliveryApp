@@ -52,12 +52,12 @@
           <input type="radio" id="star9" name="rating" value="2" /><label for="star9">9 stars</label>
           <input type="radio" id="star10" name="rating" value="1" /><label for="star10">10 stars</label>
         </div>
+      </div>
 
-        <div class="row form-group">
-          <small th:if="${#fields.hasErrors('rating')}"
-                 th:errors="*{rating}"
-                 class="text-danger">Rating error message</small>
-        </div>
+      <div class="row form-group">
+        <small th:if="${#fields.hasErrors('rating')}"
+               th:errors="*{rating}"
+               class="text-danger">Rating error message</small>
       </div>
 
     </div>

@@ -36,7 +36,6 @@ public class UpdateUserController {
 
     @PutMapping("/users/update")
     public ModelAndView update(@Valid @ModelAttribute("userUpdateInfoDTO") UserUpdateInfoDTO userUpdateInfoDTO,
-                               @AuthenticationPrincipal UserDetails userDetails,
                                BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
@@ -47,16 +46,13 @@ public class UpdateUserController {
             return new ModelAndView("update");
         }
 
-        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
+        boolean isUpdated = this.userService.updateUserProperty(userUpdateInfoDTO);
 
-            boolean isUpdated = this.userService.updateUserProperty(userDetailsDTO.getId(), userUpdateInfoDTO);
+        if (!isUpdated) {
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "Something went wrong! Your changes were NOT saved!");
 
-            if (!isUpdated) {
-                redirectAttributes.addFlashAttribute("errorMessage",
-                        "Something went wrong! Your changes were NOT saved!");
-
-                return new ModelAndView("redirect:/users/update");
-            }
+            return new ModelAndView("redirect:/users/update");
         }
 
         return new ModelAndView("redirect:/home");

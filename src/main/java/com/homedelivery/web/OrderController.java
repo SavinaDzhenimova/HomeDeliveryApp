@@ -1,14 +1,11 @@
 package com.homedelivery.web;
 
-import com.homedelivery.model.exportDTO.CommentsViewInfo;
 import com.homedelivery.model.exportDTO.OrderDishesInfoDTO;
 import com.homedelivery.model.exportDTO.OrdersViewInfo;
 import com.homedelivery.model.importDTO.AddOrderDTO;
-import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.service.interfaces.OrderService;
+import com.homedelivery.service.interfaces.UserService;
 import jakarta.validation.Valid;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,13 +21,15 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final UserService userService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, UserService userService) {
         this.orderService = orderService;
+        this.userService = userService;
     }
 
     @GetMapping("/make-order")
-    public ModelAndView viewMakeOrder(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public ModelAndView viewMakeOrder(Model model) {
 
         if (!model.containsAttribute("addOrderDTO")) {
             model.addAttribute("addOrderDTO", new AddOrderDTO());
@@ -38,15 +37,10 @@ public class OrderController {
 
         ModelAndView modelAndView = new ModelAndView("make-order");
 
-        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
-            OrderDishesInfoDTO orderDishesInfoDTO = this.orderService.getAllDishesInCart();
-
-            modelAndView.addObject("username", userDetailsDTO.getUsername());
-            modelAndView.addObject("cartDishes", orderDishesInfoDTO);
-        }
-
         OrderDishesInfoDTO orderDishesInfoDTO = this.orderService.getAllDishesInCart();
+        String username = this.userService.getLoggedUsername();
 
+        modelAndView.addObject("username", username);
         modelAndView.addObject("cartDishes", orderDishesInfoDTO);
 
         return modelAndView;
@@ -55,12 +49,11 @@ public class OrderController {
     @PostMapping("/make-order/{totalPrice}")
     public ModelAndView makeOrder(@Valid @ModelAttribute("addOrderDTO") AddOrderDTO addOrderDTO,
                                   @PathVariable("totalPrice") BigDecimal totalPrice,
-                                  @AuthenticationPrincipal UserDetails userDetails,
                                   BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (totalPrice.compareTo(BigDecimal.ZERO) <= 0) {
             redirectAttributes.addFlashAttribute("errorMessage",
-                        "Please, add some dishes to your shopping cart!");
+                    "Please, add some dishes to your shopping cart!");
 
             return new ModelAndView("redirect:/orders/make-order");
         }
@@ -73,10 +66,7 @@ public class OrderController {
             return new ModelAndView("make-order");
         }
 
-        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
-
-            boolean isMadeOrder = this.orderService.makeOrder(addOrderDTO, userDetailsDTO, totalPrice);
-        }
+        boolean isMadeOrder = this.orderService.makeOrder(addOrderDTO, totalPrice);
 
         return new ModelAndView("redirect:/home");
     }
@@ -93,9 +83,7 @@ public class OrderController {
     public ModelAndView addToCart(@PathVariable("id") Long id,
                                   @RequestParam(value = "quantity", defaultValue = "1") int quantity) {
 
-        if (quantity >= 1) {
-            this.orderService.addToCart(id, quantity);
-        }
+        this.orderService.addToCart(id, quantity);
 
         return new ModelAndView("redirect:/dishes/menu");
     }

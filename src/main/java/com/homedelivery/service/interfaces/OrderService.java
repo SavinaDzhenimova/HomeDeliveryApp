@@ -16,12 +16,11 @@ public interface OrderService {
 
     void removeFromCart(Long id);
 
-    boolean makeOrder(AddOrderDTO addOrderDTO, UserDetailsDTO userDetailsDTO, BigDecimal totalPrice);
+    boolean makeOrder(AddOrderDTO addOrderDTO, BigDecimal totalPrice);
 
     void deleteOrder(Long id);
 
     List<OrdersViewInfo> getAllOrders();
 
     boolean progressOrder(Long id);
-
 }

@@ -16,6 +16,8 @@ import com.homedelivery.service.interfaces.OrderService;
 import com.homedelivery.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -46,7 +48,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void addToCart(Long id, int quantity) {
 
-        this.dishesToOrderMap.put(id, quantity);
+        if (quantity >= 1) {
+            this.dishesToOrderMap.put(id, quantity);
+        }
     }
 
     @Override
@@ -60,13 +64,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean makeOrder(AddOrderDTO addOrderDTO, UserDetailsDTO userDetailsDTO, BigDecimal totalPrice) {
+    public boolean makeOrder(AddOrderDTO addOrderDTO, BigDecimal totalPrice) {
 
-        if (addOrderDTO == null) {
+        if (addOrderDTO == null || totalPrice.compareTo(BigDecimal.ZERO) <= 0) {
             return false;
         }
 
-        Optional<User> optionalUser = this.userService.findUserById(userDetailsDTO.getId());
+        String username = this.userService.getLoggedUsername();
+
+        Optional<User> optionalUser = this.userService.findUserByUsername(username);
 
         if (optionalUser.isEmpty()) {
             return false;
@@ -193,5 +199,4 @@ public class OrderServiceImpl implements OrderService {
 
         return order;
     }
-
 }

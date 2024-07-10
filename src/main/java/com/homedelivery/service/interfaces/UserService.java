@@ -15,7 +15,9 @@ public interface UserService {
 
     void saveAndFlushUser(User user);
 
-    boolean updateUserProperty(Long id, UserUpdateInfoDTO userUpdateInfoDTO);
+    boolean updateUserProperty(UserUpdateInfoDTO userUpdateInfoDTO);
+
+    String getLoggedUsername();
 
     Optional<User> findUserByUsername(String username);
 

@@ -15,6 +15,8 @@ import com.homedelivery.service.interfaces.RoleService;
 import com.homedelivery.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -130,13 +132,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserProperty(Long id, UserUpdateInfoDTO userUpdateInfoDTO) {
+    public boolean updateUserProperty(UserUpdateInfoDTO userUpdateInfoDTO) {
 
         if (userUpdateInfoDTO == null) {
             return false;
         }
 
-        Optional<User> optionalUser = this.findUserById(id);
+        String username = this.getLoggedUsername();
+
+        Optional<User> optionalUser = this.findUserByUsername(username);
         UpdateInfo updateInfo = userUpdateInfoDTO.getUpdateInfo();
 
         if (optionalUser.isEmpty() || updateInfo == null) {
@@ -214,6 +218,12 @@ public class UserServiceImpl implements UserService {
         Matcher matcher = pattern.matcher(newEmail);
 
         return matcher.matches();
+    }
+
+    @Override
+    public String getLoggedUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 
     @Override
