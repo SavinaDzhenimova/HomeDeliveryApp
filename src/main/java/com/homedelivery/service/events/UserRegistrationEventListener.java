@@ -5,11 +5,11 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserRegistrationListener {
+public class UserRegistrationEventListener {
 
     private final EmailService emailService;
 
-    public UserRegistrationListener(EmailService emailService) {
+    public UserRegistrationEventListener(EmailService emailService) {
         this.emailService = emailService;
     }
 

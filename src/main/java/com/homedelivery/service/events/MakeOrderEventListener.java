@@ -5,11 +5,11 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MakeOrderListener {
+public class MakeOrderEventListener {
 
     private final EmailService emailService;
 
-    public MakeOrderListener(EmailService emailService) {
+    public MakeOrderEventListener(EmailService emailService) {
         this.emailService = emailService;
     }
 

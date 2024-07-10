@@ -7,10 +7,14 @@
 <header th:replace="fragments/commons::nav"></header>
 <main>
     <div class="welcome index">
-        <h2>Opps! Something went wrong!</h2>
+        <h2>ERROR 403!</h2>
         <hr class="my-3 bg-white w-100" style="align: center"/>
+        <h3 class="text-center text-white">You are not authorized to see this content!</h3>
+        <h4 class="text-center text-white">We are sorry! Please navigate to <a th:href="@{/home}">home page</a>...</h4>
+    </div>
 
-        <h3 class="text-center text-white mt-5">We are sorry! Please navigate to <a th:href="@{/home}">home page</a>...</h3>
+    <div>
+        <img th:src="@{/images/error/403-error.png}" class="center" style="width: 300px; height: 300px"/>
     </div>
 </main>
 

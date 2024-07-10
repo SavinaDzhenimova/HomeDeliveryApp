@@ -83,4 +83,14 @@ public class CommentController {
         return new ModelAndView("redirect:/home");
     }
 
+    @PutMapping("/edit-comment/{id}")
+    public ModelAndView editComment(@PathVariable("id") Long id,
+                                      @AuthenticationPrincipal UserDetails userDetails) {
+
+        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
+            this.commentService.editComment(id, userDetailsDTO.getId());
+        }
+
+        return new ModelAndView("redirect:/home");
+    }
 }

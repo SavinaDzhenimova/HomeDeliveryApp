@@ -40,6 +40,13 @@ body {
     backdrop-filter: blur(35px);
 }
 
+.center {
+    display: block;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .index {
     margin-top: 10em;
 }
@@ -87,6 +94,10 @@ textarea {
 ul li {
     border-radius: 6px;
     margin: 0.5em;
+}
+
+.comments-home {
+    list-style-type: none;
 }
 
 .info-row {

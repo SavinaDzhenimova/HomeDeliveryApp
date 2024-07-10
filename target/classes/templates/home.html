@@ -111,10 +111,10 @@
             </div>
 
             <div class="col-md-6 mb-3">
-                <div class="home-fields" style="height: 65vh; overflow: auto">
+                <td class="home-fields" style="height: 65vh; overflow: auto">
                     <h3 class="my-paintings">My comments</h3>
                     <ul th:each="comment : ${comments}"
-                        class="list-group list-group-vertical text-dark">
+                        class="comments-home list-group list-group-vertical text-dark">
                         <li>
                             <h5 th:text="'Comment #' + ${comment.getId()}" class="my-paintings">{Comment Id}</h5>
                             <div class="my-paintings-first-row">
@@ -124,12 +124,24 @@
                                 <p th:text="'Added on: ' + ${comment.getAddedOn()}">Added on: {date}</p>
                                 <p th:text="'Rating: ' + ${comment.getRating()}">Rating: {rating}</p>
                             </div>
-                            <form th:method="DELETE" th:action="@{/comments/delete-comment/{id}(id=${comment.getId()})}">
-                                <div class="button-delete-comment w-100" style="width: 15%">
-                                    <button type="submit" class="btn btn-danger mb-3">Delete comment</button>
-                                </div>
-                            </form>
-
+                            <table class="w-100">
+                                <tr>
+                                    <td>
+                                        <form th:method="PUT" th:action="@{/comments/edit-comment/{id}(id=${comment.getId()})}">
+                                            <div class="btn w-100" style="width: 15%">
+                                                <button type="submit" class="btn btn-danger mb-3">Edit comment</button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form th:method="DELETE" th:action="@{/comments/delete-comment/{id}(id=${comment.getId()})}">
+                                            <div class="button-delete-comment w-100" style="width: 15%">
+                                                <button type="submit" class="btn btn-danger mb-3">Delete comment</button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
                         </li>
                     </ul>
                 </div>
