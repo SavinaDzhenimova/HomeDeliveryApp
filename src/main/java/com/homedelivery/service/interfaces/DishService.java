@@ -12,7 +12,7 @@ public interface DishService {
 
     DishesViewInfo getAllDishes();
 
-    void deleteDish(Long dishId, Long userId);
+    void deleteDish(Long id);
 
     Optional<Dish> findDishById(Long id);
 }

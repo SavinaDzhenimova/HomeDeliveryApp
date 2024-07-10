@@ -6,11 +6,10 @@ import com.homedelivery.model.exportDTO.CommentsViewInfo;
 import com.homedelivery.model.entity.Comment;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.repository.CommentRepository;
+import com.homedelivery.service.exception.DeleteObjectException;
 import com.homedelivery.service.interfaces.CommentService;
 import com.homedelivery.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -59,11 +58,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(Long commentId) {
+    public void deleteComment(Long id) {
 
         String username = this.userService.getLoggedUsername();
 
-        Optional<Comment> optionalComment = this.commentRepository.findById(commentId);
+        Optional<Comment> optionalComment = this.commentRepository.findById(id);
         Optional<User> optionalUser = this.userService.findUserByUsername(username);
 
         if (optionalComment.isPresent() && optionalUser.isPresent()) {
@@ -71,8 +70,10 @@ public class CommentServiceImpl implements CommentService {
             Comment comment = optionalComment.get();
 
             if (comment.getUser().getUsername().equals(username)) {
-                this.commentRepository.deleteById(commentId);
+                this.commentRepository.deleteById(id);
             }
+        } else {
+            throw new DeleteObjectException("You cannot delete comment with id " + id + "!");
         }
     }
 

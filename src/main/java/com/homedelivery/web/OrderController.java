@@ -6,6 +6,7 @@ import com.homedelivery.model.importDTO.AddOrderDTO;
 import com.homedelivery.service.interfaces.OrderService;
 import com.homedelivery.service.interfaces.UserService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,23 +48,15 @@ public class OrderController {
     }
 
     @PostMapping("/make-order/{totalPrice}")
-    public ModelAndView makeOrder(@Valid @ModelAttribute("addOrderDTO") AddOrderDTO addOrderDTO,
+    public ModelAndView makeOrder(@ModelAttribute("addOrderDTO") AddOrderDTO addOrderDTO,
                                   @PathVariable("totalPrice") BigDecimal totalPrice,
-                                  BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+                                  RedirectAttributes redirectAttributes) {
 
         if (totalPrice.compareTo(BigDecimal.ZERO) <= 0) {
             redirectAttributes.addFlashAttribute("errorMessage",
                     "Please, add some dishes to your shopping cart!");
 
             return new ModelAndView("redirect:/orders/make-order");
-        }
-
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("addOrderDTO", addOrderDTO)
-                    .addFlashAttribute("org.springframework.validation.BindingResult.addOrderDTO",
-                            bindingResult);
-
-            return new ModelAndView("make-order");
         }
 
         boolean isMadeOrder = this.orderService.makeOrder(addOrderDTO, totalPrice);

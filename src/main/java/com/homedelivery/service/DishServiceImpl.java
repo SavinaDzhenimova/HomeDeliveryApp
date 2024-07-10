@@ -10,6 +10,7 @@ import com.homedelivery.model.entity.Category;
 import com.homedelivery.model.entity.Dish;
 import com.homedelivery.model.entity.Restaurant;
 import com.homedelivery.repository.DishRepository;
+import com.homedelivery.service.exception.DeleteObjectException;
 import com.homedelivery.service.interfaces.CategoryService;
 import com.homedelivery.service.interfaces.DishService;
 import com.homedelivery.service.interfaces.RestaurantService;
@@ -90,10 +91,12 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public void deleteDish(Long dishId, Long userId) {
+    public void deleteDish(Long id) {
 
-        Optional<Dish> optionalDish = this.dishRepository.findById(dishId);
-        Optional<User> optionalUser = this.userService.findUserById(userId);
+        String username = this.userService.getLoggedUsername();
+
+        Optional<Dish> optionalDish = this.dishRepository.findById(id);
+        Optional<User> optionalUser = this.userService.findUserByUsername(username);
 
         if (optionalDish.isPresent() && optionalUser.isPresent()) {
 
@@ -102,8 +105,10 @@ public class DishServiceImpl implements DishService {
                     .anyMatch(role -> role.getName().equals(RoleName.ADMIN));
 
             if (isAdmin) {
-                this.dishRepository.deleteById(dishId);
+                this.dishRepository.deleteById(id);
             }
+        } else {
+            throw new DeleteObjectException("You cannot delete dish with id " + id + "!");
         }
     }
 

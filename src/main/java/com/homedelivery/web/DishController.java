@@ -74,12 +74,9 @@ public class DishController {
     }
 
     @DeleteMapping("/menu/delete-dish/{id}")
-    public ModelAndView deleteDish(@PathVariable("id") Long dishId,
-                                      @AuthenticationPrincipal UserDetails userDetails) {
+    public ModelAndView deleteDish(@PathVariable("id") Long id) {
 
-        if (userDetails instanceof UserDetailsDTO userDetailsDTO) {
-            this.dishService.deleteDish(dishId, userDetailsDTO.getId());
-        }
+        this.dishService.deleteDish(id);
 
         return new ModelAndView("redirect:/dishes/menu");
     }

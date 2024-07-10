@@ -9,15 +9,14 @@ import com.homedelivery.model.exportDTO.OrderDishDetailsDTO;
 import com.homedelivery.model.exportDTO.OrderDishesInfoDTO;
 import com.homedelivery.model.exportDTO.OrdersViewInfo;
 import com.homedelivery.model.importDTO.AddOrderDTO;
-import com.homedelivery.model.user.UserDetailsDTO;
 import com.homedelivery.repository.OrderRepository;
+import com.homedelivery.service.exception.BadOrderRequestException;
+import com.homedelivery.service.exception.DeleteObjectException;
 import com.homedelivery.service.interfaces.DishService;
 import com.homedelivery.service.interfaces.OrderService;
 import com.homedelivery.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -66,7 +65,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean makeOrder(AddOrderDTO addOrderDTO, BigDecimal totalPrice) {
 
-        if (addOrderDTO == null || totalPrice.compareTo(BigDecimal.ZERO) <= 0) {
+        String deliveryAddress = addOrderDTO.getDeliveryAddress();
+        String phoneNumber = addOrderDTO.getPhoneNumber();
+
+        if (deliveryAddress == null || deliveryAddress.length() < 3 || deliveryAddress.length() > 100) {
+            throw new BadOrderRequestException("delivery address");
+        }
+
+        if (phoneNumber == null || phoneNumber.length() < 7 || phoneNumber.length() > 15) {
+            throw new BadOrderRequestException("phone number");
+        }
+
+        if (totalPrice.compareTo(BigDecimal.ZERO) <= 0) {
             return false;
         }
 
@@ -94,15 +104,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(Long id) {
 
-        Optional<Order> optionalOrder = this.orderRepository.findById(id);
+        String username = this.userService.getLoggedUsername();
 
-        if (optionalOrder.isPresent()) {
+        Optional<Order> optionalOrder = this.orderRepository.findById(id);
+        Optional<User> optionalUser = this.userService.findUserByUsername(username);
+
+        if (optionalOrder.isPresent() && optionalUser.isPresent()) {
 
             Order order = optionalOrder.get();
 
-            if (order.getStatus().equals(OrderStatus.DELIVERED)) {
+            if (order.getStatus().equals(OrderStatus.DELIVERED) && order.getClient().getUsername().equals(username)) {
                 this.orderRepository.deleteById(id);
+            } else {
+                throw new DeleteObjectException("You cannot delete order until it is not delivered yet!");
             }
+
+        } else {
+            throw new DeleteObjectException("You cannot delete order with id " + id + "!");
         }
     }
 
