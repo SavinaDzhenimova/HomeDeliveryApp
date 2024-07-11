@@ -2,9 +2,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/commons::head"></head>
+<head th:replace="~{fragments/commons::head}"></head>
 <body>
-<header th:replace="fragments/commons::nav"></header>
+<header th:replace="~{fragments/commons::header}"></header>
 <main>
   <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"></span></h1>
   <hr class="hr-3 w-25 bg-white"/>
@@ -68,6 +68,6 @@
 
   </form>
 </main>
-<footer th:replace="fragments/commons::footer"></footer>
+<footer th:replace="~{fragments/commons::footer}"></footer>
 </body>
 </html>
