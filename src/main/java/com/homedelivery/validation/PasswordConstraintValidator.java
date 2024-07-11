@@ -46,17 +46,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
         RuleResult result = validator.validate(new PasswordData(password));
 
-        if (result.isValid()) {
-            return true;
-        }
-
-        String messageTemplate = "Password must contains at least 1 uppercase letter, 1 lowercase letter, 1 digit " +
-                "and must be between 8 and 20 characters long!";
-        context.buildConstraintViolationWithTemplate(messageTemplate)
-                .addConstraintViolation()
-                .disableDefaultConstraintViolation();
-
-        return false;
+        return result.isValid();
     }
 
 }

@@ -1,4 +1,11 @@
 spring:
+  messages:
+    basename: internationalization/messages
+    encoding: utf-8
+  http:
+    encoding:
+      charset: UTF-8
+
   jpa:
     properties:
       hibernate:
@@ -7,7 +14,12 @@ spring:
     hibernate:
       ddl-auto: update
     open-in-view: 'false'
+  sql:
+    init:
+      mode: never
   mvc:
+    locale: en_US
+
     hiddenmethod:
       filter:
         enabled: 'true'
@@ -26,6 +38,12 @@ logging:
       nodeValue: WARN
     blog: WARN
 server:
+  session:
+    cookie:
+      http-only: true
+  tomcat:
+    uri-encoding: UTF-8
+
   port: 8090
 mail:
   homedelivery: "homedeliveryteambulgaria@gmail.com"
@@ -33,3 +51,5 @@ mail:
   port: 25
   username: ${mail_user}
   password: ${mail_password}
+
+debug: true

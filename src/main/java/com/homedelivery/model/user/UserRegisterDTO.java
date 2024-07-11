@@ -7,27 +7,27 @@ import jakarta.validation.constraints.*;
 public class UserRegisterDTO {
 
     @NotNull
-    @Size(min = 3, max = 20, message = "Username length must be between 3 and 20 characters!")
+    @Size(min = 3, max = 20, message = "{user_register_username_length}")
     private String username;
 
     @NotNull
-    @Size(min = 3, max = 40, message = "Username length must be between 3 and 40 characters!")
+    @Size(min = 3, max = 40, message = "{user_register_full_name_length}")
     private String fullName;
 
-    @NotBlank(message = "Email cannot be empty!")
-    @ValidEmail
+    @NotBlank(message = "{user_register_email_not_blank}")
+    @ValidEmail(message = "{user_register_valid_email_format}")
     private String email;
 
     @NotNull
-    @Size(min = 7, max = 15, message = "Phone number length must be between 7 and 15 characters!")
+    @Size(min = 7, max = 15, message = "{user_register_phone_number_size}")
     private String phoneNumber;
 
     @NotNull
-    @Size(min = 3, max = 100, message = "Address length must be between 3 and 100 characters!")
+    @Size(min = 3, max = 100, message = "{user_register_address_size}")
     private String address;
 
     @NotNull
-    @ValidPassword
+    @ValidPassword(message = "{user_register_valid_password}")
     private String password;
 
     @NotNull

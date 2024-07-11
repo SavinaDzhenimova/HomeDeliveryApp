@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
         return modelAndView;
     }
 
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(DeleteObjectException.class)
     public ModelAndView handleDeleteObjectException (DeleteObjectException doe) {
 
