@@ -22,6 +22,15 @@
         <div class="container-fluid">
             <a sec:authorize="!isAuthenticated()" class="navbar-brand" th:href="@{/}">Home Delivery App</a>
             <a sec:authorize="isAuthenticated()" class="navbar-brand" th:href="@{/home}">Home Delivery App</a>
+            <div class="navbar-brand">
+                <form th:method="GET">
+                    <label class="text-white" for="lang" th:text="#{nav_bar_language}">Language</label>
+                    <select id="lang" name="lang" onchange="this.form.submit()">
+                        <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English</option>
+                        <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">Български</option>
+                    </select>
+                </form>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -109,15 +118,6 @@
                             <form th:action="@{/users/logout}" th:method="POST">
                                 <button class="nav-link nav-link-button" type="submit"
                                         th:text="#{nav_bar_logout}">Logout</button>
-                            </form>
-                        </li>
-                        <li class="nav-item">
-                            <form th:method="GET">
-                                <label class="text-white" for="lang" th:text="#{nav_bar_language}">Language</label>
-                                <select id="lang" name="lang" onchange="this.form.submit()">
-                                    <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English</option>
-                                    <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">Български</option>
-                                </select>
                             </form>
                         </li>
                     </ul>

@@ -7,11 +7,11 @@ import jakarta.validation.constraints.Size;
 public class AddCommentDTO {
 
     @NotNull
-    @Size(min = 5, max = 150, message = "Comment length must be between 5 and 150 characters!")
+    @Size(min = 5, max = 150, message = "{add_comment_comment_length}")
     private String description;
 
     @NotNull
-    @Positive(message = "Rating cannot be empty!")
+    @Positive(message = "{add_comment_rating_not_null}")
     private int rating;
 
     public AddCommentDTO() {

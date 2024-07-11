@@ -6,11 +6,11 @@ import jakarta.validation.constraints.Size;
 public class AddOrderDTO {
 
     @NotNull
-    @Size(min = 3, max = 100, message = "Delivery address length must be between 3 and 100 characters!")
+    @Size(min = 3, max = 100, message = "{add_order_delivery_address_length}")
     private String deliveryAddress;
 
     @NotNull
-    @Size(min = 7, max = 15, message = "Phone number length must be between 7 and 15 characters!")
+    @Size(min = 7, max = 15, message = "{add_order_phone_number_length}")
     private String phoneNumber;
 
     public AddOrderDTO() {

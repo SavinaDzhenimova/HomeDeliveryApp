@@ -6,11 +6,11 @@ import jakarta.validation.constraints.Size;
 
 public class UserUpdateInfoDTO {
 
-    @NotNull(message = "You must select a property to update!")
+    @NotNull(message = "{user_update_property_not_null}")
     private UpdateInfo updateInfo;
 
     @NotNull
-    @Size(min = 3, message = "Data length must be at least 3 characters!")
+    @Size(min = 3, message = "{user_update_property_data_size}")
     private String data;
 
     public UserUpdateInfoDTO() {

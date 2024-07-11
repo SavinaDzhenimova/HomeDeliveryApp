@@ -11,25 +11,25 @@ import java.math.BigDecimal;
 public class AddDishDTO {
 
     @NotNull
-    @Size(min = 3, max = 20, message = "Name length must be between 3 and 20 characters!")
+    @Size(min = 3, max = 20, message = "{add_dish_name_length}")
     private String name;
 
     @NotNull
-    @Size(min = 3, max = 150, message = "Description length must be between 3 and 150 characters!")
+    @Size(min = 3, max = 150, message = "{add_dish_description_length}")
     private String description;
 
-    @NotNull(message = "Price cannot be empty!")
-    @Positive(message = "Price cannot be negative number!")
+    @NotNull(message = "{add_dish_price_not_null}")
+    @Positive(message = "{add_dish_price_positive}")
     private BigDecimal price;
 
     @NotNull
-    @Size(min = 3, max = 50, message = "Image URL length must be between 3 and 50 characters!")
+    @Size(min = 3, max = 50, message = "{add_dish_image_url_length}")
     private String imageUrl;
 
-    @NotNull(message = "Category cannot be empty!")
+    @NotNull(message = "{add_dish_category_not_null}")
     private CategoryName category;
 
-    @NotNull(message = "Restaurant cannot be empty!")
+    @NotNull(message = "{add_dish_restaurant_not_null}")
     private RestaurantName restaurant;
 
     public AddDishDTO() {
