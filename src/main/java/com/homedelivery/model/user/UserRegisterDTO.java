@@ -14,7 +14,7 @@ public class UserRegisterDTO {
     @Size(min = 3, max = 40, message = "{user_register_full_name_length}")
     private String fullName;
 
-    @NotBlank(message = "{user_register_email_not_blank}")
+    @NotBlank
     @ValidEmail(message = "{user_register_valid_email_format}")
     private String email;
 

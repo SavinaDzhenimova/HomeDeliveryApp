@@ -14,13 +14,14 @@
             th:method="POST"
             th:object="${userRegisterDTO}">
 
-        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Register</span></h1>
+        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark" th:text="#{register_h1_text}">Register</span></h1>
 
         <div class="row">
 
             <div class="form-group col-md-6 mb-3">
                 <div class="label-holder textCol d-flex justify-content-center">
-                    <label th:for="username" class="h4 mb-2 text-white">Username</label>
+                    <label th:for="username" class="h4 mb-2 text-white"
+                           th:text="#{register_username_label}">Username</label>
                 </div>
                 <input th:field="*{username}"
                        th:errorclass="is-invalid"
@@ -32,7 +33,8 @@
 
             <div class="form-group col-md-6 mb-3">
                 <div class="label-holder textCol d-flex justify-content-center">
-                    <label th:for="fullName" class="h4 mb-2 text-white">Full name</label>
+                    <label th:for="fullName" class="h4 mb-2 text-white"
+                           th:text="#{register_full_name_label}">Full name</label>
                 </div>
                 <input th:field="*{fullName}"
                        th:errorclass="is-invalid"
@@ -48,7 +50,8 @@
 
             <div class="form-group col-md-6 mb-3">
                 <div class="label-holder text-white textCol d-flex justify-content-center">
-                    <label th:for="email" class="h4 mb-2">Email</label>
+                    <label th:for="email" class="h4 mb-2"
+                           th:text="#{register_email_label}">Email</label>
                 </div>
                 <input th:field="*{email}"
                        th:errorclass="is-invalid"
@@ -60,7 +63,8 @@
 
             <div class="form-group col-md-6 mb-3">
                 <div class="label-holder text-white textCol d-flex justify-content-center">
-                    <label th:for="phoneNumber" class="h4 mb-2">Phone number</label>
+                    <label th:for="phoneNumber" class="h4 mb-2"
+                           th:text="#{register_phone_number_label}">Phone number</label>
                 </div>
                 <input th:field="*{phoneNumber}"
                        th:errorclass="is-invalid"
@@ -76,13 +80,15 @@
 
             <div class="form-group">
                 <div class="label-holder text-white textCol d-flex justify-content-center">
-                    <label th:for="address" class="h4 mb-2">Address</label>
+                    <label th:for="address" class="h4 mb-2"
+                           th:text="#{register_address_label}">Address</label>
                 </div>
                 <textarea th:field="*{address}"
                           th:errorclass="is-invalid"
                           type="text" class="form-control"></textarea>
                 <div>
-                    <small class="danger">Address should be in the format (Street name, number, post code, town, district)</small>
+                    <small class="danger" th:text="#{register_address_format_message}">
+                        Address should be in the format (Street name, number, post code, town, district)</small>
                 </div>
                 <small th:if="${#fields.hasErrors('address')}"
                        th:errors="*{address}"
@@ -95,7 +101,8 @@
 
             <div class="col-md-6">
                 <div class="label-holder text-white textCol d-flex justify-content-center">
-                    <label th:for="password" class="h4 mb-2">Password</label>
+                    <label th:for="password" class="h4 mb-2"
+                           th:text="#{register_password_label}">Password</label>
                 </div>
                 <input th:field="*{password}"
                        th:errorclass="is-invalid"
@@ -104,7 +111,8 @@
 
             <div class="col-md-6">
                 <div class="label-holder text-white textCol d-flex justify-content-center">
-                    <label th:for="confirmPassword" class="h4 mb-2">Confirm Password</label>
+                    <label th:for="confirmPassword" class="h4 mb-2"
+                           th:text="#{register_confirm_password_label}">Confirm Password</label>
                 </div>
                 <input th:field="*{confirmPassword}"
                        th:classappend="${#fields.hasErrors('password')}"
@@ -120,10 +128,8 @@
         </div>
 
         <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-warning  mb-3" value="Register">Register</button>
+            <button type="submit" class="btn btn-warning  mb-3" value="Register" th:text="#{register_h1_text}">Register</button>
         </div>
-
-        <p>Have already an account? <a th:href="@{/users/login}" class="link-info">Login here</a></p>
 
     </form>
 </main>

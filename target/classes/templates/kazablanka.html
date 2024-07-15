@@ -19,7 +19,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Restaurant name:</p>
+                                <p class="mb-0" th:text="#{restaurant_name_label}">Restaurant name:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${restaurant.getName()}" class="text-muted mb-0">Restaurant name</p>
@@ -28,7 +28,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Short description:</p>
+                                <p class="mb-0" th:text="#{restaurant_short_description_label}">Short description:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${restaurant.getDescription()}" class="text-muted mb-0">Short description</p>
@@ -37,7 +37,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Email:</p>
+                                <p class="mb-0" th:text="#{restaurant_email_label}">Email:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${restaurant.getEmail()}" class="text-muted mb-0">Email</p>
@@ -46,7 +46,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Phone number:</p>
+                                <p class="mb-0" th:text="#{restaurant_phone_number_label}">Phone number:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${restaurant.getPhoneNumber()}" class="text-muted mb-0">Phone number</p>
@@ -55,7 +55,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Opened:</p>
+                                <p class="mb-0" th:text="#{restaurant_opened_label}">Opened:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${restaurant.getOpen()} + ' - ' + ${restaurant.getClose()}"
@@ -65,7 +65,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Address:</p>
+                                <p class="mb-0" th:text="#{restaurant_address_label}">Address:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${restaurant.getAddress()}" class="text-muted mb-0">Address</p>

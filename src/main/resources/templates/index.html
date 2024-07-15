@@ -8,20 +8,20 @@
 <header th:replace="~{fragments/commons::header}"></header>
 <main>
     <div class="welcome index">
-        <h1>Welcome to Home Delivery - Your Ultimate Restaurant Food Delivery App</h1>
-        <hr class="my-3 bg-white w-100" style="align: center"/>
+        <h1 th:text="#{index_h1_text}">Welcome to Home Delivery - Your Ultimate Restaurant Food Delivery App</h1>
+        <hr class="my-3 bg-white w-100"/>
 
-        <p class="h4">
+        <p class="h4" th:text="#{index_p_text}">
             Craving your favorite restaurant's dish but don't want to leave the comfort of your home?
             Home Delivery has you covered. Discover a world of culinary delights delivered straight to your door,
             hot and fresh, just the way you love it.</p>
-        <hr class="my-3 bg-white w-100" style="align: center"/>
+        <hr class="my-3 bg-white w-100"/>
 
         <h3>
-            <a class="primary-text" th:href="@{/users/login}">Login</a>
-            if you have an account or
-            <a class="primary-text" th:href="@{/users/register}">Register</a>
-            now and check our culinary offerings.
+            <a class="primary-text" th:href="@{/users/login}" th:text="#{index_login}">Login</a>
+            <a th:text="#{index_h3_first_half}">if you have an account or</a>
+            <a class="primary-text" th:href="@{/users/register}" th:text="#{index_register}">Register</a>
+            <a th:text="#{index_h3_second_half}">now and check our culinary offerings.</a>
         </h3>
     </div>
 </main>

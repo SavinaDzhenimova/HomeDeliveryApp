@@ -15,7 +15,8 @@
         th:method="PUT"
         th:object="${userUpdateInfoDTO}">
 
-    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Update profile</span></h1>
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"
+                                       th:text="#{update_h1_text}">Update profile</span></h1>
 
     <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
       <p class="success" th:text="${errorMessage}"></p>
@@ -23,7 +24,7 @@
 
     <div class="form-group">
       <div class="text-white label-holder d-flex justify-content-center">
-        <label th:for="updateInfo" class="h4 mb-2">Select a property to update</label>
+        <label th:for="updateInfo" class="h4 mb-2" th:text="#{update_property_label}">Select a property to update</label>
       </div>
       <select th:field="*{updateInfo}"
               th:errorclass="is-invalid"
@@ -42,7 +43,7 @@
 
     <div class="form-group">
       <div class="label-holder text-white d-flex justify-content-center">
-        <label th:for="data" class="h4 mb-2">New data</label>
+        <label th:for="data" class="h4 mb-2" th:text="#{update_new_info_label}">New data</label>
       </div>
       <input th:field="*{data}"
              th:errorclass="is-invalid"
@@ -53,7 +54,7 @@
     </div>
 
     <div class="button-holder d-flex justify-content-center">
-      <button type="submit" class="btn btn-info mb-3">Update</button>
+      <button type="submit" class="btn btn-info mb-3" th:text="#{update_button_text}">Update</button>
     </div>
 
   </form>

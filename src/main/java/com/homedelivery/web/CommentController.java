@@ -73,12 +73,4 @@ public class CommentController {
 
         return new ModelAndView("redirect:/home");
     }
-
-    @PutMapping("/edit-comment/{id}")
-    public ModelAndView editComment(@PathVariable("id") Long id) {
-
-        this.commentService.editComment(id);
-
-        return new ModelAndView("redirect:/home");
-    }
 }

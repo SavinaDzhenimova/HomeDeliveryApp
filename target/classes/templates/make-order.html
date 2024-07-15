@@ -10,13 +10,15 @@
 <main>
     <section class="mx-auto w-75 bg-blur rounded" id="big-div">
 
-        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Make order</span></h1>
+        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"
+                                           th:text="#{make_order_h1_text}">Make order</span></h1>
 
         <div class="row">
 
             <div class="col-md-6 mb-3">
-                <h3 class=" bg-gray text-dark  mb-0 mt-2">Dishes to order</h3>
-                <h6 th:text="${cartDishes.getTotalDishesCount()}" class=" bg-gray text-dark  mb-0 mt-0">{totalDishesInCart}</h6>
+                <h3 class=" bg-gray text-dark  mb-0 mt-2" th:text="#{make_order_dishes_label}">Dishes to order</h3>
+                <h6 th:text="${cartDishes.getTotalDishesCount()}"
+                    class=" bg-gray text-dark  mb-0 mt-0">{totalDishesInCart}</h6>
                 <div class="bg-dark rounded m-auto" style="height: 55vh; overflow: auto">
                     <ul th:each="dish : ${cartDishes.getDishesToOrder()}"
                             class="list-group list-group-horizontal text-dark">
@@ -26,8 +28,10 @@
                         <table class="list-group-item list-group-item-warning text-dark">
                             <tr>
                                 <td th:text="${dish.getName()}" style="width: 30%">{Dish name}</td>
-                                <td th:text="'Quantity: ' + ${dish.getQuantity()}" style="width: 15%">Quantity:</td>
-                                <td th:text="'Total price: ' + ${dish.getTotalPrice()}" style="width: 20%">{price}</td>
+                                <td th:text="#{menu_quantity_label} + ' ' + ${dish.getQuantity()}"
+                                    style="width: 15%">Quantity:</td>
+                                <td th:text="#{make_order_total_price_label} + ': ' + ${dish.getTotalPrice()} +  ' ' + #{make_order_currency_label}"
+                                    style="width: 20%">{Total price}</td>
                                 <td style="width: 15%">
                                     <a th:href="@{/orders/remove-from-cart/{id}(id=${dish.getId()})}">
                                         <button class="button-delete-dish">
@@ -47,17 +51,20 @@
                       th:method="POST"
                       th:object="${addOrderDTO}">
 
-                <h3 class=" bg-gray text-dark  mb-0 mt-2">Delivery details</h3>
+                <h3 class=" bg-gray text-dark  mb-0 mt-2"
+                    th:text="#{make_order_delivery_details_label}">Delivery details</h3>
                 <h6 th:text="${username}" class=" bg-gray text-dark  mb-0 mt-0">{loggedUsername}</h6>
 
                     <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"></span></h1>
 
                     <div class="form-group">
                         <div class="label-holder text-white d-flex justify-content-center">
-                            <label th:for="deliveryAddress" class="h4 mb-2">Delivery address</label>
+                            <label th:for="deliveryAddress" class="h4 mb-2"
+                                   th:text="#{make_order_delivery_address_label}">Delivery address</label>
                         </div>
                         <input th:field="*{deliveryAddress}"
                                th:errorclass="is-invalid"
+                               minlength="5" maxlength="100"
                                type="text" class="form-control"/>
                         <small th:if="${#fields.hasErrors('deliveryAddress')}"
                                th:errors="*{deliveryAddress}"
@@ -66,10 +73,12 @@
 
                     <div class="form-group">
                         <div class="label-holder text-white d-flex justify-content-center">
-                            <label th:for="phoneNumber" class="h4 mb-2">Phone number</label>
+                            <label th:for="phoneNumber" class="h4 mb-2"
+                                   th:text="#{make_order_phone_number_label}">Phone number</label>
                         </div>
                         <input th:field="*{phoneNumber}"
                                th:errorclass="is-invalid"
+                               minlength="7" maxlength="15"
                                type="text" class="form-control"/>
                         <small th:if="${#fields.hasErrors('phoneNumber')}"
                                th:errors="*{phoneNumber}"
@@ -81,7 +90,7 @@
                     <div class="form-group">
                         <div class="label-holder text-white d-flex justify-content-center">
                             <h3 name="totalPrice"
-                                th:text="'Total amount: ' + ${cartDishes.getTotalPrice()} + ' lv.'"
+                                th:text="#{make_order_total_amount_label} + ': ' + ${cartDishes.getTotalPrice()} +  ' ' + #{make_order_currency_label}"
                                 class="h4 mb-2">Total amount:</h3>
                         </div>
 
@@ -91,7 +100,8 @@
                     </div>
 
                     <div class="button-holder d-flex justify-content-center">
-                        <button type="submit" class="btn btn-info mb-3">Make order</button>
+                        <button type="submit" class="btn btn-info mb-3"
+                                th:text="#{make_order_h1_text}">Make order</button>
                     </div>
 
                 </form>

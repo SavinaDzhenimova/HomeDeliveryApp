@@ -22,7 +22,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Full name:</p>
+                                <p class="mb-0" th:text="#{home_full_name_label}">Full name:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${user.getFullName()}" class="text-muted mb-0">Full name</p>
@@ -31,7 +31,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Username:</p>
+                                <p class="mb-0" th:text="#{home_username_label}">Username:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${user.getUsername()}" class="text-muted mb-0">Username</p>
@@ -40,7 +40,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Email:</p>
+                                <p class="mb-0" th:text="#{home_email_label}">Email:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${user.getEmail()}" class="text-muted mb-0">Email</p>
@@ -49,7 +49,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Phone number:</p>
+                                <p class="mb-0" th:text="#{home_phone_number_label}">Phone number:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${user.getPhoneNumber()}" class="text-muted mb-0">Phone number</p>
@@ -58,7 +58,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Address:</p>
+                                <p class="mb-0" th:text="#{home_address_label}">Address:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${user.getAddress()}" class="text-muted mb-0">Address</p>
@@ -67,7 +67,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">Roles:</p>
+                                <p class="mb-0" th:text="#{home_roles_label}">Roles:</p>
                             </div>
                             <div class="col-sm-9">
                                 <p th:text="${roles}" class="text-muted mb-0">Roles</p>
@@ -81,14 +81,14 @@
         <div class="row mt-1 mb-2">
             <div class="col-6 mt-1 mb-1">
                 <div class="home-fields" style="height: 65vh; overflow: auto">
-                    <h3 class="my-paintings">My orders</h3>
+                    <h3 class="my-paintings" th:text="#{home_my_orders_label}">My orders</h3>
                     <table class="table">
                         <tr class="my-paintings">
-                            <td style="width: 20%">Ordered on</td>
-                            <td style="width: 20%">Delivered on</td>
-                            <td style="width: 20%">Status</td>
-                            <td style="width: 20%">Total Price</td>
-                            <td style="width: 20%">Remove</td>
+                            <td style="width: 20%" th:text="#{home_my_orders_ordered_on_label}">Ordered on</td>
+                            <td style="width: 20%" th:text="#{home_my_orders_delivered_on_label}">Delivered on</td>
+                            <td style="width: 20%" th:text="#{home_my_orders_status_label}">Status</td>
+                            <td style="width: 20%" th:text="#{home_my_orders_total_price_label}">Total Price</td>
+                            <td style="width: 20%" th:text="#{home_my_orders_remove_label}">Remove</td>
                         </tr>
                     </table>
                     <table class="table table-striped table-dark">
@@ -97,11 +97,12 @@
                             <td th:text="${order.getOrderedOn()}" style="width: 20%">{orderedOn}</td>
                             <td th:text="${order.getDeliveredOn()}" style="width: 20%">{deliveredOn}</td>
                             <td th:text="${order.getStatus()}" style="width: 20%">{status}</td>
-                            <td th:text="${order.getTotalPrice() + ' lv.'}" style="width: 20%">{totalPrice}</td>
+                            <td th:text="${order.getTotalPrice()} + ' ' + #{make_order_currency_label}" style="width: 20%">{totalPrice}</td>
                             <td style="width: 20%">
                                 <form th:method="DELETE" th:action="@{/orders/delete-order/{id}(id=${order.getId()})}">
                                     <div class="button-delete-comment w-100" style="width: 15%">
-                                        <button type="submit" class="btn btn-danger mb-3">Delete</button>
+                                        <button type="submit" class="btn btn-danger mb-3"
+                                                th:text="#{home_my_orders_delete_label}">Delete</button>
                                     </div>
                                 </form>
                             </td>
@@ -112,31 +113,28 @@
 
             <div class="col-md-6 mb-3">
                 <td class="home-fields" style="height: 65vh; overflow: auto">
-                    <h3 class="my-paintings">My comments</h3>
+                    <h3 class="my-paintings" th:text="#{home_my_comments_label}">My comments</h3>
                     <ul th:each="comment : ${comments}"
                         class="comments-home list-group list-group-vertical text-dark">
                         <li>
-                            <h5 th:text="'Comment #' + ${comment.getId()}" class="my-paintings">{Comment Id}</h5>
+                            <h5 th:text="#{home_comment_id_label} + ' #' + ${comment.getId()}"
+                                class="my-paintings">{Comment Id}</h5>
                             <div class="my-paintings-first-row">
                                 <p th:text="${comment.getDescription()}" class="w-100">{description}</p>
                             </div>
                             <div class="second-info">
-                                <p th:text="'Added on: ' + ${comment.getAddedOn()}">Added on: {date}</p>
-                                <p th:text="'Rating: ' + ${comment.getRating()}">Rating: {rating}</p>
+                                <p th:text="#{home_comment_added_on_label} + ': ' + ${comment.getAddedOn()}">
+                                    Added on: {date}</p>
+                                <p th:text="#{home_comment_rating_label} + ': ' + ${comment.getRating()}">
+                                    Rating: {rating}</p>
                             </div>
                             <table class="w-100">
                                 <tr>
                                     <td>
-                                        <form th:method="PUT" th:action="@{/comments/edit-comment/{id}(id=${comment.getId()})}">
-                                            <div class="btn w-100" style="width: 15%">
-                                                <button type="submit" class="btn btn-danger mb-3">Edit comment</button>
-                                            </div>
-                                        </form>
-                                    </td>
-                                    <td>
                                         <form th:method="DELETE" th:action="@{/comments/delete-comment/{id}(id=${comment.getId()})}">
                                             <div class="button-delete-comment w-100" style="width: 15%">
-                                                <button type="submit" class="btn btn-danger mb-3">Delete comment</button>
+                                                <button type="submit" class="btn btn-danger mb-3"
+                                                        th:text="#{home_my_orders_delete_comment_label}">Delete comment</button>
                                             </div>
                                         </form>
                                     </td>

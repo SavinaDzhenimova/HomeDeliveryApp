@@ -10,7 +10,4 @@ public interface CommentService {
     CommentsViewInfo getAllComments();
 
     void deleteComment(Long commentId);
-
-    void editComment(Long commentId);
-
 }

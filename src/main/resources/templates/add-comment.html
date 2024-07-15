@@ -13,18 +13,20 @@
         th:action="@{/comments/add-comment}"
         th:object="${addCommentDTO}">
 
-    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Give us your feedback!</span></h1>
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"
+                                       th:text="#{add_comment_h1_text}">Give us your feedback!</span></h1>
 
     <div class="row">
 
       <div class="form-group">
         <div class="label-holder text-white textCol d-flex justify-content-center">
-          <label th:for="description" class="h4 mb-2">Comments</label>
+          <label th:for="description" class="h4 mb-2" th:text="#{add_comment_comments_label}">Comments</label>
         </div>
         <textarea th:field="*{description}"
                   th:errorclass="is-invalid"
                 type="text" class="form-control"></textarea>
-        <div><small class="danger">Please provide any other feedback or suggestions</small></div>
+        <div><small class="danger" th:text="#{add_comment_comment_message}">
+          Please provide any other feedback or suggestions</small></div>
         <small th:if="${#fields.hasErrors('description')}"
                th:errors="*{description}"
                 class="text-danger">Comments error message</small>
@@ -35,9 +37,10 @@
 
       <div class="form-group container">
         <div class="label-holder text-white textCol d-flex justify-content-center">
-          <label th:for="rating" class="h4 mb-2">How would you rate our service?</label>
+          <label th:for="rating" class="h4 mb-2" th:text="#{add_comment_rate_label}">How would you rate our service?</label>
         </div>
-        <div><small class="danger">1 star being the lowest, 10 stars being the highest</small></div>
+        <div><small class="danger"
+                    th:text="#{add_comment_rate_message}">1 star being the lowest, 10 stars being the highest</small></div>
         <div th:field="*{rating}"
              th:errorclass="is-invalid" name="rating"
              class="rating">
@@ -63,7 +66,7 @@
     </div>
 
     <div class="button-holder d-flex justify-content-center">
-      <button type="submit" class="btn btn-info  mb-3">Add comment</button>
+      <button type="submit" class="btn btn-info  mb-3" th:text="#{add_comment_button_text}">Add comment</button>
     </div>
 
   </form>

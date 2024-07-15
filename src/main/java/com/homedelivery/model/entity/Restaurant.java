@@ -6,8 +6,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
@@ -43,11 +41,7 @@ public class Restaurant extends BaseEntity {
     @Size(min = 3, max = 50)
     private String imageUrl;
 
-    @OneToMany(mappedBy = "restaurant")
-    private List<Dish> offeredDishes;
-
     public Restaurant() {
-        this.offeredDishes = new ArrayList<>();
     }
 
     public RestaurantName getName() {
@@ -112,13 +106,5 @@ public class Restaurant extends BaseEntity {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public List<Dish> getOfferedDishes() {
-        return offeredDishes;
-    }
-
-    public void setOfferedDishes(List<Dish> offeredDishes) {
-        this.offeredDishes = offeredDishes;
     }
 }

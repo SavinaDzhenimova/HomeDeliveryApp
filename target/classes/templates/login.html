@@ -14,7 +14,7 @@
           th:action="@{/users/login}"
           th:method="POST">
 
-        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Login</span></h1>
+        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark" th:text="#{login_h1_text}">Login</span></h1>
 
         <div th:if="${successMessage}" class="alert alert-success" role="alert">
             <p class="success" th:text="${successMessage}"></p>
@@ -26,23 +26,21 @@
 
         <div class="form-group">
             <div class="label-holder text-white d-flex justify-content-center">
-                <label for="username" class="h3 mb-2">Username</label>
+                <label for="username" class="h3 mb-2" th:text="#{login_username_label}">Username</label>
             </div>
             <input type="text" class="form-control" name="username" id="username"/>
         </div>
 
         <div class="form-group">
             <div class="label-holder text-white d-flex justify-content-center">
-                <label for="password" class="h3 mb-2">Password</label>
+                <label for="password" class="h3 mb-2" th:text="#{login_password_label}">Password</label>
             </div>
             <input type="password" class="form-control" name="password" id="password"/>
         </div>
 
         <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-warning  mb-3">Login</button>
+            <button type="submit" class="btn btn-warning  mb-3" th:text="#{login_h1_text}">Login</button>
         </div>
-
-        <p>Don't have an account? <a th:href="@{/users/register}" class="link-info">Register here</a></p>
 
     </form>
 </main>

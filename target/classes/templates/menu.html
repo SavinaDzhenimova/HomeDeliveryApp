@@ -11,14 +11,14 @@
 
   <section class="welcome" id="big-div">
 
-    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Menu</span></h1>
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark" th:text="#{menu_h1_text}">Menu</span></h1>
 
     <div th:if="${successMessage}" class="alert alert-success" role="alert">
       <p class="success" th:text="${successMessage}"></p>
     </div>
 
     <div class="w-100 rounded">
-      <h3 class=" bg-gray text-dark  mb-0 mt-2">Salads</h3>
+      <h3 class=" bg-gray text-dark  mb-0 mt-2" th:text="#{menu_salads_label}">Salads</h3>
       <h6 th:text="${dishes.getSaladsCount()}" class=" bg-gray text-dark  mb-0 mt-0">{saladsCount}</h6>
       <div class="bg-dark rounded m-auto" style="height: 67vh; overflow: auto">
         <ul th:each="dish : ${dishes.getSalads()}"
@@ -30,11 +30,13 @@
             <tr>
               <td th:text="${dish.getName()}" style="width: 15%">{Dish name}</td>
               <td th:text="${dish.getDescription()}" style="width: 45%">{Description}</td>
-              <td th:text="'Offered by: ' + ${dish.getRestaurant()}" style="width: 10%">Restaurant: {name}</td>
-              <td th:text="'Price: ' + ${dish.getPrice() + ' lv.'}" style="width: 15%">{Price}</td>
+              <td th:text="#{menu_offered_by_label} + ': ' + ${dish.getRestaurant()}"
+                  style="width: 15%">Restaurant: {name}</td>
+              <td th:text="#{menu_price_label} + ': ' + ${dish.getPrice()} + ' ' + #{make_order_currency_label}"
+                  style="width: 15%">{Price}</td>
               <td style="width: 10%">
                 <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
-                  <label th:for="quantity">Quantity:</label>
+                  <label th:for="quantity" th:text="#{menu_quantity_label}">Quantity:</label>
                   <input th:name="quantity" value="" type="number" step="1" class="form-control" placeholder="1"/>
                   <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
                 </form>
@@ -51,7 +53,7 @@
     </div>
 
     <div class="w-100 rounded">
-      <h3 class=" bg-gray text-dark  mb-0 mt-2">Starters</h3>
+      <h3 class=" bg-gray text-dark  mb-0 mt-2" th:text="#{menu_starters_label}">Starters</h3>
       <h6 th:text="${dishes.getStartersCount()}" class=" bg-gray text-dark  mb-0 mt-0">{startersCount}</h6>
       <div class="bg-dark rounded m-auto" style="height: 67vh; overflow: auto">
         <ul th:each="dish : ${dishes.getStarters()}"
@@ -63,11 +65,13 @@
             <tr>
               <td th:text="${dish.getName()}" style="width: 15%">{Dish name}</td>
               <td th:text="${dish.getDescription()}" style="width: 45%">{Description}</td>
-              <td th:text="'Offered by: ' + ${dish.getRestaurant()}" style="width: 15%">Restaurant: {name}</td>
-              <td th:text="'Price: ' + ${dish.getPrice() + ' lv.'}" style="width: 15%">{Price}</td>
+              <td th:text="#{menu_offered_by_label} + ': ' + ${dish.getRestaurant()}"
+                  style="width: 15%">Restaurant: {name}</td>
+              <td th:text="#{menu_price_label} + ': ' + ${dish.getPrice()} + ' ' + #{make_order_currency_label}"
+                  style="width: 15%">{Price}</td>
               <td style="width: 10%">
                 <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
-                  <label th:for="quantity">Quantity:</label>
+                  <label th:for="quantity" th:text="#{menu_quantity_label}">Quantity:</label>
                   <input th:name="quantity" value="" type="number" step="1" class="form-control" placeholder="1"/>
                   <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
                 </form>
@@ -84,7 +88,7 @@
     </div>
 
     <div class="w-100 rounded">
-      <h3 class=" bg-gray text-dark  mb-0 mt-2">Main dishes</h3>
+      <h3 class=" bg-gray text-dark  mb-0 mt-2" th:text="#{menu_main_dishes_label}">Main dishes</h3>
       <h6 th:text="${dishes.getMainDishesCount()}" class=" bg-gray text-dark  mb-0 mt-0">{mainDishesCount}</h6>
       <div class="bg-dark rounded m-auto" style="height: 67vh; overflow: auto">
         <ul th:each="dish : ${dishes.getMainDishes()}"
@@ -95,12 +99,14 @@
           <table class="list-group-item list-group-item-warning text-dark">
             <tr>
               <td th:text="${dish.getName()}" style="width: 10%">{Dish name}</td>
-              <td th:text="${dish.getDescription()}" style="width: 30%">{Description}</td>
-              <td th:text="'Offered by: ' + ${dish.getRestaurant()}" style="width: 15%">Restaurant: {name}</td>
-              <td th:text="'Price: ' + ${dish.getPrice() + ' lv.'}" style="width: 15%">{Price}</td>
+              <td th:text="${dish.getDescription()}" style="width: 45%">{Description}</td>
+              <td th:text="#{menu_offered_by_label} + ': ' + ${dish.getRestaurant()}"
+                  style="width: 15%">Restaurant: {name}</td>
+              <td th:text="#{menu_price_label} + ': ' + ${dish.getPrice()} +  ' ' + #{make_order_currency_label}"
+                  style="width: 15%">{Price}</td>
               <td style="width: 10%">
                 <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
-                  <label th:for="quantity">Quantity:</label>
+                  <label th:for="quantity" th:text="#{menu_quantity_label}">Quantity:</label>
                   <input th:name="quantity" value="" type="number" step="1" class="form-control" placeholder="1"/>
                   <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
                 </form>
@@ -117,7 +123,7 @@
     </div>
 
     <div class="w-100 rounded">
-      <h3 class=" bg-gray text-dark  mb-0 mt-2">Desserts</h3>
+      <h3 class=" bg-gray text-dark  mb-0 mt-2" th:text="#{menu_desserts_label}">Desserts</h3>
       <h6 th:text="${dishes.getDessertsCount()}" class=" bg-gray text-dark  mb-0 mt-0">{dessertsCount}</h6>
       <div class="bg-dark rounded m-auto" style="height: 67vh; overflow: auto">
         <ul th:each="dish : ${dishes.getDesserts()}"
@@ -129,11 +135,13 @@
             <tr>
               <td th:text="${dish.getName()}" style="width: 15%">{Dish name}</td>
               <td th:text="${dish.getDescription()}" style="width: 45%">{Description}</td>
-              <td th:text="'Offered by: ' + ${dish.getRestaurant()}" style="width: 15%">Restaurant: {name}</td>
-              <td th:text="'Price: ' + ${dish.getPrice() + ' lv.'}" style="width: 15%">{Price}</td>
+              <td th:text="#{menu_offered_by_label} + ': ' + ${dish.getRestaurant()}"
+                  style="width: 15%">Restaurant: {name}</td>
+              <td th:text="#{menu_price_label} + ': ' + ${dish.getPrice()} + ' ' + #{make_order_currency_label}"
+                  style="width: 15%">{Price}</td>
               <td style="width: 10%">
                 <form th:method="POST" th:action="@{/orders/add-to-cart/{id}(id=${dish.getId()})}">
-                  <label th:for="quantity">Quantity:</label>
+                  <label th:for="quantity" th:text="#{menu_quantity_label}">Quantity:</label>
                   <input th:name="quantity" value="" type="number" step="1" class="form-control" placeholder="1"/>
                   <button class="button-delete-dish"><img th:src="@{/images/add-to-cart.png}" height="50px"></button>
                 </form>

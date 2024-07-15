@@ -11,7 +11,8 @@
 
   <section class="welcome" id="big-div">
 
-    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Orders</span></h1>
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"
+                                       th:text="#{orders_h1_text}">Orders</span></h1>
 
     <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
       <p class="success" th:text="${errorMessage}"></p>
@@ -19,16 +20,16 @@
 
     <div class="row mt-1 mb-2">
         <div class="home-fields" style="height: 65vh; overflow: auto">
-          <h3 th:text="'Total orders count: ' + ${ordersCount}" class="my-paintings">Orders count</h3>
+          <h3 th:text="#{orders_total_orders_label} + ': ' + ${ordersCount}" class="my-paintings">Orders count</h3>
           <table class="table">
             <tr class="my-paintings">
-              <td style="width: 10%">Order Id</td>
-              <td style="width: 20%">Ordered by</td>
-              <td style="width: 20%">Ordered on</td>
-              <td style="width: 20%">Delivered on</td>
-              <td style="width: 10%">Status</td>
-              <td style="width: 10%">Total price</td>
-              <td style="width: 10%">Progress</td>
+              <td style="width: 10%" th:text="#{orders_order_id_label}">Order Id</td>
+              <td style="width: 20%" th:text="#{orders_ordered_by_label}">Ordered by</td>
+              <td style="width: 20%" th:text="#{orders_ordered_on_label}">Ordered on</td>
+              <td style="width: 20%" th:text="#{orders_delivered_on_label}">Delivered on</td>
+              <td style="width: 10%" th:text="#{orders_status_label}">Status</td>
+              <td style="width: 10%" th:text="#{orders_total_price_label}">Total price</td>
+              <td style="width: 10%" th:text="#{orders_progress_label}">Progress</td>
             </tr>
           </table>
           <table class="table table-striped table-dark">
@@ -39,10 +40,11 @@
               <td th:text="${order.getOrderedOn()}" style="width: 20%">{orderedOn}</td>
               <td th:text="${order.getDeliveredOn()}" style="width: 20%">{deliveredOn}</td>
               <td th:text="${order.getStatus()}" style="width: 10%">{status}</td>
-              <td th:text="${order.getTotalPrice() + ' lv.'}" style="width: 10%">{totalPrice}</td>
+              <td th:text="${order.getTotalPrice()} +  ' ' + #{make_order_currency_label}"
+                  style="width: 10%">{totalPrice}</td>
               <td style="width: 10%">
                 <form th:method="POST" th:action="@{/orders/progress-order/{id}(id=${order.getId()})}">
-                  <button class="button-delete-comment w-100">Progress</button>
+                  <button class="button-delete-comment w-100" th:text="#{orders_progress_label}">Progress</button>
                 </form>
               </td>
             </tr>

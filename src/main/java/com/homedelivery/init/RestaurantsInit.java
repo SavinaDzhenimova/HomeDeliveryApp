@@ -46,7 +46,6 @@ public class RestaurantsInit implements CommandLineRunner {
                                 restaurant.setOpen(LocalTime.of(8, 0));
                                 restaurant.setClose(LocalTime.of(0, 0));
                                 restaurant.setImageUrl("/images/vertu/vertu.jpg");
-
                             }
                             case KAZABLANKA -> {
                                 restaurant.setDescription("With its pleasant atmosphere, young and motivated staff and modern interior, the restaurant is one of the most visited and preferred by young people in the city and the surrounding area.");

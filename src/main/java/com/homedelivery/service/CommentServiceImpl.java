@@ -78,19 +78,6 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void editComment(Long commentId) {
-
-        Optional<Comment> optionalComment = this.commentRepository.findById(commentId);
-
-        if (optionalComment.isPresent()) {
-
-            Comment comment = optionalComment.get();
-
-            this.commentRepository.save(comment);
-        }
-    }
-
-    @Override
     public CommentsViewInfo getAllComments() {
 
         List<Comment> comments = this.commentRepository.findAll();

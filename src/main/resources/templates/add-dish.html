@@ -12,13 +12,14 @@
               th:action="@{/dishes/add-dish}"
               th:object="${addDishDTO}">
 
-            <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark">Add dish</span></h1>
+            <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"
+                                               th:text="#{add_dish_h1_text}">Add dish</span></h1>
 
             <div class="row">
 
                 <div class="form-group col-md-6 mb-3">
                     <div class="label-holder text-white textCol d-flex justify-content-center">
-                        <label th:for="name" class="h4 mb-2">Dish name</label>
+                        <label th:for="name" class="h4 mb-2" th:text="#{add_dish_name_label}">Dish name</label>
                     </div>
                     <input th:field="*{name}"
                            th:errorclass="is-invalid"
@@ -30,7 +31,7 @@
 
                 <div class="form-group col-md-6 mb-3">
                     <div class="text-white label-holder d-flex justify-content-center">
-                        <label th:for="price" class="h4 mb-2">Price</label>
+                        <label th:for="price" class="h4 mb-2" th:text="#{add_dish_price_label}">Price</label>
                     </div>
                     <input th:field="*{price}"
                            th:errorclass="is-invalid"
@@ -42,7 +43,7 @@
 
                 <div class="form-group">
                     <div class="label-holder text-white textCol d-flex justify-content-center">
-                        <label th:for="description" class="h4 mb-2">Description</label>
+                        <label th:for="description" class="h4 mb-2" th:text="#{add_dish_description_label}">Description</label>
                     </div>
                     <textarea th:field="*{description}"
                               th:errorclass="is-invalid"
@@ -58,7 +59,7 @@
 
                 <div class="form-group col-md-6 mb-3">
                     <div class="text-white label-holder d-flex justify-content-center">
-                        <label th:for="category" class="h4 mb-2">Category</label>
+                        <label th:for="category" class="h4 mb-2" th:text="#{add_dish_category_label}">Category</label>
                     </div>
                     <select th:field="*{category}"
                             th:errorclass="is-invalid"
@@ -76,7 +77,7 @@
 
                 <div class="form-group col-md-6 mb-3">
                     <div class="text-white label-holder d-flex justify-content-center">
-                        <label th:for="restaurant" class="h4 mb-2">Restaurant</label>
+                        <label th:for="restaurant" class="h4 mb-2" th:text="#{add_dish_restaurant_label}">Restaurant</label>
                     </div>
                     <select th:field="*{restaurant}"
                             th:errorclass="is-invalid"
@@ -93,7 +94,7 @@
 
                 <div class="form-group">
                     <div class="label-holder text-white textCol d-flex justify-content-center">
-                        <label th:for="imageUrl" class="h4 mb-2">Image URL</label>
+                        <label th:for="imageUrl" class="h4 mb-2" th:text="#{add_dish_image_url_label}">Image URL</label>
                     </div>
                     <textarea th:field="*{imageUrl}"
                               th:errorclass="is-invalid"
@@ -106,7 +107,7 @@
             </div>
 
             <div class="button-holder d-flex justify-content-center">
-                <button type="submit" class="btn btn-info mb-3">Add dish</button>
+                <button type="submit" class="btn btn-info mb-3" th:text="#{add_dish_h1_text}">Add dish</button>
             </div>
 
         </form>
