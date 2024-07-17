@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="HomeDeliveryApp" />
         <module name="HomeDeliveryApp-main" />
+        <module name="partners" />
       </profile>
     </annotationProcessing>
   </component>
@@ -15,6 +16,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="HomeDeliveryApp" options="-parameters" />
       <module name="HomeDeliveryApp-main" options="-parameters" />
+      <module name="partners" options="-parameters" />
     </option>
   </component>
 </project>

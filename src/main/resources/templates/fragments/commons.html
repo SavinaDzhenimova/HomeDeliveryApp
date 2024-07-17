@@ -120,6 +120,16 @@
                                         th:text="#{nav_bar_logout}">Logout</button>
                             </form>
                         </li>
+                        <hr class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" th:href="@{/partners}"
+                               th:text="#{nav_bar_partners}">Our partners</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" sec:authorize="hasRole('ADMIN')"
+                               th:href="@{/partners/add-partner}"
+                               th:text="#{nav_bar_add_partner}">Add partner</a>
+                        </li>
                     </ul>
                 </div>
             </div>

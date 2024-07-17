@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/commons::head}"></head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+<main>
+  <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"></span></h1>
+  <hr class="hr-3 w-25 bg-white"/>
+  <form class="mx-auto w-50 bg-blur rounded"
+        th:action="@{/partners/add-partner}"
+        th:method="POST"
+        th:object="${addPartnerDTO}">
+
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"
+                                       th:text="#{add_partner_h1_text}">Add partner</span></h1>
+
+    <div class="row">
+
+      <div class="form-group col-md-6 mb-3">
+        <div class="label-holder textCol d-flex justify-content-center">
+          <label th:for="name" class="h4 mb-2 text-white"
+                 th:text="#{add_partner_name_label}">Name</label>
+        </div>
+        <input th:field="*{name}"
+               th:errorclass="is-invalid"
+               type="text" class="form-control"/>
+        <small th:if="${#fields.hasErrors('name')}"
+               th:errors="*{name}"
+               class="text-danger">Name error message</small>
+      </div>
+
+      <div class="form-group col-md-6 mb-3">
+        <div class="label-holder text-white textCol d-flex justify-content-center">
+          <label th:for="email" class="h4 mb-2"
+                 th:text="#{add_partner_email_label}">Email</label>
+        </div>
+        <input th:field="*{email}"
+               th:errorclass="is-invalid"
+               type="email" class="form-control"/>
+        <small th:if="${#fields.hasErrors('email')}"
+               th:errors="*{email}"
+               class="text-danger">Email error message</small>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="form-group">
+        <div class="label-holder text-white textCol d-flex justify-content-center">
+          <label th:for="site" class="h4 mb-2"
+                 th:text="#{add_partner_site_label}">Site</label>
+        </div>
+        <input th:field="*{site}"
+               th:errorclass="is-invalid"
+               type="text" class="form-control"/>
+        <small th:if="${#fields.hasErrors('site')}"
+               th:errors="*{site}"
+               class="text-danger">Site error message</small>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="form-group">
+        <div class="label-holder text-white textCol d-flex justify-content-center">
+          <label th:for="logoUrl" class="h4 mb-2"
+                 th:text="#{add_partner_logo_url_label}">Logo URL</label>
+        </div>
+        <input th:field="*{logoUrl}"
+                  th:errorclass="is-invalid"
+                  type="text" class="form-control"/>
+        <small th:if="${#fields.hasErrors('logoUrl')}"
+               th:errors="*{logoUrl}"
+               class="text-danger">Logo URL error message</small>
+      </div>
+
+    </div>
+
+    <div class="button-holder d-flex justify-content-center">
+      <button type="submit" class="btn btn-warning  mb-3" value="Register"
+              th:text="#{add_partner_h1_text}">Add partner</button>
+    </div>
+
+  </form>
+</main>
+<footer th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

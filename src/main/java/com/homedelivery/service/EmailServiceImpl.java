@@ -93,6 +93,5 @@ public class EmailServiceImpl implements EmailService {
         context.setVariable("fullName", fullName);
 
         return templateEngine.process("/email/registration-email", context);
-
     }
 }
