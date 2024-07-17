@@ -2,7 +2,6 @@ package com.homedelivery.service;
 
 import com.homedelivery.model.exportDTO.PartnerDetailsDTO;
 import com.homedelivery.model.importDTO.AddPartnerDTO;
-import com.homedelivery.repository.PartnerRepository;
 import com.homedelivery.service.interfaces.PartnerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +18,9 @@ public class PartnerServiceImpl implements PartnerService {
 
     private Logger LOGGER = LoggerFactory.getLogger(PartnerServiceImpl.class);
     private final RestClient restClient;
-    private final PartnerRepository partnerRepository;
 
-    public PartnerServiceImpl(@Qualifier("offersRestClient") RestClient restClient,
-                              PartnerRepository partnerRepository) {
+    public PartnerServiceImpl(@Qualifier("offersRestClient") RestClient restClient) {
         this.restClient = restClient;
-        this.partnerRepository = partnerRepository;
     }
 
     @Override

@@ -14,6 +14,15 @@ body {
     margin-bottom: 5rem;
 }
 
+.card-partners {
+    margin: 0.5rem;
+    width: 360px !important;
+    background: white;
+    border-radius: 8px;
+    color: #212529;
+    padding-top: 12px;
+}
+
 .nav-item {
     margin: 0.25em;
 }

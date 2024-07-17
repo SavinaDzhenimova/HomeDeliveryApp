@@ -12,29 +12,30 @@
 
     <section class="welcome" id="big-div">
 
+        <h1 class="text-center mt-2"><span class="badge badge-pill badge-dark"
+                                           th:text="#{partners_h1_text}">Our partners</span></h1>
+
         <div class="row">
-            <div class="col-md-3">
-                <div th:each="partner : ${partners}" class="card mb-4 box-shadow">
-                    <img th:src="${partner.getLogoUrl()}" th:alt="${partner.getName()}" class="card-img-top"
-                         data-holder-rendered="true" style="height: 225px; width: 225px; display: block;">
-                    <div class="card-body">
-                        <div class="text-center">
-                            <p th:text="${partner.getName()}"
-                               class="card-text border-bottom">Organization name:</p>
-                            <p th:text="${partner.getEmail()}"
-                               class="card-text border-bottom">Email:</p>
-                            <a th:href="@{${partner.getSite()}}"
-                               class="card-text border-bottom"><p th:text="${partner.getSite()}">Site:</p></a>
+            <div class="card-partners box-shadow" th:each="partner : ${partners}">
+                <img th:src="${partner.getLogoUrl()}" th:alt="${partner.getName()}"
+                     class="card-img-top" style="height: 225px; width: 335px; display: block;">
+                <div class="card-body">
+                    <div class="text-center">
+                        <p th:text="${partner.getName()}"
+                           class="card-text border-bottom">Organization name:</p>
+                        <p th:text="${partner.getEmail()}"
+                           class="card-text border-bottom">Email:</p>
+                        <a th:href="@{${partner.getSite()}}"
+                           class="card-text border-bottom"><p th:text="${partner.getSite()}">Site:</p></a>
+                    </div>
+                </div>
+                <div sec:authorize="hasRole('ADMIN')">
+                    <form th:method="DELETE" th:action="@{/partners/delete-partner/{id}(id=${partner.getId()})}">
+                        <div class="button-delete-comment w-100" style="width: 15%">
+                            <button type="submit" class="btn btn-danger mb-3"
+                                    th:text="#{home_my_orders_delete_label}">Delete</button>
                         </div>
-                    </div>
-                    <div sec:authorize="hasRole('ADMIN')">
-                        <form th:method="DELETE" th:action="@{/partners/delete-partner/{id}(id=${partner.getId()})}">
-                            <div class="button-delete-comment w-100" style="width: 15%">
-                                <button type="submit" class="btn btn-danger mb-3"
-                                        th:text="#{home_my_orders_delete_label}">Delete</button>
-                            </div>
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
