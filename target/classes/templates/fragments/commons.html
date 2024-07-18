@@ -64,11 +64,25 @@
                             <a class="nav-link" th:href="@{/users/register}"
                                th:text="#{nav_bar_register}">Register</a>
                         </li>
-                        <hr class="nav-item">
-                        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                            <a class="nav-link" th:href="@{/dishes/add-dish}"
-                               th:text="#{nav_bar_add_dish}">Add dish</a>
+                        <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false" th:text="#{nav_bar_admin}">Admin</a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li sec:authorize="hasRole('ADMIN')">
+                                    <a class="dropdown-item" th:href="@{/dishes/add-dish}"
+                                       th:text="#{nav_bar_add_dish}">Add dish</a>
+                                </li>
+                                <li sec:authorize="hasRole('ADMIN')">
+                                    <a class="dropdown-item" th:href="@{/orders}"
+                                       th:text="#{nav_bar_orders}">Orders</a>
+                                </li>
+                                <li sec:authorize="hasRole('ADMIN')">
+                                    <a class="dropdown-item" aria-current="page" th:href="@{/partners/add-partner}"
+                                       th:text="#{nav_bar_add_partner}">Add partner</a>
+                                </li>
+                            </ul>
                         </li>
+                        <hr class="nav-item">
                         <li class="nav-item" sec:authorize="isAuthenticated()">
                             <a class="nav-link" th:href="@{/dishes/menu}"
                                th:text="#{nav_bar_menu}">Menu</a>
@@ -76,10 +90,6 @@
                         <li class="nav-item" sec:authorize="isAuthenticated()">
                             <a class="nav-link" th:href="@{/orders/make-order}"
                                th:text="#{nav_bar_make_order}">Make order</a>
-                        </li>
-                        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                            <a class="nav-link" th:href="@{/orders}"
-                               th:text="#{nav_bar_orders}">Orders</a>
                         </li>
                         <hr class="nav-item" sec:authorize="isAuthenticated()">
                         <li class="nav-item dropdown">
@@ -111,6 +121,11 @@
                         </li>
                         <hr class="nav-item">
                         <li class="nav-item">
+                            <a class="nav-link" aria-current="page" th:href="@{/partners}"
+                               th:text="#{nav_bar_partners}">Our partners</a>
+                        </li>
+                        <hr class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" aria-current="page" th:href="@{/about}"
                                th:text="#{nav_bar_about}">About</a>
                         </li>
@@ -119,16 +134,6 @@
                                 <button class="nav-link nav-link-button" type="submit"
                                         th:text="#{nav_bar_logout}">Logout</button>
                             </form>
-                        </li>
-                        <hr class="nav-item">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" th:href="@{/partners}"
-                               th:text="#{nav_bar_partners}">Our partners</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" sec:authorize="hasRole('ADMIN')"
-                               th:href="@{/partners/add-partner}"
-                               th:text="#{nav_bar_add_partner}">Add partner</a>
                         </li>
                     </ul>
                 </div>

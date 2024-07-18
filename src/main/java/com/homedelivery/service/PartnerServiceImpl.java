@@ -5,7 +5,6 @@ import com.homedelivery.model.importDTO.AddPartnerDTO;
 import com.homedelivery.service.interfaces.PartnerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -19,13 +18,13 @@ public class PartnerServiceImpl implements PartnerService {
     private Logger LOGGER = LoggerFactory.getLogger(PartnerServiceImpl.class);
     private final RestClient restClient;
 
-    public PartnerServiceImpl(@Qualifier("offersRestClient") RestClient restClient) {
+    public PartnerServiceImpl(RestClient restClient) {
         this.restClient = restClient;
     }
 
     @Override
     public void addPartner(AddPartnerDTO addPartnerDTO) {
-        LOGGER.info("Creating new offer...");
+        LOGGER.info("Adding new partner...");
 
         this.restClient
                 .post()
