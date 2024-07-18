@@ -241,7 +241,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveAndFlushUser(User user) {
-        this.userRepository.saveAndFlush(user);
+    public User saveAndFlushUser(User user) {
+        return this.userRepository.saveAndFlush(user);
     }
 }

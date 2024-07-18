@@ -13,7 +13,7 @@ public interface UserService {
 
     Optional<User> findUserById(Long id);
 
-    void saveAndFlushUser(User user);
+    User saveAndFlushUser(User user);
 
     boolean updateUserProperty(UserUpdateInfoDTO userUpdateInfoDTO);
 

@@ -107,8 +107,6 @@ public class DishServiceImpl implements DishService {
             if (isAdmin) {
                 this.dishRepository.deleteById(id);
             }
-        } else {
-            throw new DeleteObjectException("You cannot delete dish with id " + id + "!");
         }
     }
 

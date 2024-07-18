@@ -41,20 +41,17 @@ class UserDetailsServiceImplTest {
         Role admin = new Role();
         admin.setName(RoleName.ADMIN);
 
-        // Arrange
         User testUser = new User();
         testUser.setUsername("pesheca");
-        testUser.setPassword("topsecret");
+        testUser.setPassword("pesho1234");
         testUser.setFullName("Pesho Petrov");
         testUser.setRoles(List.of(admin, user));
 
         when(mockUserRepository.findByUsername("pesheca"))
                 .thenReturn(Optional.of(testUser));
 
-        // Act
         UserDetails userDetails = userDetailsServiceToTest.loadUserByUsername("pesheca");
 
-        // Assert
         assertInstanceOf(UserDetailsDTO.class, userDetails);
 
         UserDetailsDTO userDetailsDTO = (UserDetailsDTO) userDetails;
