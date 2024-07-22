@@ -13,6 +13,8 @@ public interface UserService {
 
     Optional<User> findUserById(Long id);
 
+    Optional<User> findUserByEmail(String email);
+
     User saveAndFlushUser(User user);
 
     boolean updateUserProperty(UserUpdateInfoDTO userUpdateInfoDTO);
