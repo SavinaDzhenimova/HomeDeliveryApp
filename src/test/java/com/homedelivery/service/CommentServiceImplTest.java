@@ -133,4 +133,18 @@ class CommentServiceImplTest {
         assertEquals(1, commentsViewInfo.getComments().size());
         verify(mockCommentRepository, times(1)).findAll();
     }
+
+    @Test
+    public void testFindCommentById_ExistingId() {
+        Long commentId = 1L;
+        Comment mockComment = new Comment();
+        mockComment.setId(commentId);
+
+        when(mockCommentRepository.findById(commentId)).thenReturn(Optional.of(mockComment));
+
+        Optional<Comment> result = commentServiceToTest.findCommentById(commentId);
+
+        assertTrue(result.isPresent());
+        assertEquals(commentId, result.get().getId());
+    }
 }

@@ -13,6 +13,8 @@ import com.homedelivery.service.interfaces.RoleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
@@ -32,6 +34,9 @@ class UserServiceImplTest {
 
     private UserServiceImpl userServiceToTest;
 
+    @Captor
+    private ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+
     @Mock
     private ApplicationEventPublisher mockApplicationEventPublisher;
 
@@ -50,16 +55,19 @@ class UserServiceImplTest {
     @BeforeEach
     public void setUp() {
         this.userServiceToTest = new UserServiceImpl(mockApplicationEventPublisher, mockUserRepository,
-                mockRoleService, mockPasswordEncoder, mockModelMapper);
+                mockRoleService, mockPasswordEncoder, new ModelMapper());
     }
 
     @Test
     public void testRegisterUser_Success() {
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
         userRegisterDTO.setUsername("testuser");
+        userRegisterDTO.setFullName("Test User");
+        userRegisterDTO.setPhoneNumber("111222333");
+        userRegisterDTO.setAddress("Test address");
         userRegisterDTO.setEmail("testuser@example.com");
-        userRegisterDTO.setPassword("password");
-        userRegisterDTO.setConfirmPassword("password");
+        userRegisterDTO.setPassword("Test1234");
+        userRegisterDTO.setConfirmPassword("Test1234");
 
         Role role = new Role();
         role.setName(RoleName.USER);
@@ -67,16 +75,22 @@ class UserServiceImplTest {
         when(mockUserRepository.findByUsername("testuser")).thenReturn(Optional.empty());
         when(mockUserRepository.findByEmail("testuser@example.com")).thenReturn(Optional.empty());
         when(mockRoleService.findByName(RoleName.USER)).thenReturn(Optional.of(role));
-        when(mockPasswordEncoder.encode(anyString())).thenReturn("encodedPassword");
-        when(mockModelMapper.map(userRegisterDTO, User.class)).thenReturn(new User());
+        when(mockPasswordEncoder.encode(userRegisterDTO.getPassword())).thenReturn("encodedPassword123");
 
         boolean result = userServiceToTest.registerUser(userRegisterDTO);
 
-        verify(mockUserRepository, times(1)).save(any(User.class));
-        verify(mockApplicationEventPublisher, times(1))
-                .publishEvent(any(UserRegistrationEvent.class));
+        verify(mockUserRepository).saveAndFlush(userCaptor.capture());
 
         assertTrue(result);
+        assertNotNull(userCaptor.getValue());
+        assertEquals(userRegisterDTO.getFullName(), userCaptor.getValue().getFullName());
+        assertEquals(userRegisterDTO.getAddress(), userCaptor.getValue().getAddress());
+        assertEquals(userRegisterDTO.getPhoneNumber(), userCaptor.getValue().getPhoneNumber());
+        assertEquals(userRegisterDTO.getEmail(), userCaptor.getValue().getEmail());
+
+        verify(mockUserRepository, times(1)).saveAndFlush(any(User.class));
+        verify(mockApplicationEventPublisher, times(1))
+                .publishEvent(any(UserRegistrationEvent.class));
     }
 
     @Test
@@ -100,7 +114,6 @@ class UserServiceImplTest {
         user.setUsername("testuser");
 
         when(mockUserRepository.findById(userId)).thenReturn(Optional.of(user));
-        when(mockModelMapper.map(user, UserInfoDTO.class)).thenReturn(new UserInfoDTO());
 
         UserInfoDTO userInfoDTO = userServiceToTest.getUserDetailsInfo(userId);
 
@@ -233,6 +246,83 @@ class UserServiceImplTest {
         verify(mockUserRepository, never()).saveAndFlush(user);
     }
 
+    @Test
+    void testUpdatePhoneNumber_Successful() {
+        User user = new User();
+        String currentUsername = "currentuser";
+        user.setPhoneNumber("111222333");
+
+        mockSecurityContext(currentUsername);
+        when(mockUserRepository.findByUsername(currentUsername)).thenReturn(Optional.of(user));
+
+        UserUpdateInfoDTO dto = new UserUpdateInfoDTO();
+        dto.setUpdateInfo(UpdateInfo.PHONE_NUMBER);
+        dto.setData("333222111");
+
+        boolean result = userServiceToTest.updateUserProperty(dto);
+
+        assertTrue(result);
+        verify(mockUserRepository).saveAndFlush(user);
+        assertEquals("333222111", user.getPhoneNumber());
+    }
+
+    @Test
+    void testUpdatePhoneNumber_Failed() {
+        User user = new User();
+        String currentUsername = "currentuser";
+        user.setUsername(currentUsername);
+
+        mockSecurityContext(currentUsername);
+        when(mockUserRepository.findByUsername(currentUsername)).thenReturn(Optional.of(user));
+
+        UserUpdateInfoDTO dto = new UserUpdateInfoDTO();
+        dto.setUpdateInfo(UpdateInfo.PHONE_NUMBER);
+        dto.setData("11");
+
+        boolean result = userServiceToTest.updateUserProperty(dto);
+
+        assertFalse(result);
+        verify(mockUserRepository, never()).saveAndFlush(user);
+    }
+
+    @Test
+    void testUpdateAddress_Successful() {
+        User user = new User();
+        String currentUsername = "currentuser";
+        user.setAddress("Current address");
+
+        mockSecurityContext(currentUsername);
+        when(mockUserRepository.findByUsername(currentUsername)).thenReturn(Optional.of(user));
+
+        UserUpdateInfoDTO dto = new UserUpdateInfoDTO();
+        dto.setUpdateInfo(UpdateInfo.ADDRESS);
+        dto.setData("New address");
+
+        boolean result = userServiceToTest.updateUserProperty(dto);
+
+        assertTrue(result);
+        verify(mockUserRepository).saveAndFlush(user);
+        assertEquals("New address", user.getAddress());
+    }
+
+    @Test
+    void testUpdateAddress_Failed() {
+        User user = new User();
+        String currentUsername = "currentuser";
+        user.setUsername(currentUsername);
+
+        mockSecurityContext(currentUsername);
+        when(mockUserRepository.findByUsername(currentUsername)).thenReturn(Optional.of(user));
+
+        UserUpdateInfoDTO dto = new UserUpdateInfoDTO();
+        dto.setUpdateInfo(UpdateInfo.ADDRESS);
+        dto.setData("");
+
+        boolean result = userServiceToTest.updateUserProperty(dto);
+
+        assertFalse(result);
+        verify(mockUserRepository, never()).saveAndFlush(user);
+    }
 
     @Test
     public void testFindUserByUsername() {
