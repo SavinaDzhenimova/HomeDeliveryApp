@@ -62,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
 
         String username = this.userService.getLoggedUsername();
 
-        Optional<Comment> optionalComment = this.commentRepository.findById(id);
+        Optional<Comment> optionalComment = this.findCommentById(id);
         Optional<User> optionalUser = this.userService.findUserByUsername(username);
 
         if (optionalComment.isPresent() && optionalUser.isPresent()) {
@@ -92,6 +92,11 @@ public class CommentServiceImpl implements CommentService {
                 }).toList();
 
         return new CommentsViewInfo(commentDetailsDTO);
+    }
+
+    @Override
+    public Optional<Comment> findCommentById(Long id) {
+        return this.commentRepository.findById(id);
     }
 
 }
