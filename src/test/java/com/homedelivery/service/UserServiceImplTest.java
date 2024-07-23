@@ -1,5 +1,6 @@
 package com.homedelivery.service;
 
+import com.homedelivery.model.entity.Comment;
 import com.homedelivery.model.entity.Role;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.model.enums.RoleName;
@@ -59,8 +60,30 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void testRegisterUser_Success() {
+    public void testRegisterUser_NullDTO() {
+        boolean result = userServiceToTest.registerUser(null);
+        assertFalse(result);
+        verify(mockUserRepository, never()).saveAndFlush(any(User.class));
+    }
+
+    @Test
+    public void testRegisterUser_Password_DifferentFrom_ConfirmPassword() {
+        UserRegisterDTO userRegisterDTO = createUserRegisterDTO();
+        userRegisterDTO.setPassword("Password1234");
+        userRegisterDTO.setConfirmPassword("Different1234");
+
+        when(mockUserRepository.findByUsername(anyString())).thenReturn(Optional.empty());
+        when(mockUserRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+        boolean result = userServiceToTest.registerUser(userRegisterDTO);
+
+        assertFalse(result);
+        verify(mockUserRepository, never()).saveAndFlush(any(User.class));
+    }
+
+    private UserRegisterDTO createUserRegisterDTO() {
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
+
         userRegisterDTO.setUsername("testuser");
         userRegisterDTO.setFullName("Test User");
         userRegisterDTO.setPhoneNumber("111222333");
@@ -68,6 +91,13 @@ class UserServiceImplTest {
         userRegisterDTO.setEmail("testuser@example.com");
         userRegisterDTO.setPassword("Test1234");
         userRegisterDTO.setConfirmPassword("Test1234");
+
+        return userRegisterDTO;
+    }
+
+    @Test
+    public void testRegisterUser_Success() {
+        UserRegisterDTO userRegisterDTO = createUserRegisterDTO();
 
         Role role = new Role();
         role.setName(RoleName.USER);
@@ -94,7 +124,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void testRegisterUserUsernameExists() {
+    public void testRegisterUser_UsernameExists() {
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
         userRegisterDTO.setUsername("testuser");
         userRegisterDTO.setEmail("test@example.com");

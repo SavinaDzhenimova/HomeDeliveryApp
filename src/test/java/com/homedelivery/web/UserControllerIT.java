@@ -73,6 +73,13 @@ class UserControllerIT {
     }
 
     @Test
+    public void testLoginError() throws Exception {
+        mockMvc.perform(get("/users/login-error"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/users/login"));
+    }
+
+    @Test
     void testRegisterPost_Success() throws Exception {
         UserRegisterDTO userRegisterDTO = createUserDTO();
 
@@ -143,7 +150,7 @@ class UserControllerIT {
                 .andExpect(model().attributeHasFieldErrors("userRegisterDTO", "fullName", "address"));
     }
 
-    UserRegisterDTO createUserDTO() {
+    private UserRegisterDTO createUserDTO() {
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
 
         userRegisterDTO.setUsername("testuser");
