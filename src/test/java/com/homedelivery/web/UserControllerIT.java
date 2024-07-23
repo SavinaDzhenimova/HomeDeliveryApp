@@ -103,7 +103,7 @@ class UserControllerIT {
     }
 
     @Test
-    void testRegisterPost_Failure() throws Exception {
+    void testRegisterPost_ErrorInConfirmPassword() throws Exception {
         UserRegisterDTO userRegisterDTO = createUserDTO();
         userRegisterDTO.setConfirmPassword("Wrong1234");
 
@@ -119,6 +119,28 @@ class UserControllerIT {
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"));
+    }
+
+    @Test
+    void testRegisterPost_Failure() throws Exception {
+        UserRegisterDTO userRegisterDTO = createUserDTO();
+        userRegisterDTO.setFullName("");
+        userRegisterDTO.setAddress("no");
+
+        mockMvc.perform(post("/users/register")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("username", userRegisterDTO.getUsername())
+                        .param("email", userRegisterDTO.getEmail())
+                        .param("password", userRegisterDTO.getPassword())
+                        .param("fullName", userRegisterDTO.getFullName())
+                        .param("phoneNumber", userRegisterDTO.getPhoneNumber())
+                        .param("address", userRegisterDTO.getAddress())
+                        .param("confirmPassword", userRegisterDTO.getConfirmPassword())
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("register"))
+                .andExpect(model().attributeExists("userRegisterDTO"))
+                .andExpect(model().attributeHasFieldErrors("userRegisterDTO", "fullName", "address"));
     }
 
     UserRegisterDTO createUserDTO() {

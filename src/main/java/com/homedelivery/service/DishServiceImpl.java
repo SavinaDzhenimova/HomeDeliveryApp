@@ -78,7 +78,7 @@ public class DishServiceImpl implements DishService {
         return new DishesViewInfo(salads, starters, mainDishes, desserts);
     }
 
-    private List<DishDetailsDTO> mapDishToDTO(CategoryName categoryName) {
+    public List<DishDetailsDTO> mapDishToDTO(CategoryName categoryName) {
 
         return this.dishRepository.findAll().stream()
                 .filter(dish -> dish.getCategory().getName().equals(categoryName))
