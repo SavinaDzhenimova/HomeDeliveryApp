@@ -1,4 +1,4 @@
-# HomeDeliveryApp
+# Welcome to Home Delivery App
 Craving your favorite restaurant meal but don’t want to leave the house? Home Delivery App is here to make your dining experience effortless and enjoyable. With a vast selection of local and popular restaurants, getting delicious food delivered to your door has never been easier. Register to Home Delivery App today and enjoy restaurant-quality meals from the comfort of your home! This application is used as my final project for SoftUni course Sprinv Advanced May 2024.
 
 # Functionality
