@@ -19,8 +19,8 @@ server:
   port: 8090
 
 mail:
-  homedelivery: "homedeliveryteambulgaria@example.com"
+  homedelivery: "test@homedelivery.com"
   host: localhost
   port: 3333
-  username: test@example.com
+  username: test@homedelivery.com
   password: topsecret

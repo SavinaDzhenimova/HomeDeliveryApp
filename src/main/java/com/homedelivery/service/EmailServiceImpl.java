@@ -11,7 +11,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 @Service
 public class EmailServiceImpl implements EmailService {

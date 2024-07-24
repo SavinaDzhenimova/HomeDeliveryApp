@@ -1,6 +1,5 @@
 package com.homedelivery.service;
 
-import com.homedelivery.model.entity.Comment;
 import com.homedelivery.model.entity.Role;
 import com.homedelivery.model.entity.User;
 import com.homedelivery.model.enums.RoleName;
@@ -49,9 +48,6 @@ class UserServiceImplTest {
 
     @Mock
     private PasswordEncoder mockPasswordEncoder;
-
-    @Mock
-    private ModelMapper mockModelMapper;
 
     @BeforeEach
     public void setUp() {
