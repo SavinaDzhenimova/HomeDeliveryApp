@@ -7,10 +7,11 @@ INSERT INTO dishes (description, image_url, name, price, category_id, restaurant
 ("Chicken broth with pieces of chicken, pasta, carrots, onion, and grains such as rice.", "/images/menu/chicken-soup.jpg", "Chicken soup", 4.00, 2, 2),
 ("Clear broth with whole meatballs, vegetables, pasta or grains such as rice.", "/images/menu/meat-balls-soup.jpg", "Meat balls soup", 3.00, 2, 3),
 ("Fried dough product with filling.", "/images/menu/pancakes.jpg", "Pancakes", 4.00, 4, 3),
-("Well-cooked and finely chopped beef or lamb tripe with spices such as garlic, vinegar and hot peppers.", "/images/menu/schembe-chorba.jpg", "Schkembe chorba", 5.00, 2, 2),
-("A dish baked in the oven in casseroles, which contains chicken meat, onions, savory, peppers, salt.", "/images/menu/kavarma.jpg", "Kavarma", 7.00, 3, 3),
+("Well-cooked and finely chopped beef or lamb tripe with spices such as garlic, vinegar and hot peppers.", "/images/menu/shkembe-chorba.jpg", "Shkembe chorba", 5.00, 2, 2),
+("A dish baked in the oven in casseroles, which contains chicken meat, onions, savory, peppers, salt.", "/images/menu/kavarma.jpeg", "Kavarma", 7.00, 3, 3),
 ("Coarsely grated potatoes, onions, salt and mint and knead everything and bake over low heat.", "/images/menu/patatnik.jpg", "Patatnik", 9.00, 3, 2),
 ("Corn semolina or coarsely ground cornmeal with cheese, eggs or meat.", "/images/menu/kachamak.jpg", "Kachamak", 8.00, 3, 1),
 ("A clay casserole in which onions, tomatoes, brine cheese, green pepper, garlic, etc. are added.", "/images/menu/shopski-cheese.jpg", "Shopski cheese", 6.00, 3, 1),
 ("Egg custard dessert with a layer of soft caramel.", "/images/menu/creme-caramel.jpg", "Crème caramel", 4.00, 4, 3),
-("Dessert of egg custard, sprinkled with sugar, which is caramelized with a burner.", "/images/menu/creme-brule.jpg", "Crème brûlée", 5.00, 4, 3);
+("Dessert of egg custard, sprinkled with sugar, which is caramelized with a burner.", "/images/menu/creme-brule.jpg", "Crème brûlée", 5.00, 4, 3),
+("Sliced cucumbers, tomatoes, onions, parsley, roasted or raw peppers, ham, boiled egg, yellow cheese, grated sirene", "/images/menu/ovcharska-salad.jpg", "Ovcharska salad", 8.00, 1, 2);
