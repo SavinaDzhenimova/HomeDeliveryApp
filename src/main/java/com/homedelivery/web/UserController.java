@@ -14,6 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/users")
 public class UserController {
 
+    private static boolean badCredentials = false;
+
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -31,7 +33,7 @@ public class UserController {
 
         redirectAttributes.addFlashAttribute("errorMessage", "Invalid username or password!");
 
-        return new ModelAndView("login");
+        return new ModelAndView("redirect:/users/login");
     }
 
     @GetMapping("/register")

@@ -76,7 +76,8 @@ class UserControllerIT {
     public void testLoginError() throws Exception {
         mockMvc.perform(get("/users/login-error"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost/users/login"));
+                .andExpect(redirectedUrl("/users/login"))
+                .andExpect(flash().attribute("errorMessage", "Invalid username or password!"));
     }
 
     @Test

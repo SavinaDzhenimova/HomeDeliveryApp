@@ -14,4 +14,4 @@ INSERT INTO dishes (description, image_url, name, price, category_id, restaurant
 ("A clay casserole in which onions, tomatoes, brine cheese, green pepper, garlic, etc. are added.", "/images/menu/shopski-cheese.jpg", "Shopski cheese", 6.00, 3, 1),
 ("Egg custard dessert with a layer of soft caramel.", "/images/menu/creme-caramel.jpg", "Crème caramel", 4.00, 4, 3),
 ("Dessert of egg custard, sprinkled with sugar, which is caramelized with a burner.", "/images/menu/creme-brule.jpg", "Crème brûlée", 5.00, 4, 3),
-("sliced cucumbers, tomatoes, onions, parsley, roasted or raw peppers, ham, boiled egg, yellow cheese, grated sirene", "/images/menu/ovcharska-salad.jpg", "Ovcharska salad", 8.00, 1, 2);
+("Sliced cucumbers, tomatoes, onions, parsley, roasted or raw peppers, ham, boiled egg, yellow cheese, grated sirene", "/images/menu/ovcharska-salad.jpg", "Ovcharska salad", 8.00, 1, 2);
