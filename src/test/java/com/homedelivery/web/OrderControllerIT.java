@@ -40,7 +40,7 @@ class OrderControllerIT {
     private UserService userService;
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user")
     public void testViewMakeOrder() throws Exception {
         OrderDishesInfoDTO orderDishesInfoDTO = new OrderDishesInfoDTO();
         when(orderService.getAllDishesInCart()).thenReturn(orderDishesInfoDTO);
@@ -55,8 +55,8 @@ class OrderControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    public void testMakeOrder_withValidData() throws Exception {
+    @WithMockUser(username = "user")
+    public void testMakeOrder_ValidData() throws Exception {
         when(orderService.makeOrder(any(AddOrderDTO.class), any(BigDecimal.class))).thenReturn(true);
 
         mockMvc.perform(post("/orders/make-order/{totalPrice}", "100")
@@ -68,8 +68,8 @@ class OrderControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    public void testMakeOrder_withInvalidTotalPrice() throws Exception {
+    @WithMockUser(username = "user")
+    public void testMakeOrder_InvalidTotalPrice() throws Exception {
         mockMvc.perform(post("/orders/make-order/{totalPrice}", "0")
                         .param("deliveryAddress", "Correct Address")
                         .param("phoneNumber", "111222333")
@@ -89,7 +89,7 @@ class OrderControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user")
     public void testAddToCart() throws Exception {
         mockMvc.perform(post("/orders/add-to-cart/{id}", 1L)
                         .param("quantity", "2")
@@ -99,7 +99,7 @@ class OrderControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user")
     public void testRemoveFromCart() throws Exception {
         mockMvc.perform(get("/orders/remove-from-cart/{id}", 1L))
                 .andExpect(status().is3xxRedirection())
@@ -121,7 +121,7 @@ class OrderControllerIT {
 
     @Test
     @WithMockUser(username = "user", roles = {"USER", "ADMIN"})
-    public void testProgressOrder_withValidData() throws Exception {
+    public void testProgressOrder_ValidData() throws Exception {
         when(orderService.progressOrder(1L)).thenReturn(true);
 
         mockMvc.perform(post("/orders/progress-order/{id}", 1L)
@@ -132,7 +132,7 @@ class OrderControllerIT {
 
     @Test
     @WithMockUser(username = "user", roles = {"USER", "ADMIN"})
-    public void testProgressOrder_withInvalidData() throws Exception {
+    public void testProgressOrder_InvalidData() throws Exception {
         when(orderService.progressOrder(1L)).thenReturn(false);
 
         mockMvc.perform(post("/orders/progress-order/{id}", 1L)

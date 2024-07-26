@@ -34,7 +34,7 @@ class DishControllerIT {
 
     @Test
     @WithMockUser(username = "user", roles = {"USER", "ADMIN"})
-    void testAddDishGet() throws Exception {
+    void testAddDish_Get() throws Exception {
         mockMvc.perform(get("/dishes/add-dish"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("add-dish"))
@@ -43,7 +43,7 @@ class DishControllerIT {
 
     @Test
     @WithMockUser(username = "user", roles = {"USER", "ADMIN"})
-    void testAddDishPostSuccess() throws Exception {
+    void testAddDish_Post_Successful() throws Exception {
         when(dishService.addDish(any(AddDishDTO.class))).thenReturn(true);
 
         mockMvc.perform(post("/dishes/add-dish")
@@ -64,7 +64,7 @@ class DishControllerIT {
 
     @Test
     @WithMockUser(username = "user", roles = {"USER", "ADMIN"})
-    void testAddDishPostValidationError() throws Exception {
+    void testAddDish_Post_ValidationError() throws Exception {
         mockMvc.perform(post("/dishes/add-dish")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("name", "")
@@ -82,7 +82,7 @@ class DishControllerIT {
 
     @Test
     @WithMockUser(username = "user", roles = {"USER", "ADMIN"})
-    void testAddDishPostServiceError() throws Exception {
+    void testAddDish_Post_ServiceError() throws Exception {
         when(dishService.addDish(any(AddDishDTO.class))).thenReturn(false);
 
         mockMvc.perform(post("/dishes/add-dish")
@@ -101,7 +101,7 @@ class DishControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user")
     void testViewMenu() throws Exception {
         DishesViewInfo dishesViewInfo = new DishesViewInfo();
         dishesViewInfo.setMainDishes(Collections.emptyList());

@@ -29,8 +29,8 @@ class UpdateUserControllerIT {
     private UserService userService;
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    void testUpdateGet() throws Exception {
+    @WithMockUser(username = "user")
+    void testUpdateProperty_Get() throws Exception {
         mockMvc.perform(get("/users/update"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("update"))
@@ -38,8 +38,8 @@ class UpdateUserControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    void testUpdatePutSuccess() throws Exception {
+    @WithMockUser(username = "user")
+    void testUpdateProperty_Put_Successful() throws Exception {
         when(userService.updateUserProperty(any(UserUpdateInfoDTO.class))).thenReturn(true);
 
         mockMvc.perform(put("/users/update")
@@ -53,8 +53,8 @@ class UpdateUserControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    void testUpdatePutValidationError() throws Exception {
+    @WithMockUser(username = "user")
+    void testUpdateProperty_Put_ValidationError() throws Exception {
         mockMvc.perform(put("/users/update")
                         .param("updateInfo", "USERNAME")
                         .param("data", "no")
@@ -66,8 +66,8 @@ class UpdateUserControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    void testUpdatePutServiceError() throws Exception {
+    @WithMockUser(username = "user")
+    void testUpdateProperty_Put_ServiceError() throws Exception {
         when(userService.updateUserProperty(any(UserUpdateInfoDTO.class))).thenReturn(false);
 
         mockMvc.perform(put("/users/update")

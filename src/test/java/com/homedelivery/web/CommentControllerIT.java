@@ -42,8 +42,8 @@ class CommentControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    public void testAddCommentGet() throws Exception {
+    @WithMockUser(username = "user")
+    public void testAddComment_Get() throws Exception {
         mockMvc.perform(get("/comments/add-comment"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("add-comment"))
@@ -51,8 +51,8 @@ class CommentControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    public void testAddCommentPostSuccess() throws Exception {
+    @WithMockUser(username = "user")
+    public void testAddComment_Post_Success() throws Exception {
         when(mockCommentService.addComment(any(AddCommentDTO.class))).thenReturn(true);
 
         mockMvc.perform(post("/comments/add-comment")
@@ -66,8 +66,8 @@ class CommentControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
-    public void testAddCommentPost_ValidationErrors() throws Exception {
+    @WithMockUser(username = "user")
+    public void testAddComment_Post_ValidationErrors() throws Exception {
 
         mockMvc.perform(post("/comments/add-comment")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -81,7 +81,7 @@ class CommentControllerIT {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user")
     public void testDeleteComment() throws Exception {
         Mockito.doNothing().when(mockCommentService).deleteComment(1L);
 

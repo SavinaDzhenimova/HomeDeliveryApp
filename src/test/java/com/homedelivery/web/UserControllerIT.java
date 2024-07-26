@@ -58,14 +58,14 @@ class UserControllerIT {
     }
 
     @Test
-    void testLogin() throws Exception {
+    void testLogin_Get() throws Exception {
         mockMvc.perform(get("/users/login"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }
 
     @Test
-    void testRegisterGet() throws Exception {
+    void testRegister_Get() throws Exception {
         mockMvc.perform(get("/users/register"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"))
@@ -73,7 +73,7 @@ class UserControllerIT {
     }
 
     @Test
-    public void testLoginError() throws Exception {
+    public void testLoginError_Get() throws Exception {
         mockMvc.perform(get("/users/login-error"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/users/login"))
@@ -81,7 +81,7 @@ class UserControllerIT {
     }
 
     @Test
-    void testRegisterPost_Success() throws Exception {
+    void testRegister_Post_Success() throws Exception {
         UserRegisterDTO userRegisterDTO = createUserDTO();
 
         mockMvc.perform(post("/users/register")
@@ -111,7 +111,7 @@ class UserControllerIT {
     }
 
     @Test
-    void testRegisterPost_ErrorInConfirmPassword() throws Exception {
+    void testRegister_Post_ErrorInConfirmPassword() throws Exception {
         UserRegisterDTO userRegisterDTO = createUserDTO();
         userRegisterDTO.setConfirmPassword("Wrong1234");
 
@@ -130,7 +130,7 @@ class UserControllerIT {
     }
 
     @Test
-    void testRegisterPost_Failure() throws Exception {
+    void testRegister_Post_InvalidData() throws Exception {
         UserRegisterDTO userRegisterDTO = createUserDTO();
         userRegisterDTO.setFullName("");
         userRegisterDTO.setAddress("no");

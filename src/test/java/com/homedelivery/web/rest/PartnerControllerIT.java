@@ -32,7 +32,7 @@ class PartnerControllerIT {
     private PartnerService partnerService;
 
     @Test
-    void testGetAllPartners() throws Exception {
+    void testGetAllPartners_Successful() throws Exception {
         PartnerDetailsDTO partnerDetailsDTO1 = new PartnerDetailsDTO();
         partnerDetailsDTO1.setId(1L);
         partnerDetailsDTO1.setName("Partner1");
@@ -54,7 +54,7 @@ class PartnerControllerIT {
 
     @Test
     @WithMockUser(username = "user", roles = {"USER", "ADMIN"})
-    void testAddPartnerForm() throws Exception {
+    void testAddPartner_GetFormPage() throws Exception {
         mockMvc.perform(get("/partners/add-partner"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("add-partner"))

@@ -44,7 +44,7 @@ class HomeControllerIT {
 
     @Test
     @WithMockUser(username = "test_user", roles = {"USER", "ADMIN"})
-    public void testHomeAuthenticated() throws Exception {
+    public void testHome_Authenticated() throws Exception {
         GrantedAuthority user = new SimpleGrantedAuthority("ROLE_USER");
         GrantedAuthority admin = new SimpleGrantedAuthority("ROLE_ADMIN");
         List<GrantedAuthority> authorities = List.of(user, admin);
@@ -70,7 +70,7 @@ class HomeControllerIT {
     }
 
     @Test
-    public void testHomeAnonymous() throws Exception {
+    public void testHome_Anonymous() throws Exception {
         mockMvc.perform(get("/home"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("http://localhost/users/login"));
