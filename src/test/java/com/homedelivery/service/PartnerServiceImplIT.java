@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,6 +28,11 @@ class PartnerServiceImplIT {
     public void setUp() throws Exception {
         mockWebServer = new MockWebServer();
         mockWebServer.start(8091);
+    }
+
+    @AfterEach
+    public void tearUp() throws IOException {
+        mockWebServer.shutdown();
     }
 
     @AfterEach
@@ -62,6 +68,7 @@ class PartnerServiceImplIT {
     @Test
     public void testGetAllPartners() throws InterruptedException {
         String responseBody = "[{\"id\":1,\"name\":\"Partner1\"}, {\"id\":2,\"name\":\"Partner2\"}]";
+
         mockWebServer.enqueue(new MockResponse()
                 .setBody(responseBody)
                 .addHeader("Content-Type", "application/json"));

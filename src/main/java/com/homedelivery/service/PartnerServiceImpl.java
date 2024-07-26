@@ -28,7 +28,7 @@ public class PartnerServiceImpl implements PartnerService {
 
         this.restClient
                 .post()
-                .uri("http://localhost:8091/partners")
+                .uri("/partners")
                 .body(addPartnerDTO)
                 .retrieve();
     }
@@ -39,7 +39,7 @@ public class PartnerServiceImpl implements PartnerService {
 
         this.restClient
                 .delete()
-                .uri("http://localhost:8091/partners/{id}", id)
+                .uri("/partners/{id}", id)
                 .retrieve()
                 .toBodilessEntity();
     }
@@ -50,7 +50,7 @@ public class PartnerServiceImpl implements PartnerService {
 
         return this.restClient
                 .get()
-                .uri("http://localhost:8091/partners")
+                .uri("/partners")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>(){});

@@ -42,7 +42,7 @@ class CommentServiceImplTest {
     }
 
     @Test
-    public void testAddComment() {
+    public void testAddComment_Successful() {
         AddCommentDTO addCommentDTO = new AddCommentDTO();
         User user = new User();
         user.setUsername("testUser");
@@ -64,14 +64,15 @@ class CommentServiceImplTest {
     }
 
     @Test
-    public void testAddCommentWithNullDTO() {
+    public void testAddComment_WithNullDTO() {
         boolean result = commentServiceToTest.addComment(null);
+
         assertFalse(result);
         verify(mockCommentRepository, never()).saveAndFlush(any(Comment.class));
     }
 
     @Test
-    public void testAddCommentWithNoUser() {
+    public void testAddComment_WithNoUser() {
         AddCommentDTO addCommentDTO = new AddCommentDTO();
 
         when(mockUserService.getLoggedUsername()).thenReturn("testUser");
@@ -84,7 +85,7 @@ class CommentServiceImplTest {
     }
 
     @Test
-    public void testDeleteComment() {
+    public void testDeleteComment_Successful() {
         User user = new User();
         user.setUsername("testUser");
         Comment comment = new Comment();
@@ -101,14 +102,13 @@ class CommentServiceImplTest {
     }
 
     @Test
-    public void testDeleteCommentWithException() {
+    public void testDeleteComment_ThrowsException() {
         when(mockUserService.getLoggedUsername()).thenReturn("testUser");
         when(mockCommentRepository.findById(1L)).thenReturn(Optional.empty());
         when(mockUserService.findUserByUsername("testUser")).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(DeleteObjectException.class, () -> {
-            commentServiceToTest.deleteComment(1L);
-        });
+        Exception exception = assertThrows(DeleteObjectException.class, () ->
+                commentServiceToTest.deleteComment(1L));
 
         String expectedMessage = "You cannot delete comment with id 1!";
         String actualMessage = exception.getMessage();
@@ -118,7 +118,7 @@ class CommentServiceImplTest {
     }
 
     @Test
-    public void testGetAllComments() {
+    public void testGetAllComments_Successful() {
         User user = new User();
         user.setFullName("Test User");
         Comment comment = new Comment();
@@ -146,5 +146,17 @@ class CommentServiceImplTest {
 
         assertTrue(result.isPresent());
         assertEquals(commentId, result.get().getId());
+    }
+
+    @Test
+    public void testFindCommentById_NonExistingId() {
+        Long nonExistingCommentId = 999L;
+
+        when(mockCommentRepository.findById(nonExistingCommentId)).thenReturn(Optional.empty());
+
+        Optional<Comment> result = commentServiceToTest.findCommentById(nonExistingCommentId);
+
+        assertFalse(result.isPresent());
+        verify(mockCommentRepository, times(1)).findById(nonExistingCommentId);
     }
 }

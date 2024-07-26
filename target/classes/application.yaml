@@ -28,8 +28,14 @@ logging:
         SQL: DEBUG
       nodeValue: WARN
     blog: WARN
+
 server:
   port: 8090
+
+partners:
+  api:
+    baseUrl: "${OFFERS_BASE_URL:http://localhost:8091}"
+
 mail:
   homedelivery: "homedeliveryteambulgaria@gmail.com"
   host: smtp.gmail.com

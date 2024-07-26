@@ -45,26 +45,30 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addToCart(Long id, int quantity) {
+    public boolean addToCart(Long id, int quantity) {
 
         if (quantity >= 1) {
             this.dishesToOrderMap.put(id, quantity);
+            return true;
         }
+
+        return false;
     }
 
     @Override
-    public void removeFromCart(Long id) {
+    public boolean removeFromCart(Long id) {
         Optional<Dish> optionalDish = this.dishService.findDishById(id);
 
         if (optionalDish.isPresent()) {
-
             this.dishesToOrderMap.remove(id);
+            return true;
         }
+
+        return false;
     }
 
     @Override
     public boolean makeOrder(AddOrderDTO addOrderDTO, BigDecimal totalPrice) {
-
         String deliveryAddress = addOrderDTO.getDeliveryAddress();
         String phoneNumber = addOrderDTO.getPhoneNumber();
 
@@ -103,7 +107,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrder(Long id) {
-
         String username = this.userService.getLoggedUsername();
 
         Optional<Order> optionalOrder = this.orderRepository.findById(id);

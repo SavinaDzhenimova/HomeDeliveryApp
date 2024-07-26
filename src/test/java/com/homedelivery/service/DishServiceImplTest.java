@@ -55,8 +55,7 @@ class DishServiceImplTest {
     }
 
     @Test
-    public void testAddDish() {
-
+    public void testAddDish_Successful() {
         Restaurant restaurant = new Restaurant();
         restaurant.setName(RestaurantName.KORONA);
         Category category = new Category();
@@ -82,7 +81,7 @@ class DishServiceImplTest {
     }
 
     @Test
-    public void testAddDish_Failure_NullDTO() {
+    public void testAddDish_NullDTO() {
         boolean result = dishServiceToTest.addDish(null);
 
         assertFalse(result);
@@ -90,7 +89,7 @@ class DishServiceImplTest {
     }
 
     @Test
-    public void testAddDish_Failure_CategoryOrRestaurantNotFound() {
+    public void testAddDish_CategoryOrRestaurantNotFound() {
         AddDishDTO addDishDTO = new AddDishDTO();
 
         when(mockRestaurantService.findByName(addDishDTO.getRestaurant())).thenReturn(Optional.empty());
@@ -103,7 +102,7 @@ class DishServiceImplTest {
     }
 
     @Test
-    public void testDeleteDish_Success() {
+    public void testDeleteDish_Successful() {
         Dish dish = new Dish();
         User adminUser = new User();
 
@@ -123,7 +122,7 @@ class DishServiceImplTest {
     }
 
     @Test
-    public void testDeleteDish_Failure_NotAdmin() {
+    public void testDeleteDish_NotAdmin() {
         Dish dish = new Dish();
         User testUser = new User();
 
@@ -143,7 +142,7 @@ class DishServiceImplTest {
     }
 
     @Test
-    public void testDeleteDish_Failure_DishNotFound() {
+    public void testDeleteDish_DishNotFound() {
         User adminUser = new User();
 
         Role admin = new Role();
@@ -162,7 +161,7 @@ class DishServiceImplTest {
     }
 
     @Test
-    public void testFindDishById_Success() {
+    public void testFindDishById_Successful() {
         Dish dish = new Dish();
 
         when(mockDishRepository.findById(1L)).thenReturn(Optional.of(dish));
@@ -174,7 +173,7 @@ class DishServiceImplTest {
     }
 
     @Test
-    public void testFindDishById_Failure() {
+    public void testFindDishById_NotFound() {
         when(mockDishRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         Optional<Dish> result = dishServiceToTest.findDishById(1L);
@@ -214,7 +213,7 @@ class DishServiceImplTest {
     }
 
     @Test
-    public void testGetAllDishes() {
+    public void testGetAllDishes_Successful() {
         Dish saladDish = createDish(CategoryName.SALAD, RestaurantName.KAZABLANKA);
         Dish starterDish = createDish(CategoryName.STARTER, RestaurantName.KORONA);
         Dish mainDish = createDish(CategoryName.MAIN_DISH, RestaurantName.VERTU);

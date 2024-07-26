@@ -28,7 +28,7 @@ class RoleServiceImplTest {
     }
 
     @Test
-    public void testFindByName() {
+    public void testFindByName_Successful() {
         Role role = new Role();
         role.setName(RoleName.ADMIN);
 

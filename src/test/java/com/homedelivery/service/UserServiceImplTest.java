@@ -56,7 +56,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void testRegisterUser_NullDTO() {
+    public void testRegisterUser_NullRegisterUserDTO() {
         boolean result = userServiceToTest.registerUser(null);
         assertFalse(result);
         verify(mockUserRepository, never()).saveAndFlush(any(User.class));
@@ -75,20 +75,6 @@ class UserServiceImplTest {
 
         assertFalse(result);
         verify(mockUserRepository, never()).saveAndFlush(any(User.class));
-    }
-
-    private UserRegisterDTO createUserRegisterDTO() {
-        UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
-
-        userRegisterDTO.setUsername("testuser");
-        userRegisterDTO.setFullName("Test User");
-        userRegisterDTO.setPhoneNumber("111222333");
-        userRegisterDTO.setAddress("Test address");
-        userRegisterDTO.setEmail("testuser@example.com");
-        userRegisterDTO.setPassword("Test1234");
-        userRegisterDTO.setConfirmPassword("Test1234");
-
-        return userRegisterDTO;
     }
 
     @Test
@@ -390,6 +376,20 @@ class UserServiceImplTest {
 
         assertTrue(result.isPresent());
         assertEquals(email, result.get().getEmail());
+    }
+
+    private UserRegisterDTO createUserRegisterDTO() {
+        UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
+
+        userRegisterDTO.setUsername("testuser");
+        userRegisterDTO.setFullName("Test User");
+        userRegisterDTO.setPhoneNumber("111222333");
+        userRegisterDTO.setAddress("Test address");
+        userRegisterDTO.setEmail("testuser@example.com");
+        userRegisterDTO.setPassword("Test1234");
+        userRegisterDTO.setConfirmPassword("Test1234");
+
+        return userRegisterDTO;
     }
 
     private void mockSecurityContext(String username) {

@@ -10,14 +10,13 @@ import com.homedelivery.model.exportDTO.OrdersViewInfo;
 import com.homedelivery.model.importDTO.AddOrderDTO;
 import com.homedelivery.repository.OrderRepository;
 import com.homedelivery.service.events.MakeOrderEvent;
+import com.homedelivery.service.exception.BadOrderRequestException;
 import com.homedelivery.service.exception.DeleteObjectException;
 import com.homedelivery.service.interfaces.DishService;
 import com.homedelivery.service.interfaces.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
@@ -59,22 +58,64 @@ class OrderServiceImplTest {
     }
 
     @Test
-    public void testRemoveFromCart() {
+    public void testAddToCart_Successful() {
+        Long dishId = 1L;
+        int quantity = 3;
+
+        Dish dishToAdd = new Dish();
+        dishToAdd.setId(dishId);
+
+        boolean result = orderServiceToTest.addToCart(dishId, quantity);
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void testAddToCart_InvalidQuantity() {
+        Long dishId = 1L;
+        int quantity = 0;
+
+        Dish dishToAdd = new Dish();
+        dishToAdd.setId(dishId);
+
+        boolean result = orderServiceToTest.addToCart(dishId, quantity);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void testRemoveFromCart_Successful() {
         Long dishId = 1L;
         int quantity = 3;
 
         orderServiceToTest.addToCart(dishId, quantity);
+
         when(mockDishService.findDishById(dishId)).thenReturn(Optional.of(new Dish()));
 
-        orderServiceToTest.removeFromCart(dishId);
+        boolean result = orderServiceToTest.removeFromCart(dishId);
 
+        assertTrue(result);
         assertFalse(orderServiceToTest.getAllDishesInCart()
                 .getDishesToOrder().stream()
                 .anyMatch(dish -> dish.getId().equals(dishId)));
     }
 
     @Test
-    public void testMakeOrderSuccess() {
+    public void testRemoveFromCart_DishNotPresent() {
+        Long dishId = 999L;
+        int quantity = 3;
+
+        orderServiceToTest.addToCart(dishId, quantity);
+
+        when(mockDishService.findDishById(dishId)).thenReturn(Optional.empty());
+
+        boolean result = orderServiceToTest.removeFromCart(dishId);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void testMakeOrder_Successful() {
         AddOrderDTO addOrderDTO = new AddOrderDTO();
         addOrderDTO.setDeliveryAddress("Test Address");
         addOrderDTO.setPhoneNumber("1234567");
@@ -103,11 +144,11 @@ class OrderServiceImplTest {
     }
 
     @Test
-    public void testMakeOrderFailure() {
+    public void testMakeOrder_NullPrice() {
         AddOrderDTO addOrderDTO = new AddOrderDTO();
         addOrderDTO.setDeliveryAddress("Test Address");
         addOrderDTO.setPhoneNumber("1234567");
-        BigDecimal totalPrice = new BigDecimal("-10.00");
+        BigDecimal totalPrice = new BigDecimal("0");
 
         boolean result = orderServiceToTest.makeOrder(addOrderDTO, totalPrice);
 
@@ -117,7 +158,38 @@ class OrderServiceImplTest {
     }
 
     @Test
-    public void testDeleteOrderSuccess() {
+    public void testMakeOrder_NullDeliveryAddress() {
+        AddOrderDTO addOrderDTO = new AddOrderDTO();
+        addOrderDTO.setDeliveryAddress("");
+        addOrderDTO.setPhoneNumber("111222333");
+        BigDecimal totalPrice = new BigDecimal("100");
+
+        BadOrderRequestException exception = assertThrows(BadOrderRequestException.class, () ->
+                orderServiceToTest.makeOrder(addOrderDTO, totalPrice));
+
+        assertEquals("delivery address", exception.getParameter());
+        verify(mockOrderRepository, times(0)).saveAndFlush(any(Order.class));
+        verify(applicationEventPublisher, times(0)).publishEvent(any(MakeOrderEvent.class));
+    }
+
+    @Test
+    public void testMakeOrder_NullPhoneNumber() {
+        AddOrderDTO addOrderDTO = new AddOrderDTO();
+        addOrderDTO.setDeliveryAddress("Test Address");
+        addOrderDTO.setPhoneNumber("");
+        BigDecimal totalPrice = new BigDecimal("100");
+
+        BadOrderRequestException exception = assertThrows(BadOrderRequestException.class, () ->
+                orderServiceToTest.makeOrder(addOrderDTO, totalPrice));
+
+        assertEquals("phone number", exception.getParameter());
+        verify(mockOrderRepository, times(0)).saveAndFlush(any(Order.class));
+        verify(applicationEventPublisher, times(0)).publishEvent(any(MakeOrderEvent.class));
+    }
+
+
+    @Test
+    public void testDeleteOrder_Successful() {
         Long orderId = 1L;
         User user = new User();
         user.setUsername("testuser");
@@ -136,7 +208,21 @@ class OrderServiceImplTest {
     }
 
     @Test
-    public void testDeleteOrderFailure() {
+    public void testDeleteOrder_UserNotFound() {
+        AddOrderDTO addOrderDTO = new AddOrderDTO();
+        addOrderDTO.setDeliveryAddress("Test address");
+        addOrderDTO.setPhoneNumber("111222333");
+        BigDecimal totalPrice = new BigDecimal("100");
+
+        boolean result = orderServiceToTest.makeOrder(addOrderDTO, totalPrice);
+
+        assertFalse(result);
+        verify(mockOrderRepository, times(0)).saveAndFlush(any(Order.class));
+        verify(applicationEventPublisher, times(0)).publishEvent(any(MakeOrderEvent.class));
+    }
+
+    @Test
+    public void testDeleteOrder_OrderInProgress_ThrowsException() {
         Long orderId = 1L;
         User user = new User();
         user.setUsername("testuser");
@@ -150,12 +236,35 @@ class OrderServiceImplTest {
         when(mockOrderRepository.findById(orderId)).thenReturn(Optional.of(order));
         when(mockUserService.findUserByUsername("testuser")).thenReturn(Optional.of(user));
 
-        assertThrows(DeleteObjectException.class, () -> orderServiceToTest.deleteOrder(orderId));
+        Exception exception = assertThrows(DeleteObjectException.class, () ->
+                orderServiceToTest.deleteOrder(orderId));
+
+        String expectedMessage = "You cannot delete order until it is not delivered yet!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
         verify(mockOrderRepository, times(0)).deleteById(orderId);
     }
 
     @Test
-    public void testGetAllOrders() {
+    public void testDeleteOrder_OrderNotFound_ThrowsException() {
+        Long orderId = 999L;
+
+        when(mockUserService.getLoggedUsername()).thenReturn("testuser");
+        when(mockOrderRepository.findById(orderId)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(DeleteObjectException.class, () ->
+                orderServiceToTest.deleteOrder(orderId));
+
+        String expectedMessage = "You cannot delete order with id 999!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+        verify(mockOrderRepository, times(0)).deleteById(orderId);
+    }
+
+    @Test
+    public void testGetAllOrders_Successful() {
         User client = new User();
         client.setUsername("client");
 
@@ -197,7 +306,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    public void testProgressOrderSuccess() {
+    public void testProgressOrder_Successful() {
         Long orderId = 1L;
         Order order = new Order();
         order.setId(orderId);
@@ -213,7 +322,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    public void testProgressOrderFailure() {
+    public void testProgressOrder_AlreadyDeliveredOrder() {
         Long orderId = 1L;
         Order order = new Order();
         order.setId(orderId);
@@ -228,7 +337,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    public void testGetAllDishesInCart() {
+    public void testGetAllDishesInCart_Successful() {
         Long dishId = 1L;
         int quantity = 2;
         Dish dish = new Dish();
