@@ -97,6 +97,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = this.mapToOrder(user, totalPrice, addOrderDTO);
 
         this.orderRepository.saveAndFlush(order);
+        this.dishesToOrderMap.clear();
 
         this.applicationEventPublisher.publishEvent(
                 new MakeOrderEvent(this, user.getEmail(), user.getFullName(), order.getId(),
